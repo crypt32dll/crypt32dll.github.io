@@ -17,11 +17,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node_version }}
-    - name: yarn install, yarn lint, yarn generate
+    - name: yarn install, yarn lint, yarn build
       run: |
-        yarn config set ignore-engines true
         yarn install
-        yarn generate
+        yarn build
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@master
       env:
