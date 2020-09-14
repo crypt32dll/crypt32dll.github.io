@@ -18,8 +18,8 @@
                   />
                 </div>
                 <div class="name">
-                  <h3 class="title">Carla Hortensia</h3>
-                  <h6>Designer</h6>
+                  <h3 class="title">Fabian Schultz-Fademrecht</h3>
+                  <h6>Frontend Developer</h6>
                   <md-button
                     href="javascript:void(0)"
                     class="md-just-icon md-simple md-dribbble"
@@ -41,10 +41,9 @@
           </div>
           <div class="description text-center">
             <p>
-              An artist of considerable range, Chet Faker — the name taken by
-              Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-              and records all of his own music, giving it a warm, intimate feel
-              with a solid groove structure.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Reprehenderit aspernatur nesciunt ea sed non, sequi tempora quos
+              consequatur quae voluptatem?
             </p>
           </div>
           <div class="profile-tabs">
@@ -140,7 +139,7 @@ export default {
     },
     img: {
       type: String,
-      default: require("@/assets/img/faces/christian.jpg")
+      default: require("@/assets/img/faces/avatar.jpg")
     }
   },
   computed: {
