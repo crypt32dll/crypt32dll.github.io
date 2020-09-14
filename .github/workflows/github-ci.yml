@@ -19,6 +19,7 @@ jobs:
         node-version: ${{ matrix.node_version }}
     - name: yarn install, yarn lint, yarn generate
       run: |
+        yarn config set ignore-engines true
         yarn install
         yarn generate
     - name: Build and Deploy
