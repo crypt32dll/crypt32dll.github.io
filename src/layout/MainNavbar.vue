@@ -61,33 +61,33 @@
               </li>
 
               <md-list-item
-                href="https://twitter.com/CreativeTim"
+                href="https://twitter.com/crypt32dll"
                 target="_blank"
               >
                 <i class="fab fa-twitter"></i>
                 <p class="hidden-lg">Twitter</p>
                 <md-tooltip md-direction="bottom"
-                  >Follow us on Twitter</md-tooltip
+                  >Follow me on Twitter</md-tooltip
                 >
               </md-list-item>
               <md-list-item
-                href="https://www.facebook.com/CreativeTim"
+                href="https://www.facebook.com/sf.fabi"
                 target="_blank"
               >
                 <i class="fab fa-facebook-square"></i>
                 <p class="hidden-lg">Facebook</p>
                 <md-tooltip md-direction="bottom"
-                  >Like us on Facebook</md-tooltip
+                  >Like me on Facebook</md-tooltip
                 >
               </md-list-item>
               <md-list-item
-                href="https://www.instagram.com/CreativeTimOfficial"
+                href="https://www.instagram.com/sf.fabian"
                 target="_blank"
               >
                 <i class="fab fa-instagram"></i>
                 <p class="hidden-lg">Instagram</p>
                 <md-tooltip md-direction="bottom"
-                  >Follow us on Instagram</md-tooltip
+                  >Follow me on Instagram</md-tooltip
                 >
               </md-list-item>
             </md-list>
