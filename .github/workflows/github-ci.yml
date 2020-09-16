@@ -21,6 +21,16 @@ jobs:
       run: |
         yarn install
         yarn build
+    - name: Generate the sitemap
+      id: sitemap
+      uses: cicirello/generate-sitemap@v1.5.0
+      with:
+        base-url-path: https://crypt32dll.github.io/
+    - name: Output stats
+      run: |
+        echo "sitemap-path = ${{ steps.sitemap.outputs.sitemap-path }}"
+        echo "url-count = ${{ steps.sitemap.outputs.url-count }}"
+        echo "excluded-count = ${{ steps.sitemap.outputs.excluded-count }}":
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@master
       env:
@@ -29,15 +39,3 @@ jobs:
         BRANCH: gh-pages # The branch the action should deploy to.
         FOLDER: dist # The folder the action should deploy.
         # CNAME: crypt32dll.github.io
-    - name: generate-sitemap
-      # You may pin to the exact commit or the version.
-      uses: cicirello/generate-sitemap@v1.5.0
-      with:
-        path-to-root: .
-        base-url-path: https://crypt32dll.github.io/
-        # Indicates whether to include html files in the sitemap.
-        include-html: true
-        # Indicates whether to include pdf files in the sitemap.
-        include-pdf: false
-        # Indicates if sitemap should be formatted in xml.
-        sitemap-format: xml
