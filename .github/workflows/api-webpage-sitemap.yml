@@ -3,7 +3,7 @@ name: Generate API sitemap
 on:
   push:
     branches:
-      - development
+      - master
 
 jobs:
   sitemap_job:
