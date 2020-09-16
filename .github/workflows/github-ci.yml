@@ -28,12 +28,16 @@ jobs:
         BASE_BRANCH: master # The branch the action should deploy from.
         BRANCH: gh-pages # The branch the action should deploy to.
         FOLDER: dist # The folder the action should deploy.
-        CNAME: crypt32dll.github.io
+        # CNAME: crypt32dll.github.io
     - name: generate-sitemap
       # You may pin to the exact commit or the version.
       uses: cicirello/generate-sitemap@v1.5.0
       with:
-        # The path to the root of the website
-        path-to-root: /
-        # The url of your webpage
-        base-url-path: https://crypt32dll.github.io
+        path-to-root: .
+        base-url-path: https://crypt32dll.github.io/
+        # Indicates whether to include html files in the sitemap.
+        include-html: true
+        # Indicates whether to include pdf files in the sitemap.
+        include-pdf: false
+        # Indicates if sitemap should be formatted in xml.
+        sitemap-format: xml
