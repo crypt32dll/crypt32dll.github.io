@@ -6,13 +6,9 @@
   >
     <div class="container">
       <nav>
-        <ul>
-         
-        </ul>
+        <ul></ul>
       </nav>
-      <div class="copyright">
-        
-      </div>
+      <div class="copyright"></div>
     </div>
   </footer>
 </template>

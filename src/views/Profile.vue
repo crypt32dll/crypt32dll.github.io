@@ -26,9 +26,7 @@
           </div>
           <div class="description text-center">
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Reprehenderit aspernatur nesciunt ea sed non, sequi tempora quos
-              consequatur quae voluptatem?
+              Hello my name is Fabian. I am a Frontend Developer!
             </p>
           </div>
           <div class="profile-tabs">
