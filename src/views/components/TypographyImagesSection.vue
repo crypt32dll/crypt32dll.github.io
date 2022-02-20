@@ -79,9 +79,7 @@
                 responsibility that I have, to push possibilities, to show
                 people, this is the level that things could be at.
               </p>
-              <small>
-                Kanye West, Musician
-              </small>
+              <small> Kanye West, Musician </small>
             </div>
           </div>
 
@@ -202,7 +200,7 @@ export default {
   data() {
     return {
       image: require("@/assets/img/faces/avatar.jpg"),
-      responsive: false
+      responsive: false,
     };
   },
   methods: {
@@ -212,7 +210,7 @@ export default {
       } else {
         this.responsive = false;
       }
-    }
+    },
   },
   mounted() {
     this.onResponsiveInverted();
@@ -220,7 +218,7 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.onResponsiveInverted);
-  }
+  },
 };
 </script>
 

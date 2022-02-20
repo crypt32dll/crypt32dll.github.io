@@ -30,12 +30,12 @@
 </template>
 <script>
 export default {
-  name: "pagination",
+  name: "pagination-component",
   props: {
     type: {
       type: String,
       default: "primary",
-      validator: value => {
+      validator: (value) => {
         return [
           "default",
           "primary",
@@ -43,28 +43,28 @@ export default {
           "success",
           "warning",
           "info",
-          "rose"
+          "rose",
         ].includes(value);
-      }
+      },
     },
     withText: Boolean,
     noArrows: Boolean,
     pageCount: {
       type: Number,
-      default: 0
+      default: 0,
     },
     perPage: {
       type: Number,
-      default: 10
+      default: 10,
     },
     total: {
       type: Number,
-      default: 0
+      default: 0,
     },
     value: {
       type: Number,
-      default: 1
-    }
+      default: 1,
+    },
   },
   computed: {
     paginationClass() {
@@ -107,11 +107,11 @@ export default {
       } else {
         return this.pagesToDisplay;
       }
-    }
+    },
   },
   data() {
     return {
-      defaultPagesToDisplay: 5
+      defaultPagesToDisplay: 5,
     };
   },
   methods: {
@@ -134,7 +134,7 @@ export default {
       if (this.value > 1) {
         this.$emit("input", this.value - 1);
       }
-    }
+    },
   },
   watch: {
     perPage() {
@@ -142,7 +142,7 @@ export default {
     },
     total() {
       this.$emit("input", 1);
-    }
-  }
+    },
+  },
 };
 </script>

@@ -7,7 +7,7 @@
             type="button"
             aria-hidden="true"
             class="close"
-            @click="event => removeNotify(event, 'alert-info')"
+            @click="(event) => removeNotify(event, 'alert-info')"
           >
             <md-icon>clear</md-icon>
           </button>
@@ -24,7 +24,7 @@
             type="button"
             aria-hidden="true"
             class="close"
-            @click="event => removeNotify(event, 'alert-success')"
+            @click="(event) => removeNotify(event, 'alert-success')"
           >
             <md-icon>clear</md-icon>
           </button>
@@ -42,7 +42,7 @@
             type="button"
             aria-hidden="true"
             class="close"
-            @click="event => removeNotify(event, 'alert-warning')"
+            @click="(event) => removeNotify(event, 'alert-warning')"
           >
             <md-icon>clear</md-icon>
           </button>
@@ -59,7 +59,7 @@
             type="button"
             aria-hidden="true"
             class="close"
-            @click="event => removeNotify(event, 'alert-danger')"
+            @click="(event) => removeNotify(event, 'alert-danger')"
           >
             <md-icon>clear</md-icon>
           </button>
@@ -83,8 +83,8 @@ export default {
         target = target.parentNode;
       }
       return target.parentNode.removeChild(target);
-    }
-  }
+    },
+  },
 };
 </script>
 

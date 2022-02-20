@@ -24,25 +24,25 @@ export default {
   props: {
     headerColor: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   data() {
     return {
-      cardHidden: true
+      cardHidden: true,
     };
   },
   beforeMount() {
     setTimeout(this.showCard, 400);
   },
   methods: {
-    showCard: function() {
+    showCard: function () {
       this.cardHidden = false;
     },
-    getClass: function(headerColor) {
+    getClass: function (headerColor) {
       return "md-card-header-" + headerColor + "";
-    }
-  }
+    },
+  },
 };
 </script>
 

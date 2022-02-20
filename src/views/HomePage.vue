@@ -287,50 +287,50 @@ export default {
     Notifications,
     TypographyImages,
     JavascriptComponents,
-    LoginCard
+    LoginCard,
   },
-  name: "index",
-  bodyClass: "index-page",
+  name: "HomePage",
+  bodyClass: "home-page",
   props: {
     image: {
       type: String,
-      default: require("@/assets/img/vue-mk-header.jpg")
+      default: require("@/assets/img/vue-mk-header.jpg"),
     },
     leaf4: {
       type: String,
-      default: require("@/assets/img/leaf4.png")
+      default: require("@/assets/img/leaf4.png"),
     },
     leaf3: {
       type: String,
-      default: require("@/assets/img/leaf3.png")
+      default: require("@/assets/img/leaf3.png"),
     },
     leaf2: {
       type: String,
-      default: require("@/assets/img/leaf2.png")
+      default: require("@/assets/img/leaf2.png"),
     },
     leaf1: {
       type: String,
-      default: require("@/assets/img/leaf1.png")
+      default: require("@/assets/img/leaf1.png"),
     },
     signup: {
       type: String,
-      default: require("@/assets/img/city.jpg")
+      default: require("@/assets/img/city.jpg"),
     },
     landing: {
       type: String,
-      default: require("@/assets/img/landing.jpg")
+      default: require("@/assets/img/landing.jpg"),
     },
     profile: {
       type: String,
-      default: require("@/assets/img/profile.jpg")
-    }
+      default: require("@/assets/img/profile.jpg"),
+    },
   },
   data() {
     return {
       firstname: null,
       email: null,
       password: null,
-      leafShow: false
+      leafShow: false,
     };
   },
   methods: {
@@ -340,19 +340,19 @@ export default {
       } else {
         this.leafShow = true;
       }
-    }
+    },
   },
   computed: {
     headerStyle() {
       return {
-        backgroundImage: `url(${this.image})`
+        backgroundImage: `url(${this.image})`,
       };
     },
     signupImage() {
       return {
-        backgroundImage: `url(${this.signup})`
+        backgroundImage: `url(${this.signup})`,
       };
-    }
+    },
   },
   mounted() {
     this.leafActive();
@@ -360,7 +360,7 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.leafActive);
-  }
+  },
 };
 </script>
 <style lang="scss">

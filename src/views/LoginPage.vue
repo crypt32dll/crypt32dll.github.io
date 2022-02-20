@@ -61,29 +61,29 @@ import { LoginCard } from "@/components";
 
 export default {
   components: {
-    LoginCard
+    LoginCard,
   },
   bodyClass: "login-page",
   data() {
     return {
       firstname: null,
       email: null,
-      password: null
+      password: null,
     };
   },
   props: {
     header: {
       type: String,
-      default: require("@/assets/img/profile_city.jpg")
-    }
+      default: require("@/assets/img/profile_city.jpg"),
+    },
   },
   computed: {
     headerStyle() {
       return {
-        backgroundImage: `url(${this.header})`
+        backgroundImage: `url(${this.header})`,
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

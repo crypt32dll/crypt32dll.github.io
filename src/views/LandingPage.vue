@@ -285,35 +285,35 @@ export default {
   props: {
     header: {
       type: String,
-      default: require("@/assets/img/bg7.jpg")
+      default: require("@/assets/img/bg7.jpg"),
     },
     teamImg1: {
       type: String,
-      default: require("@/assets/img/faces/avatar.jpg")
+      default: require("@/assets/img/faces/avatar.jpg"),
     },
     teamImg2: {
       type: String,
-      default: require("@/assets/img/faces/avatar.jpg")
+      default: require("@/assets/img/faces/avatar.jpg"),
     },
     teamImg3: {
       type: String,
-      default: require("@/assets/img/faces/avatar.jpg")
-    }
+      default: require("@/assets/img/faces/avatar.jpg"),
+    },
   },
   data() {
     return {
       name: null,
       email: null,
-      message: null
+      message: null,
     };
   },
   computed: {
     headerStyle() {
       return {
-        backgroundImage: `url(${this.header})`
+        backgroundImage: `url(${this.header})`,
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

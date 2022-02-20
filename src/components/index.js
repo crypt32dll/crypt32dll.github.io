@@ -1,12 +1,12 @@
-import DropDown from "./Dropdown.vue";
-import Parallax from "./Parallax.vue";
-import Pagination from "./Pagination.vue";
-import Slider from "./Slider.vue";
-import Badge from "./Badge.vue";
+import DropDown from "./DropdownComponent.vue";
+import Parallax from "./ParallaxComponent.vue";
+import Pagination from "./PaginationComponent.vue";
+import Slider from "./SliderComponent.vue";
+import Badge from "./BadgeComponent.vue";
 import NavTabsCard from "./cards/NavTabsCard.vue";
 import LoginCard from "./cards/LoginCard.vue";
-import Tabs from "./Tabs.vue";
-import Modal from "./Modal.vue";
+import Tabs from "./TabsComponent.vue";
+import Modal from "./ModalComponent.vue";
 
 export {
   DropDown,
@@ -17,5 +17,5 @@ export {
   NavTabsCard,
   LoginCard,
   Tabs,
-  Modal
+  Modal,
 };

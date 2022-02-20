@@ -22,12 +22,12 @@
 
 <script>
 export default {
-  name: "modal",
+  name: "modal-component",
   methods: {
-    closeModal: function() {
+    closeModal: function () {
       this.$emit("close");
-    }
-  }
+    },
+  },
 };
 </script>
 
