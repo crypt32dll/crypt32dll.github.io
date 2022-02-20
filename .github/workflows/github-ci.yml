@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node_version: [10]
+        node_version: [16.13.2]
     steps:
     - uses: actions/checkout@master
     - name: Use Node.js ${{ matrix.node_version }}
@@ -22,7 +22,7 @@ jobs:
         yarn install
         yarn build
     - name: Build and Deploy
-      uses: JamesIves/github-pages-deploy-action@4.1.1
+      uses: JamesIves/github-pages-deploy-action@4.2.5
       with:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BASE_BRANCH: master # The branch the action should deploy from.
