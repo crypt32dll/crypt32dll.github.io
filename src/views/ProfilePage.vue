@@ -84,9 +84,11 @@
 
 <script>
 import { Tabs } from "@/components";
+import parallax from "@/components/ParallaxComponent";
 export default {
   components: {
     Tabs,
+    parallax,
   },
   bodyClass: "profile-page",
   data() {

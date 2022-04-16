@@ -275,6 +275,7 @@ import NavPills from "./components/NavPillsSection";
 import Notifications from "./components/NotificationsSection";
 import TypographyImages from "./components/TypographyImagesSection";
 import JavascriptComponents from "./components/JavascriptComponentsSection";
+import parallax from "@/components/ParallaxComponent";
 import { LoginCard } from "@/components";
 
 export default {
@@ -288,6 +289,7 @@ export default {
     TypographyImages,
     JavascriptComponents,
     LoginCard,
+    parallax,
   },
   name: "HomePage",
   bodyClass: "home-page",

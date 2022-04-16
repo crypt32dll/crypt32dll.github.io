@@ -280,7 +280,11 @@
 </template>
 
 <script>
+import parallax from "@/components/ParallaxComponent";
 export default {
+  components: {
+    parallax,
+  },
   bodyClass: "landing-page",
   props: {
     header: {
