@@ -1,9 +1,9 @@
 {
-  "name": "vue-material-kit",
-  "version": "1.2.2",
+  "name": "date-ask-landing",
+  "version": "1.0.0",
   "private": true,
-  "description": "Vue Material Kit",
-  "author": "Creative Tim https://www.creative-tim.com/",
+  "description": "Sweet funny multi-step date ask landing page",
+  "author": "crypt32dll",
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
