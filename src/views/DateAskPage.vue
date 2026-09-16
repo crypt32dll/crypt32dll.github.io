@@ -33,15 +33,15 @@
       <transition name="fade-swap" mode="out-in">
         <!-- Step 1: The big question -->
         <section v-if="step === 'ask'" key="ask" class="panel ask-panel">
-          <p class="eyebrow">urgent. romantic. scientifically important 💌</p>
+          <p class="eyebrow">dringend. romantisch. wissenschaftlich wichtig 💌</p>
           <div class="mascot" aria-hidden="true">{{ mascot }}</div>
           <h1 class="headline">
-            Hey Nooraaaa… <span class="accent">wanna go on a date</span> with
-            me?
+            Hey Nooraaaa… <span class="accent">hast du Lust auf ein Date</span>
+            mit mir?
           </h1>
           <p class="subcopy">
-            I’ve rehearsed this in the mirror {{ attempts || 1 }} time(s). That
-            red button is… emotionally unavailable.
+            Ich hab das {{ attempts || 1 }} Mal(e) vor dem Spiegel geübt. Der
+            rote Button ist… emotional nicht verfügbar.
           </p>
 
           <div class="button-arena" :class="{ chasing: noMoved }" ref="arena">
@@ -51,7 +51,7 @@
               :style="yesScaleStyle"
               @click="sayYes"
             >
-              Yes 💘
+              Ja 💘
             </button>
             <button
               ref="noBtn"
@@ -73,12 +73,12 @@
 
         <!-- Step 2: Food -->
         <section v-else-if="step === 'food'" key="food" class="panel">
-          <p class="step-label">question 1 of 5 🍽️</p>
+          <p class="step-label">Frage 1 von 5 🍽️</p>
           <div class="mascot small" aria-hidden="true">🍕</div>
           <h1 class="headline">
-            What should we <span class="accent">eat</span>?
+            Was sollen wir <span class="accent">essen</span>?
           </h1>
-          <p class="subcopy">Choose wisely. This decides the vibe.</p>
+          <p class="subcopy">Wähl weise. Das entscheidet die Vibes.</p>
           <div class="choices">
             <button
               v-for="opt in foodOptions"
@@ -97,17 +97,19 @@
             :disabled="!answers.food"
             @click="nextStep"
           >
-            Next ✨
+            Weiter ✨
           </button>
         </section>
 
         <!-- Step 3: Day -->
         <section v-else-if="step === 'day'" key="day" class="panel">
-          <p class="step-label">question 2 of 5 📅</p>
+          <p class="step-label">Frage 2 von 5 📅</p>
           <div class="mascot small" aria-hidden="true">🗓️</div>
-          <h1 class="headline">Which <span class="accent">day</span> works?</h1>
+          <h1 class="headline">
+            Welcher <span class="accent">Tag</span> passt?
+          </h1>
           <p class="subcopy">
-            I’m free whenever you steal me for a little romance.
+            Ich hab Zeit, wann immer du mich für ein bisschen Romantik klaust.
           </p>
           <div class="choices">
             <button
@@ -123,7 +125,7 @@
           </div>
           <div class="nav-row">
             <button class="btn ghost" type="button" @click="prevStep">
-              Back
+              Zurück
             </button>
             <button
               class="btn yes continue"
@@ -131,17 +133,17 @@
               :disabled="!answers.day"
               @click="nextStep"
             >
-              Next ✨
+              Weiter ✨
             </button>
           </div>
         </section>
 
         <!-- Step 4: Time -->
         <section v-else-if="step === 'time'" key="time" class="panel">
-          <p class="step-label">question 3 of 5 ⏰</p>
+          <p class="step-label">Frage 3 von 5 ⏰</p>
           <div class="mascot small" aria-hidden="true">🕰️</div>
-          <h1 class="headline">What <span class="accent">time</span>?</h1>
-          <p class="subcopy">Early bird or soft-lighting evening person?</p>
+          <h1 class="headline">Um welche <span class="accent">Uhrzeit</span>?</h1>
+          <p class="subcopy">Frühstücksmensch oder softes Abendlicht?</p>
           <div class="choices">
             <button
               v-for="opt in timeOptions"
@@ -156,7 +158,7 @@
           </div>
           <div class="nav-row">
             <button class="btn ghost" type="button" @click="prevStep">
-              Back
+              Zurück
             </button>
             <button
               class="btn yes continue"
@@ -164,17 +166,17 @@
               :disabled="!answers.time"
               @click="nextStep"
             >
-              Next ✨
+              Weiter ✨
             </button>
           </div>
         </section>
 
         <!-- Step 5: Activity -->
         <section v-else-if="step === 'activity'" key="activity" class="panel">
-          <p class="step-label">question 4 of 5 🎬</p>
+          <p class="step-label">Frage 4 von 5 🎬</p>
           <div class="mascot small" aria-hidden="true">✨</div>
-          <h1 class="headline">What’s the <span class="accent">plan</span>?</h1>
-          <p class="subcopy">Pick the main event. Side quests welcome.</p>
+          <h1 class="headline">Was ist der <span class="accent">Plan</span>?</h1>
+          <p class="subcopy">Hauptprogramm wählen. Nebenquests sind erlaubt.</p>
           <div class="choices">
             <button
               v-for="opt in activityOptions"
@@ -189,7 +191,7 @@
           </div>
           <div class="nav-row">
             <button class="btn ghost" type="button" @click="prevStep">
-              Back
+              Zurück
             </button>
             <button
               class="btn yes continue"
@@ -197,24 +199,24 @@
               :disabled="!answers.activity"
               @click="nextStep"
             >
-              Next ✨
+              Weiter ✨
             </button>
           </div>
         </section>
 
         <!-- Step 6: Extra sweet questions -->
         <section v-else-if="step === 'extras'" key="extras" class="panel">
-          <p class="step-label">question 5 of 5 💕</p>
+          <p class="step-label">Frage 5 von 5 💕</p>
           <div class="mascot small" aria-hidden="true">🥰</div>
           <h1 class="headline">
-            Last cute <span class="accent">details</span>
+            Letzte süße <span class="accent">Details</span>
           </h1>
           <p class="subcopy">
-            Almost done. These are legally binding (joking… mostly).
+            Fast geschafft. Das ist jetzt quasi rechtsgültig (spaß… meistens).
           </p>
 
           <div class="field">
-            <label>Dessert situation? 🍰</label>
+            <label>Nachtisch-Situation? 🍰</label>
             <div class="choices compact">
               <button
                 v-for="opt in dessertOptions"
@@ -230,7 +232,7 @@
           </div>
 
           <div class="field">
-            <label>How nervous am I allowed to be? 😳</label>
+            <label>Wie nervös darf ich sein? 😳</label>
             <div class="choices compact">
               <button
                 v-for="opt in nervesOptions"
@@ -246,20 +248,20 @@
           </div>
 
           <div class="field">
-            <label>Your nickname for the invite 💌</label>
+            <label>Dein Spitzname für die Einladung 💌</label>
             <input
               v-model.trim="answers.nickname"
               class="text-input"
               type="text"
               maxlength="24"
-              placeholder="e.g. Sunshine, Trouble, Babe…"
+              placeholder="z.B. Sonnenschein, Chaos, Babe…"
               autocomplete="off"
             />
           </div>
 
           <div class="nav-row">
             <button class="btn ghost" type="button" @click="prevStep">
-              Back
+              Zurück
             </button>
             <button
               class="btn yes continue"
@@ -267,7 +269,7 @@
               :disabled="!extrasReady || sending"
               @click="finish"
             >
-              {{ sending ? "Sending… 💌" : "Lock it in 💘" }}
+              {{ sending ? "Wird gesendet… 💌" : "Fix machen 💘" }}
             </button>
           </div>
           <p v-if="sendError" class="send-error">{{ sendError }}</p>
@@ -277,14 +279,13 @@
         <section v-else key="done" class="panel yes-panel">
           <div class="mascot big" aria-hidden="true">🥳</div>
           <h1 class="headline">
-            It’s official, <span class="accent">{{ displayName }}</span
-            >! 🎉
+            Offiziell, <span class="accent">{{ displayName }}</span>! 🎉
           </h1>
           <p class="subcopy">
             {{
               emailSent
-                ? "Answers delivered. Confetti deployed. I’m smiling at my inbox. 💌"
-                : "Screenshot this and send it back. Calendar invite incoming (emotionally)."
+                ? "Antworten zugestellt. Konfetti abgefeuert. Ich grinse in mein Postfach. 💌"
+                : "Mach nen Screenshot und schick’s zurück. Kalendereinladung kommt (emotional)."
             }}
           </p>
 
@@ -292,21 +293,21 @@
             <li>
               <span>💘</span>
               <div>
-                <strong>Answer</strong>
-                <p>YES to the date</p>
+                <strong>Antwort</strong>
+                <p>JA zum Date</p>
               </div>
             </li>
             <li>
               <span>🍽️</span>
               <div>
-                <strong>Food</strong>
+                <strong>Essen</strong>
                 <p>{{ answers.food }}</p>
               </div>
             </li>
             <li>
               <span>📅</span>
               <div>
-                <strong>When</strong>
+                <strong>Wann</strong>
                 <p>{{ answers.day }} · {{ answers.time }}</p>
               </div>
             </li>
@@ -320,25 +321,26 @@
             <li>
               <span>🍰</span>
               <div>
-                <strong>Dessert</strong>
+                <strong>Nachtisch</strong>
                 <p>{{ answers.dessert }}</p>
               </div>
             </li>
             <li>
               <span>😳</span>
               <div>
-                <strong>Nerves level</strong>
+                <strong>Nervositätslevel</strong>
                 <p>{{ answers.nerves }}</p>
               </div>
             </li>
           </ul>
 
           <p class="final-note">
-            Can’t wait. Wear something cute. I’ll bring the butterflies. 😌💕
+            Kann’s kaum erwarten. Zieh was Süßes an. Ich bring die Schmetterlinge
+            mit. 😌💕
           </p>
 
           <button class="btn yes again" type="button" @click="reset">
-            Start over 🔁
+            Nochmal von vorn 🔁
           </button>
         </section>
       </transition>
@@ -352,24 +354,24 @@ import confetti from "canvas-confetti";
 const NOTIFY_EMAIL = "fabian.schufa@gmail.com";
 
 const NO_LABELS = [
-  "No 😅",
-  "Nope 🫣",
-  "You sure? 🥺",
-  "Think again… 👀",
-  "My ego is fragile 💔",
-  "Please? 🥹",
-  "Almost yes? 💘",
-  "Still no?? 😭",
-  "Okay rude 😤",
-  "Catch me 🏃",
+  "Nein 😅",
+  "Nö 🫣",
+  "Sicher? 🥺",
+  "Nochmal nachdenken… 👀",
+  "Mein Ego ist fragil 💔",
+  "Bitteee? 🥹",
+  "Fast ja? 💘",
+  "Immer noch nein?? 😭",
+  "Okay frech 😤",
+  "Fang mich 🏃",
 ];
 
 const HINTS = [
-  "Tip: No has commitment issues on mobile too.",
-  "Hmm… that button is doing parkour.",
-  "Fun fact: No is currently unavailable in your area.",
-  "Scientists say Yes is the healthier option.",
-  "Okay wow, you’re persistent. I’m flattered… and terrified.",
+  "Tipp: Nein hat auch auf dem Handy Bindungsprobleme.",
+  "Hmm… der Button macht gerade Parkour.",
+  "Fun Fact: Nein ist in deiner Gegend aktuell nicht verfügbar.",
+  "Wissenschaftler sagen: Ja ist die gesündere Option.",
+  "Okay wow, du bist hartnäckig. Geschmeichelt… und panisch.",
 ];
 
 const FLOW = ["ask", "food", "day", "time", "activity", "extras", "done"];
@@ -399,42 +401,42 @@ export default {
         nickname: "",
       },
       foodOptions: [
-        "🍕 Pizza date",
-        "🍣 Sushi night",
-        "🍔 Burgers + fries",
+        "🍕 Pizza-Date",
+        "🍣 Sushi-Abend",
+        "🍔 Burger + Pommes",
         "🌮 Tacos",
-        "🍝 Pasta & vibes",
-        "🥗 Something cute & light",
+        "🍝 Pasta & Vibes",
+        "🥗 Was Süßes & Leichtes",
       ],
       dayOptions: [
-        "Tonight 🌙",
-        "Tomorrow ☀️",
-        "This weekend 🎉",
-        "Next week 📅",
-        "Surprise me 🎲",
+        "Heute Abend 🌙",
+        "Morgen ☀️",
+        "Dieses Wochenende 🎉",
+        "Nächste Woche 📅",
+        "Überrasch mich 🎲",
       ],
       timeOptions: [
-        "Brunch o’clock 🥐",
-        "Afternoon hang 🌤️",
-        "Golden hour 🌅",
-        "Dinner time 🍽️",
-        "Late-night stroll 🌌",
+        "Brunch-Zeit 🥐",
+        "Nachmittagshängen 🌤️",
+        "Golden Hour 🌅",
+        "Essenszeit 🍽️",
+        "Spaziergang spät abends 🌌",
       ],
       activityOptions: [
-        "🎬 Movie night",
-        "🚶 Long walk + talk",
-        "🎮 Arcade / fun games",
-        "🎨 Museum or cute spot",
-        "☕ Café + people watching",
-        "🎶 Live music",
+        "🎬 Filmabend",
+        "🚶 Langer Spaziergang + Reden",
+        "🎮 Arcade / Spiele",
+        "🎨 Museum oder cute Spot",
+        "☕ Café + Leute beobachten",
+        "🎶 Live-Musik",
       ],
       dessertOptions: [
-        "Ice cream 🍦",
-        "Cake 🎂",
-        "Cookies 🍪",
-        "Skip… for now 😏",
+        "Eis 🍦",
+        "Kuchen 🎂",
+        "Kekse 🍪",
+        "Erstmal skippen 😏",
       ],
-      nervesOptions: ["A little 😊", "Very 🫣", "Maximum chaos 🎢"],
+      nervesOptions: ["Ein bisschen 😊", "Sehr 🫣", "Maximales Chaos 🎢"],
     };
   },
   computed: {
@@ -472,7 +474,7 @@ export default {
     },
     hint() {
       if (this.attempts === 0) {
-        return "Go on… try the other button. I dare you. 😈";
+        return "Los… probier den anderen Button. Trau dich. 😈";
       }
       return HINTS[Math.min(this.attempts - 1, HINTS.length - 1)];
     },
@@ -602,33 +604,33 @@ export default {
         }
       } catch (err) {
         this.sendError =
-          "Couldn’t send just now 😢 Check your connection and tap Lock it in again.";
+          "Konnte gerade nicht senden 😢 Prüf deine Verbindung und tipp nochmal auf Fix machen.";
       } finally {
         this.sending = false;
       }
     },
     async sendResultsEmail() {
       const payload = {
-        _subject: `💘 ${this.displayName} said YES to the date!`,
+        _subject: `💘 ${this.displayName} hat JA zum Date gesagt!`,
         _template: "table",
         _captcha: "false",
         _honey: "",
-        From: this.displayName,
-        Food: this.answers.food,
-        Day: this.answers.day,
-        Time: this.answers.time,
+        Von: this.displayName,
+        Essen: this.answers.food,
+        Tag: this.answers.day,
+        Uhrzeit: this.answers.time,
         Plan: this.answers.activity,
-        Dessert: this.answers.dessert,
-        "Nerves level": this.answers.nerves,
-        Nickname: this.answers.nickname || "Nooraaaa",
-        Summary: [
-          "YES to the date",
-          `Food: ${this.answers.food}`,
-          `When: ${this.answers.day} · ${this.answers.time}`,
+        Nachtisch: this.answers.dessert,
+        Nervositaet: this.answers.nerves,
+        Spitzname: this.answers.nickname || "Nooraaaa",
+        Zusammenfassung: [
+          "JA zum Date",
+          `Essen: ${this.answers.food}`,
+          `Wann: ${this.answers.day} · ${this.answers.time}`,
           `Plan: ${this.answers.activity}`,
-          `Dessert: ${this.answers.dessert}`,
-          `Nerves: ${this.answers.nerves}`,
-          `Nickname: ${this.answers.nickname || "Nooraaaa"}`,
+          `Nachtisch: ${this.answers.dessert}`,
+          `Nervosität: ${this.answers.nerves}`,
+          `Spitzname: ${this.answers.nickname || "Nooraaaa"}`,
         ].join("\n"),
       };
 
