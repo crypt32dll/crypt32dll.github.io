@@ -1,11 +1,25 @@
 <template>
-  <div id="material-kit">
-    <div :class="{ 'nav-open': NavbarStore.showNavbar }">
-      <router-view name="header" />
-      <div>
-        <router-view />
-      </div>
-      <router-view name="footer" />
-    </div>
+  <div id="app">
+    <router-view />
   </div>
 </template>
+
+<script>
+export default {
+  name: "App",
+};
+</script>
+
+<style>
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+</style>
