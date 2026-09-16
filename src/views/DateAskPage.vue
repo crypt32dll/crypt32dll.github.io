@@ -264,12 +264,13 @@
             <button
               class="btn yes continue"
               type="button"
-              :disabled="!extrasReady"
+              :disabled="!extrasReady || sending"
               @click="finish"
             >
-              Lock it in 💘
+              {{ sending ? "Sending… 💌" : "Lock it in 💘" }}
             </button>
           </div>
+          <p v-if="sendError" class="send-error">{{ sendError }}</p>
         </section>
 
         <!-- Final summary -->
@@ -280,8 +281,11 @@
             >! 🎉
           </h1>
           <p class="subcopy">
-            Screenshot this and send it back. Calendar invite incoming
-            (emotionally).
+            {{
+              emailSent
+                ? "Answers delivered. Confetti deployed. I’m smiling at my inbox. 💌"
+                : "Screenshot this and send it back. Calendar invite incoming (emotionally)."
+            }}
           </p>
 
           <ul class="summary">
@@ -343,6 +347,10 @@
 </template>
 
 <script>
+import confetti from "canvas-confetti";
+
+const NOTIFY_EMAIL = "fabian.schufa@gmail.com";
+
 const NO_LABELS = [
   "No 😅",
   "Nope 🫣",
@@ -376,6 +384,9 @@ export default {
       noY: 0,
       noMoved: false,
       lastFleeAt: 0,
+      sending: false,
+      sendError: "",
+      emailSent: false,
       floatingHearts: [],
       heartId: 0,
       answers: {
@@ -575,13 +586,114 @@ export default {
       this.step = FLOW[Math.max(idx - 1, 1)];
       this.scrollTop();
     },
-    finish() {
-      if (!this.extrasReady) return;
-      this.step = "done";
-      for (let i = 0; i < 20; i += 1) {
-        setTimeout(() => this.burstHearts(1, true), i * 70);
+    async finish() {
+      if (!this.extrasReady || this.sending) return;
+      this.sending = true;
+      this.sendError = "";
+
+      try {
+        await this.sendResultsEmail();
+        this.emailSent = true;
+        this.step = "done";
+        this.scrollTop();
+        this.fireConfetti();
+        for (let i = 0; i < 20; i += 1) {
+          setTimeout(() => this.burstHearts(1, true), i * 70);
+        }
+      } catch (err) {
+        this.sendError =
+          "Couldn’t send just now 😢 Check your connection and tap Lock it in again.";
+      } finally {
+        this.sending = false;
       }
-      this.scrollTop();
+    },
+    async sendResultsEmail() {
+      const payload = {
+        _subject: `💘 ${this.displayName} said YES to the date!`,
+        _template: "table",
+        _captcha: "false",
+        _honey: "",
+        From: this.displayName,
+        Food: this.answers.food,
+        Day: this.answers.day,
+        Time: this.answers.time,
+        Plan: this.answers.activity,
+        Dessert: this.answers.dessert,
+        "Nerves level": this.answers.nerves,
+        Nickname: this.answers.nickname || "Nooraaaa",
+        Summary: [
+          "YES to the date",
+          `Food: ${this.answers.food}`,
+          `When: ${this.answers.day} · ${this.answers.time}`,
+          `Plan: ${this.answers.activity}`,
+          `Dessert: ${this.answers.dessert}`,
+          `Nerves: ${this.answers.nerves}`,
+          `Nickname: ${this.answers.nickname || "Nooraaaa"}`,
+        ].join("\n"),
+      };
+
+      const response = await fetch(
+        `https://formsubmit.co/ajax/${NOTIFY_EMAIL}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Email failed with status ${response.status}`);
+      }
+
+      const data = await response.json().catch(() => ({}));
+      if (data.success === "false" || data.error) {
+        throw new Error(data.message || "Email provider rejected the request");
+      }
+    },
+    fireConfetti() {
+      const colors = ["#ff4d6d", "#2ec4b6", "#ffd166", "#ff8fa3", "#c9184a"];
+      const defaults = {
+        colors,
+        disableForReducedMotion: true,
+        zIndex: 9999,
+      };
+
+      confetti({
+        ...defaults,
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.65 },
+      });
+
+      setTimeout(() => {
+        confetti({
+          ...defaults,
+          particleCount: 70,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0, y: 0.7 },
+        });
+        confetti({
+          ...defaults,
+          particleCount: 70,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1, y: 0.7 },
+        });
+      }, 180);
+
+      setTimeout(() => {
+        confetti({
+          ...defaults,
+          particleCount: 90,
+          spread: 100,
+          startVelocity: 45,
+          origin: { y: 0.4 },
+        });
+      }, 420);
     },
     reset() {
       this.step = "ask";
@@ -589,6 +701,9 @@ export default {
       this.noX = 0;
       this.noY = 0;
       this.noMoved = false;
+      this.sending = false;
+      this.sendError = "";
+      this.emailSent = false;
       this.answers = {
         food: "",
         day: "",
@@ -938,6 +1053,13 @@ export default {
   color: var(--rose-deep);
   font-weight: 700;
   font-size: 0.95rem;
+}
+
+.send-error {
+  margin: 12px 0 0;
+  color: var(--rose-deep);
+  font-weight: 700;
+  font-size: 0.92rem;
 }
 
 .choices {
