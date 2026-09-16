@@ -44,7 +44,7 @@
             red button is… emotionally unavailable.
           </p>
 
-          <div class="button-arena" ref="arena">
+          <div class="button-arena" :class="{ chasing: noMoved }" ref="arena">
             <button
               class="btn yes"
               type="button"
@@ -449,6 +449,9 @@ export default {
     },
     yesScaleStyle() {
       const boost = Math.min(this.attempts * 0.06, 0.45);
+      if (!this.noMoved) {
+        return { transform: `scale(${1 + boost})` };
+      }
       return {
         transform: `translate(-50%, -50%) scale(${1 + boost})`,
       };
@@ -490,6 +493,7 @@ export default {
       if (now - this.lastFleeAt < 200) return;
       this.lastFleeAt = now;
       this.attempts += 1;
+      this.noMoved = true;
       this.$nextTick(() => this.moveNoAway(event));
       this.burstHearts(1);
     },
@@ -525,7 +529,7 @@ export default {
         const candidateY = Math.random() * maxY;
         const dist = Math.hypot(candidateX - pointerX, candidateY - pointerY);
         const movedEnough =
-          !this.noMoved ||
+          this.attempts <= 1 ||
           Math.hypot(candidateX - this.noX, candidateY - this.noY) >
             Math.min(90, maxX * 0.35);
         if (dist > bestDist && movedEnough) {
@@ -535,7 +539,6 @@ export default {
         }
       }
 
-      this.noMoved = true;
       this.noX = nextX;
       this.noY = nextY;
     },
@@ -824,11 +827,21 @@ export default {
 .button-arena {
   position: relative;
   width: 100%;
+  min-height: 64px;
+  margin: 4px 0 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: nowrap;
+}
+
+.button-arena.chasing {
   min-height: 200px;
   height: min(42vh, 280px);
-  margin: 4px 0 12px;
   touch-action: none;
   overflow: hidden;
+  display: block;
 }
 
 .btn {
@@ -859,16 +872,14 @@ export default {
   background: linear-gradient(135deg, var(--yes), var(--yes-deep));
   color: white;
   box-shadow: 0 10px 24px rgba(27, 156, 145, 0.35);
-  position: absolute;
-  left: 50%;
-  top: 42%;
-  transform: translate(-50%, -50%);
+  position: relative;
   z-index: 2;
   animation: yesGlow 2s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
-.ask-panel .btn.yes {
-  /* scale handled inline; keep centering */
+.button-arena.chasing .btn.yes {
+  position: absolute;
   left: 50%;
   top: 38%;
 }
@@ -884,15 +895,15 @@ export default {
   box-shadow: 0 10px 24px rgba(201, 24, 74, 0.28);
   z-index: 3;
   min-width: 118px;
-  position: absolute;
-  left: calc(50% + 70px);
-  top: 58%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  flex-shrink: 0;
   transition: left 0.12s ease-out, top 0.12s ease-out, transform 0.12s ease-out;
 }
 
 .btn.no.escaped {
+  position: absolute;
   transform: none;
+  margin: 0;
 }
 
 .btn.continue,
@@ -1135,17 +1146,12 @@ export default {
   }
 
   .button-arena {
+    gap: 12px;
+  }
+
+  .button-arena.chasing {
     min-height: 230px;
     height: 46vh;
-  }
-
-  .btn.no {
-    left: 72%;
-    top: 68%;
-  }
-
-  .btn.yes {
-    top: 32%;
   }
 }
 
