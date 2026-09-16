@@ -36,7 +36,8 @@
           <p class="eyebrow">urgent. romantic. scientifically important 💌</p>
           <div class="mascot" aria-hidden="true">{{ mascot }}</div>
           <h1 class="headline">
-            Hey you… <span class="accent">wanna go on a date</span> with me?
+            Hey Nooraaaa… <span class="accent">wanna go on a date</span> with
+            me?
           </h1>
           <p class="subcopy">
             I’ve rehearsed this in the mirror {{ attempts || 1 }} time(s). That
@@ -471,7 +472,7 @@ export default {
       return !!(this.answers.dessert && this.answers.nerves);
     },
     displayName() {
-      return this.answers.nickname || "cutie";
+      return this.answers.nickname || "Nooraaaa";
     },
   },
   mounted() {
