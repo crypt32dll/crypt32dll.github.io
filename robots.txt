@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Host: https://crypt32dll.github.io
+Sitemap: https://crypt32dll.github.io/sitemap.xml
