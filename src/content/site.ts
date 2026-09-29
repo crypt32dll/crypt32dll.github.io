@@ -18,7 +18,6 @@ export const site = {
 export const navItems = [
   { href: '/work', label: { de: 'Arbeit', en: 'Work' } satisfies LocalizedString },
   { href: '/about', label: { de: 'Über mich', en: 'About' } satisfies LocalizedString },
-  { href: '/contact', label: { de: 'Kontakt', en: 'Contact' } satisfies LocalizedString },
 ] as const
 
 export const footerNav = [

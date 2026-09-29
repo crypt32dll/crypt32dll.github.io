@@ -4,7 +4,7 @@ import { routing } from '@/i18n/routing'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://crypt32dll.github.io'
 
-const paths = ['', '/work', '/about', '/contact', '/impressum', '/datenschutz'] as const
+const paths = ['', '/work', '/about', '/impressum', '/datenschutz'] as const
 
 export const dynamic = 'force-static'
 

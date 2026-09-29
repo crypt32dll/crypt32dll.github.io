@@ -50,8 +50,6 @@ Optional env (Actions / local `.env`):
 | Variable | Purpose |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL (default `https://crypt32dll.github.io`) |
-| `NEXT_PUBLIC_FORMSPREE_ID` | Contact form via Formspree (else mailto) |
-| `NEXT_PUBLIC_CONTACT_EMAIL` | Mailto fallback |
 | `ALLOW_SEARCH_INDEXING` | `true`/`false` for robots.txt |
 
 ## Content
@@ -66,7 +64,6 @@ Edit typed modules under `src/content/` — projects, about, site meta. Images l
 | `/[locale]/work/` | Project list |
 | `/[locale]/work/[slug]/` | Case study |
 | `/[locale]/about/` | About |
-| `/[locale]/contact/` | Contact |
 | `/[locale]/impressum/` | Legal |
 | `/[locale]/datenschutz/` | Privacy |
 

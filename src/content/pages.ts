@@ -16,8 +16,8 @@ export const homepage = {
       en: 'View work',
     } satisfies LocalizedString,
     secondaryCta: {
-      de: 'Kontakt',
-      en: 'Contact',
+      de: 'LinkedIn',
+      en: 'LinkedIn',
     } satisfies LocalizedString,
   },
   skillsTitle: {
@@ -202,33 +202,6 @@ export const aboutPage = {
   ],
 }
 
-export const contactPage = {
-  title: { de: 'Kontakt', en: 'Contact' } satisfies LocalizedString,
-  intro: {
-    de: 'Projekt, Architektur-Review oder Austausch zu composable Frontends? Schreib mir.',
-    en: 'Project, architecture review, or a chat about composable frontends? Get in touch.',
-  } satisfies LocalizedString,
-  form: {
-    name: { de: 'Name', en: 'Name' },
-    email: { de: 'E-Mail', en: 'Email' },
-    message: { de: 'Nachricht', en: 'Message' },
-    privacy: {
-      de: 'Ich habe die Datenschutzerklärung gelesen und stimme der Verarbeitung zu.',
-      en: 'I have read the privacy policy and agree to the processing of my data.',
-    },
-    submit: { de: 'Nachricht senden', en: 'Send message' },
-    sending: { de: 'Wird gesendet…', en: 'Sending…' },
-    success: {
-      de: 'Danke — ich melde mich in Kürze.',
-      en: 'Thanks — I will get back to you shortly.',
-    },
-    error: {
-      de: 'Etwas ist schiefgelaufen. Bitte später erneut versuchen oder per E-Mail schreiben.',
-      en: 'Something went wrong. Please try again later or email me directly.',
-    },
-  },
-}
-
 export const workPage = {
   title: { de: 'Arbeit', en: 'Work' } satisfies LocalizedString,
   intro: {
@@ -280,9 +253,6 @@ Diese Website ist ein persönliches Portfolio. Es werden nur die für Betrieb un
 Hosting
 Beim Aufruf der Seite verarbeitet der Hosting-Anbieter automatisch Server-Logfiles (u. a. IP-Adresse, Zeitpunkt, User-Agent). Rechtsgrundlage: berechtigtes Interesse an sicherem Betrieb (Art. 6 Abs. 1 lit. f DSGVO).
 
-Kontaktformular
-Wenn du das Formular nutzt, werden Name, E-Mail und Nachricht verarbeitet, um deine Anfrage zu beantworten (Art. 6 Abs. 1 lit. b bzw. lit. f DSGVO). Die Daten werden nicht an Dritte zu Werbezwecken weitergegeben.
-
 Cookies & Tracking
 Es werden keine Marketing-Cookies oder Analyse-Tracker eingesetzt.
 
@@ -299,9 +269,6 @@ This site is a personal portfolio. Only data required for operation and security
 
 Hosting
 When you visit the site, the hosting provider processes server log files (including IP address, timestamp, user agent). Legal basis: legitimate interest in secure operation.
-
-Contact form
-If you use the form, name, email, and message are processed to answer your request. Data is not shared with third parties for marketing.
 
 Cookies & tracking
 No marketing cookies or analytics trackers are used.

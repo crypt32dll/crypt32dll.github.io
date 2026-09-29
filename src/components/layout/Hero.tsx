@@ -4,8 +4,9 @@ import dynamic from 'next/dynamic'
 import { ArrowRight, ArrowUpRight } from '@phosphor-icons/react'
 import { Link } from '@/i18n/navigation'
 import { Button } from '@/components/ui/Button'
-import { t, type Locale } from '@/content/types'
 import { homepage } from '@/content/pages'
+import { site } from '@/content/site'
+import { t, type Locale } from '@/content/types'
 
 const HeroScene = dynamic(
   () => import('@/components/three/HeroScene').then((m) => m.HeroScene),
@@ -41,10 +42,10 @@ export function Hero({ locale }: Props) {
             </Link>
           </Button>
           <Button asChild variant="secondary">
-            <Link href="/contact">
+            <a href={site.social.linkedin} target="_blank" rel="noopener noreferrer">
               {t(hero.secondaryCta, locale)}
               <ArrowUpRight weight="bold" className="size-4" aria-hidden />
-            </Link>
+            </a>
           </Button>
         </div>
       </div>
