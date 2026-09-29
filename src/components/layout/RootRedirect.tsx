@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect } from 'react'
 import Link from 'next/link'
+import { useEffect } from 'react'
 
 /** Client redirect for GitHub Pages static root (no middleware). */
 export function RootRedirect() {
@@ -18,10 +18,16 @@ export function RootRedirect() {
       <p className="font-display text-lg font-semibold">Fabian Schultz-Fademrecht</p>
       <p className="text-sm text-ink-muted">Redirecting…</p>
       <nav className="flex gap-6 text-sm" aria-label="Language">
-        <Link className="underline decoration-accent underline-offset-4 hover:text-accent" href="/de/">
+        <Link
+          className="underline decoration-accent underline-offset-4 hover:text-accent"
+          href="/de/"
+        >
           Deutsch
         </Link>
-        <Link className="underline decoration-accent underline-offset-4 hover:text-accent" href="/en/">
+        <Link
+          className="underline decoration-accent underline-offset-4 hover:text-accent"
+          href="/en/"
+        >
           English
         </Link>
       </nav>

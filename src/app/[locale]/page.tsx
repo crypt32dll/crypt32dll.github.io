@@ -1,12 +1,11 @@
-import Image from 'next/image'
 import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr'
-import { Link } from '@/i18n/navigation'
-import { getFeaturedProjects, type Project } from '@/content/projects'
-import { homepage } from '@/content/pages'
+import Image from 'next/image'
 import { Hero } from '@/components/layout/Hero'
 import { Button } from '@/components/ui/Button'
-import { t, type Locale } from '@/content/types'
-import { setRequestLocale } from 'next-intl/server'
+import { homepage } from '@/content/pages'
+import { getFeaturedProjects, type Project } from '@/content/projects'
+import { type Locale, t } from '@/content/types'
+import { Link } from '@/i18n/navigation'
 import { routing } from '@/i18n/routing'
 
 type Props = { params: Promise<{ locale: string }> }
@@ -18,7 +17,6 @@ export function generateStaticParams() {
 export default async function HomePage({ params }: Props) {
   const { locale: localeParam } = await params
   const locale = localeParam as Locale
-  setRequestLocale(locale)
 
   const featured = getFeaturedProjects()
 

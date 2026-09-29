@@ -1,17 +1,17 @@
 'use client'
 
-import dynamic from 'next/dynamic'
 import { ArrowRight, ArrowUpRight } from '@phosphor-icons/react'
-import { Link } from '@/i18n/navigation'
+import dynamic from 'next/dynamic'
 import { Button } from '@/components/ui/Button'
 import { homepage } from '@/content/pages'
 import { site } from '@/content/site'
-import { t, type Locale } from '@/content/types'
+import { type Locale, t } from '@/content/types'
+import { Link } from '@/i18n/navigation'
 
-const HeroScene = dynamic(
-  () => import('@/components/three/HeroScene').then((m) => m.HeroScene),
-  { ssr: false, loading: () => <div className="absolute inset-0 bg-paper" aria-hidden /> },
-)
+const HeroScene = dynamic(() => import('@/components/three/HeroScene').then((m) => m.HeroScene), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0 bg-paper" aria-hidden />,
+})
 
 type Props = {
   locale: Locale

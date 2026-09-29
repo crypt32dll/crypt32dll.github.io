@@ -1,7 +1,7 @@
 import { GithubLogo, LinkedinLogo } from '@phosphor-icons/react/dist/ssr'
-import { Link } from '@/i18n/navigation'
 import { footerNav, site } from '@/content/site'
-import { t, type Locale } from '@/content/types'
+import { type Locale, t } from '@/content/types'
+import { Link } from '@/i18n/navigation'
 
 type Props = { locale: Locale }
 
