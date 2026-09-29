@@ -1,55 +1,53 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
-import { aboutPage } from '@/content/pages'
-import { type Locale, t } from '@/content/types'
-import { routing } from '@/i18n/routing'
+import { AboutPortrait } from '@/components/layout/AboutPortrait'
+import { content } from '@/content/repository'
+import { t } from '@/content/types'
+import { localeStaticParams, resolveLocale } from '@/i18n/params'
+import { pageMetadata } from '@/lib/seo/metadata'
 
 type Props = { params: Promise<{ locale: string }> }
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }))
+  return localeStaticParams()
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await params
-  return {
-    title: t(aboutPage.title, locale as Locale),
-    description: t(aboutPage.intro, locale as Locale),
-  }
+  const locale = await resolveLocale(params)
+  const about = content.getAbout()
+  return pageMetadata({
+    locale,
+    path: 'about',
+    title: t(about.metaTitle, locale),
+    description: t(about.intro, locale),
+  })
 }
 
 export default async function AboutPage({ params }: Props) {
-  const { locale: localeParam } = await params
-  const locale = localeParam as Locale
+  const locale = await resolveLocale(params)
+  const about = content.getAbout()
 
   return (
     <div className="pb-24 pt-28">
       <div className="container-site">
-        <div className="grid items-start gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <header className="max-w-2xl">
-            <h1 className="font-display text-4xl font-semibold text-ink md:text-5xl">
-              {t(aboutPage.title, locale)}
+            <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-accent">
+              Fabian Schultz-Fademrecht
+            </p>
+            <h1 className="mt-3 font-display text-4xl font-semibold text-ink md:text-5xl">
+              {t(about.title, locale)}
             </h1>
-            <p className="mt-5 text-lg text-ink-muted">{t(aboutPage.intro, locale)}</p>
+            <p className="mt-5 text-lg text-ink-muted">{t(about.intro, locale)}</p>
           </header>
-          <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden bg-line/30 lg:mx-0 lg:justify-self-end">
-            <Image
-              src="/images/portrait/avatar.jpg"
-              alt="Fabian Schultz-Fademrecht"
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 28rem"
-              priority
-            />
-          </div>
+          <AboutPortrait />
         </div>
 
         <section className="mt-20">
           <h2 className="font-display text-2xl font-semibold text-ink">
-            {t(aboutPage.timelineTitle, locale)}
+            {t(about.timelineTitle, locale)}
           </h2>
           <ol className="mt-8 space-y-0 border-l border-line">
-            {aboutPage.timeline.map((item) => (
+            {about.timeline.map((item) => (
               <li key={item.period} className="relative py-8 pl-8 first:pt-0">
                 <span
                   className="absolute top-10 left-[-4px] size-2 rounded-full bg-accent first:top-2"
@@ -73,10 +71,10 @@ export default async function AboutPage({ params }: Props) {
         <section className="mt-16 grid gap-12 md:grid-cols-2">
           <div>
             <h2 className="font-display text-2xl font-semibold text-ink">
-              {t(aboutPage.educationTitle, locale)}
+              {t(about.educationTitle, locale)}
             </h2>
             <ul className="mt-6 space-y-6">
-              {aboutPage.education.map((item) => (
+              {about.education.map((item) => (
                 <li key={item.period} className="border-t border-line pt-5">
                   <p className="font-display text-xs font-semibold uppercase tracking-[0.16em] text-ink-faint">
                     {item.period}
@@ -91,10 +89,10 @@ export default async function AboutPage({ params }: Props) {
           </div>
           <div>
             <h2 className="font-display text-2xl font-semibold text-ink">
-              {t(aboutPage.languagesTitle, locale)}
+              {t(about.languagesTitle, locale)}
             </h2>
             <ul className="mt-6 space-y-3">
-              {aboutPage.languages.map((lang) => (
+              {about.languages.map((lang) => (
                 <li
                   key={lang.level}
                   className="flex items-baseline justify-between border-t border-line pt-3"
@@ -109,10 +107,10 @@ export default async function AboutPage({ params }: Props) {
 
         <section className="mt-16">
           <h2 className="font-display text-2xl font-semibold text-ink">
-            {t(aboutPage.stackTitle, locale)}
+            {t(about.stackTitle, locale)}
           </h2>
           <ul className="mt-6 flex flex-wrap gap-2">
-            {aboutPage.stack.map((tech) => (
+            {about.stack.map((tech) => (
               <li
                 key={tech}
                 className="border border-line bg-paper-elevated px-3 py-2 font-display text-sm font-medium text-ink"

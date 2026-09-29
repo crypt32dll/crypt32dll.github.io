@@ -1,72 +1,118 @@
+<p align="center">
+  <img src="public/favicon.png" alt="Fabian Schultz-Fademrecht" width="72" height="72" />
+</p>
+
 # Fabian Schultz-Fademrecht — Portfolio
 
-Static multilingual portfolio (DE/EN) for **GitHub Pages**.
+[![Deploy](https://img.shields.io/github/actions/workflow/status/crypt32dll/crypt32dll.github.io/deploy-pages.yml?branch=master&style=flat-square&label=Deploy)](https://github.com/crypt32dll/crypt32dll.github.io/actions)
+![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=nextdotjs)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?style=flat-square&logo=typescript&logoColor=white)
+![Node](https://img.shields.io/badge/Node.js-24-3c873a?style=flat-square&logo=nodedotjs&logoColor=white)
+[![Live](https://img.shields.io/badge/Live-crypt32dll.github.io-1a8f7a?style=flat-square)](https://crypt32dll.github.io)
 
-Built with Next.js 16 App Router, Tailwind CSS 4, Three.js (R3F), and typed static content modules. No Vercel runtime, no Payload/Postgres — pure static export to `out/`.
+Static, bilingual (DE/EN) portfolio for **GitHub Pages** — Next.js App Router, typed content modules, deferred Three.js motion. No Node server, no CMS runtime.
 
-## Stack
+[Overview](#overview) · [Features](#features) · [Getting started](#getting-started) · [Scripts](#scripts) · [Content](#content) · [Deploy](#deploy) · [Architecture notes](#architecture-notes)
 
-- Next.js 16 · React 19 · TypeScript
-- `output: 'export'` → GitHub Pages
-- next-intl (DE/EN)
-- Three.js / React Three Fiber (hero motion)
-- Tailwind CSS 4 · Biome · Vitest
+## Overview
 
-## Develop
+This site is Fabian Schultz-Fademrecht’s public portfolio: composable frontend architecture, structured content, and selected case studies. It is built as a **static export** (`output: 'export'`) so it can ship on GitHub Pages from the `gh-pages` branch.
+
+```text
+Browser  →  GitHub Pages (static HTML/CSS/JS)
+               ↑
+         CI build (pnpm) → out/ → gh-pages
+               ↑
+         src/content/* (TypeScript source of truth)
+```
+
+## Features
+
+- **Static-first** — full HTML export to `out/`, no SSR host required
+- **DE / EN** — `next-intl` with locale-prefixed routes (`/de/`, `/en/`)
+- **Typed content** — projects, pages, and site meta as Zod-validated TS modules
+- **SEO / GEO** — canonical + hreflang, Open Graph, `sitemap.xml`, `robots.txt`, Person JSON-LD
+- **Motion** — React Three Fiber scenes loaded after idle time (keeps LCP/TBT free of the 3D bundle)
+- **Modern targets** — browserslist aligned with Next’s baseline (Chrome/Edge/Firefox ≥ 111, Safari ≥ 16.4)
+- **Tooling** — Biome, Vitest, Husky + lint-staged, pnpm
+
+## Getting started
+
+**Requirements:** [Node.js 24](https://nodejs.org/) and [pnpm 10](https://pnpm.io/) (see `packageManager` in `package.json`).
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) — root redirects to `/de/` or `/en/`.
+Open [http://localhost:3000](http://localhost:3000) — the root redirects to `/de/` or `/en/`.
 
-## Build (static)
-
-```bash
-pnpm build
-```
-
-Artifacts land in `out/`. Local preview:
-
-```bash
-pnpm dlx serve out
-```
-
-## Deploy (GitHub Pages via `gh-pages` branch)
-
-Unverändert wie bisher: die Site kommt vom Branch **`gh-pages`**.
-
-1. Repo **Settings → Pages → Build and deployment**
-   - Source: **Deploy from a branch**
-   - Branch: **`gh-pages`** / `/ (root)`
-2. Push nach **`master`** → Workflow baut mit pnpm nach `out/` und published den Inhalt auf `gh-pages`
-3. Site: `https://crypt32dll.github.io`
-
-Was sich nur intern geändert hat: Yarn/`dist` → pnpm/`out` (Next static export). Der alte Extra-Sitemap-Workflow entfällt; `sitemap.xml` kommt aus dem Build.
-
-Optional env (Actions / local `.env`):
+Copy `.env.example` to `.env` when you need overrides:
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Canonical URL (default `https://crypt32dll.github.io`) |
-| `ALLOW_SEARCH_INDEXING` | `true`/`false` for robots.txt |
+| `NEXT_PUBLIC_SITE_URL` | Canonical origin (default `https://crypt32dll.github.io`) |
+| `ALLOW_SEARCH_INDEXING` | `true` / `false` for `robots.txt` |
+| `LOG_LEVEL` | Logger verbosity |
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Next.js dev server |
+| `pnpm devsafe` | Clear `.next` then start dev (useful after Turbopack glitches) |
+| `pnpm build` | Production static export → `out/` |
+| `pnpm preview` | Build + serve `out/` locally |
+| `pnpm lint` / `pnpm format` | Biome check / write |
+| `pnpm test:unit` | Vitest unit tests |
+| `pnpm ci` | Lint + unit tests + build |
 
 ## Content
 
-Edit typed modules under `src/content/` — projects, about, site meta. Images live in `public/images/`.
+Edit typed modules under `src/content/`:
 
-## Routes
+| Module | Role |
+| --- | --- |
+| `site.ts` | Name, tagline, social links, nav |
+| `pages.ts` | Homepage / about copy |
+| `projects.ts` | Case studies (slug, stack, covers, body) |
+| `repository.ts` | Content access + Zod validation |
+
+Images live in `public/images/` (WebP preferred). After changing content, rebuild and deploy — there is no runtime CMS.
+
+### Routes
 
 | Path | Page |
 | --- | --- |
 | `/[locale]/` | Home |
-| `/[locale]/work/` | Project list |
+| `/[locale]/work/` | Project index |
 | `/[locale]/work/[slug]/` | Case study |
 | `/[locale]/about/` | About |
-| `/[locale]/impressum/` | Legal |
+| `/[locale]/impressum/` | Legal notice |
 | `/[locale]/datenschutz/` | Privacy |
 
-## Note on the blueprint
+## Deploy
 
-The Payload/Neon/Vercel CMS path from `portfolio_stack_blueprint_*.plan.md` is intentionally **not** used here: GitHub Pages cannot host a Node CMS. Architecture keeps static TypeScript content as the source of truth, matching the plan’s “static first” content strategy.
+Hosting uses the classic **branch deploy** model (unchanged from the previous Vue site):
+
+1. **Settings → Pages → Build and deployment**
+   - Source: **Deploy from a branch**
+   - Branch: **`gh-pages`** / `/ (root)`
+2. Push to **`master`** → [Deploy workflow](.github/workflows/deploy-pages.yml) runs `pnpm build` and publishes `out/` to `gh-pages` (with `.nojekyll` so `/_next/` is served).
+3. Live site: [https://crypt32dll.github.io](https://crypt32dll.github.io)
+
+> [!NOTE]
+> GitHub Pages applies a fixed `Cache-Control: max-age=600` to all assets. `next.config` `headers()` and Next Cache Components (`'use cache'`) do not apply to static export. For longer CDN TTLs, put Cloudflare (or similar) in front of a custom domain.
+
+## Architecture notes
+
+| Concern | Choice |
+| --- | --- |
+| Runtime | Static HTML on GitHub Pages — no Vercel / no Payload |
+| Content | TypeScript modules + Zod (not a headless CMS) |
+| i18n | Locale segments; no middleware (required for `output: 'export'`) |
+| Images | `next/image` with `unoptimized: true` (no image optimizer server) |
+| 3D | Deferred client import after idle; skipped when `prefers-reduced-motion` |
+
+> [!TIP]
+> The earlier Payload / Neon / Vercel blueprint is intentionally not used here: GitHub Pages cannot host a Node CMS. Static typed content matches a “static first” strategy while keeping the door open to a CMS later if hosting changes.

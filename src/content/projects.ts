@@ -32,7 +32,7 @@ export const projects: Project[] = [
     year: '2024',
     stack: ['Next.js', 'TypeScript', 'Payload CMS', 'Sanity', 'Shopify', 'Auth0', 'Vercel'],
     featured: true,
-    coverUrl: '/images/studio/studio-1.jpg',
+    coverUrl: '/images/studio/studio-1.webp',
     links: [],
     body: {
       de: 'Frontend, Backend, CMS, Commerce und Auth bewusst entkoppelt. Für diese Plattform habe ich die Architektur der Storefront, das Content-Modell und die Integrationsschicht verantwortet — mit klaren Schnittstellen statt impliziter Abhängigkeiten. Ergebnis: kürzere Release-Zyklen, unabhängige Teams und die Freiheit, jedes System für seinen Job zu wählen.',
@@ -70,7 +70,7 @@ export const projects: Project[] = [
     year: '2025',
     stack: ['Payload CMS', 'Sanity', 'Next.js', 'TypeScript', 'Zod'],
     featured: true,
-    coverUrl: '/images/studio/studio-3.jpg',
+    coverUrl: '/images/studio/studio-3.webp',
     links: [],
     body: {
       de: 'Structured Content ist der eigentliche Gamechanger — nicht das CMS-Produkt selbst. Ich habe Content-Modelle entworfen, die Redaktion, Entwicklung und Mehrkanal-Ausspielung verbinden: typisierte Schemas, klare Ownership und Frontend-Consumption über stabile APIs. Der Content Lake wird zur Single Source of Truth für Web, Apps und Kampagnen.',
@@ -108,7 +108,7 @@ export const projects: Project[] = [
     year: '2023',
     stack: ['React', 'Vue.js', 'TypeScript', 'Storybook', 'CI/CD'],
     featured: true,
-    coverUrl: '/images/studio/studio-5.jpg',
+    coverUrl: '/images/studio/studio-5.webp',
     links: [],
     body: {
       de: 'Über Jahre habe ich Frontend-Teams dabei unterstützt, von Projekt-Silos zu einer gemeinsamen Plattform zu kommen. Dazu gehören konsistente Tooling-Standards, wiederverwendbare Komponenten, Performance-Leitplanken und klare Ownership — damit Features schneller landen, ohne Qualität zu opfern.',
@@ -146,7 +146,7 @@ export const projects: Project[] = [
     year: '2024',
     stack: ['Next.js', 'RSC', 'SEO', 'GEO', 'JSON-LD', 'Core Web Vitals'],
     featured: false,
-    coverUrl: '/images/atmosphere/city.jpg',
+    coverUrl: '/images/atmosphere/city.webp',
     links: [],
     body: {
       de: 'Frontend Performance ist für mich kein Tuning-Sprint, sondern Teil der Architektur: Streaming, Caching-Strategien, kritische Rendering-Pfade und messbare Budgets. Ich setze CWV-Ziele früh, instrumentiere sie und halte sie über Releases hinweg.',

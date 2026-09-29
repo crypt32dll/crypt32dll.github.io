@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
-    optimizePackageImports: ['@phosphor-icons/react'],
+    optimizePackageImports: ['@phosphor-icons/react', 'three'],
   },
   turbopack: {
     root: path.resolve(dirname),

@@ -1,24 +1,36 @@
 import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr'
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import { Hero } from '@/components/layout/Hero'
+import { ProjectCard } from '@/components/projects/ProjectCard'
 import { Button } from '@/components/ui/Button'
-import { homepage } from '@/content/pages'
-import { getFeaturedProjects, type Project } from '@/content/projects'
-import { type Locale, t } from '@/content/types'
+import { content } from '@/content/repository'
+import { t } from '@/content/types'
 import { Link } from '@/i18n/navigation'
-import { routing } from '@/i18n/routing'
+import { localeStaticParams, resolveLocale } from '@/i18n/params'
+import { pageMetadata } from '@/lib/seo/metadata'
 
 type Props = { params: Promise<{ locale: string }> }
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }))
+  return localeStaticParams()
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const locale = await resolveLocale(params)
+  const homepage = content.getHomepage()
+  return pageMetadata({
+    locale,
+    title: 'Fabian Schultz-Fademrecht — Frontend Architect | Composable Systems',
+    description: t(homepage.hero.subline, locale),
+    absoluteTitle: true,
+  })
 }
 
 export default async function HomePage({ params }: Props) {
-  const { locale: localeParam } = await params
-  const locale = localeParam as Locale
-
-  const featured = getFeaturedProjects()
+  const locale = await resolveLocale(params)
+  const homepage = content.getHomepage()
+  const featured = content.listFeaturedProjects()
 
   return (
     <>
@@ -66,7 +78,7 @@ export default async function HomePage({ params }: Props) {
 
           <ul className="mt-14 grid gap-12 md:grid-cols-2 lg:grid-cols-3">
             {featured.map((project) => (
-              <ProjectTeaser key={project.slug} project={project} locale={locale} />
+              <ProjectCard key={project.slug} project={project} locale={locale} density="teaser" />
             ))}
           </ul>
         </div>
@@ -89,7 +101,7 @@ export default async function HomePage({ params }: Props) {
           </div>
           <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius)] bg-line/40">
             <Image
-              src="/images/portrait/about-editorial.jpg"
+              src="/images/portrait/about-editorial.webp"
               alt=""
               fill
               className="object-cover"
@@ -100,30 +112,5 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
     </>
-  )
-}
-
-function ProjectTeaser({ project, locale }: { project: Project; locale: Locale }) {
-  return (
-    <li>
-      <Link href={`/work/${project.slug}`} className="group block">
-        <div className="relative aspect-[4/3] overflow-hidden bg-line/30">
-          <Image
-            src={project.coverUrl}
-            alt=""
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            sizes="(max-width: 768px) 100vw, 33vw"
-          />
-        </div>
-        <p className="mt-4 font-display text-xs font-semibold uppercase tracking-[0.16em] text-ink-faint">
-          {project.year} · {t(project.role, locale)}
-        </p>
-        <h3 className="mt-2 font-display text-xl font-semibold text-ink transition-colors group-hover:text-accent">
-          {t(project.title, locale)}
-        </h3>
-        <p className="mt-2 text-sm text-ink-muted">{t(project.summary, locale)}</p>
-      </Link>
-    </li>
   )
 }

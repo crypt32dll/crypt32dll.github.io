@@ -1,34 +1,23 @@
 import type { Metadata } from 'next'
-import { Archivo, Space_Grotesk } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { SiteHeader } from '@/components/layout/SiteHeader'
 import { PersonJsonLd } from '@/components/seo/PersonJsonLd'
+import { localeStaticParams } from '@/i18n/params'
 import { type Locale, routing } from '@/i18n/routing'
+import { fontVariables } from '@/lib/fonts'
 import '../globals.css'
-
-const archivo = Archivo({
-  subsets: ['latin'],
-  variable: '--font-archivo',
-  display: 'swap',
-})
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-space-grotesk',
-  display: 'swap',
-})
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://crypt32dll.github.io'),
   title: {
     default: 'Fabian Schultz-Fademrecht — Frontend Architect',
-    template: '%s · Fabian Schultz',
+    template: '%s · Fabian Schultz-Fademrecht',
   },
   description:
-    'Senior Frontend Developer & Frontend Architect. Composable architectures, structured content, Next.js.',
+    'Senior Frontend Developer & Frontend Architect. Composable architectures, structured content, Next.js, Payload CMS.',
   icons: { icon: '/favicon.png' },
 }
 
@@ -38,7 +27,7 @@ type Props = {
 }
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }))
+  return localeStaticParams()
 }
 
 export default async function LocaleLayout({ children, params }: Props) {
@@ -54,7 +43,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html
       lang={locale}
-      className={`${archivo.variable} ${spaceGrotesk.variable}`}
+      className={fontVariables}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

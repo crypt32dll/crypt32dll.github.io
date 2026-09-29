@@ -3,7 +3,6 @@ import type { LocalizedString } from './types'
 export const site = {
   name: 'Fabian Schultz-Fademrecht',
   shortName: 'Fabian Schultz',
-  email: 'hello@fabian-schultz.dev',
   tagline: {
     de: 'Frontend Architect · Composable Systems',
     en: 'Frontend Architect · Composable Systems',

@@ -1,60 +1,44 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
-import { workPage } from '@/content/pages'
-import { projects } from '@/content/projects'
-import { type Locale, t } from '@/content/types'
-import { Link } from '@/i18n/navigation'
-import { routing } from '@/i18n/routing'
+import { ProjectCard } from '@/components/projects/ProjectCard'
+import { content } from '@/content/repository'
+import { t } from '@/content/types'
+import { localeStaticParams, resolveLocale } from '@/i18n/params'
+import { pageMetadata } from '@/lib/seo/metadata'
 
 type Props = { params: Promise<{ locale: string }> }
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }))
+  return localeStaticParams()
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await params
-  return {
-    title: t(workPage.title, locale as Locale),
-    description: t(workPage.intro, locale as Locale),
-  }
+  const locale = await resolveLocale(params)
+  const work = content.getWorkPage()
+  return pageMetadata({
+    locale,
+    path: 'work',
+    title: t(work.metaTitle, locale),
+    description: t(work.intro, locale),
+  })
 }
 
 export default async function WorkPage({ params }: Props) {
-  const { locale: localeParam } = await params
-  const locale = localeParam as Locale
+  const locale = await resolveLocale(params)
+  const work = content.getWorkPage()
+  const projects = content.listProjects()
 
   return (
     <div className="container-site pb-24 pt-28">
       <header className="max-w-2xl">
         <h1 className="font-display text-4xl font-semibold text-ink md:text-5xl">
-          {t(workPage.title, locale)}
+          {t(work.title, locale)}
         </h1>
-        <p className="mt-4 text-lg text-ink-muted">{t(workPage.intro, locale)}</p>
+        <p className="mt-4 text-lg text-ink-muted">{t(work.intro, locale)}</p>
       </header>
 
       <ul className="mt-16 grid gap-14 md:grid-cols-2">
         {projects.map((project) => (
-          <li key={project.slug}>
-            <Link href={`/work/${project.slug}`} className="group block">
-              <div className="relative aspect-[16/10] overflow-hidden bg-line/30">
-                <Image
-                  src={project.coverUrl}
-                  alt=""
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-              <p className="mt-5 font-display text-xs font-semibold uppercase tracking-[0.16em] text-ink-faint">
-                {project.year} · {project.stack.slice(0, 3).join(' · ')}
-              </p>
-              <h2 className="mt-2 font-display text-2xl font-semibold text-ink transition-colors group-hover:text-accent">
-                {t(project.title, locale)}
-              </h2>
-              <p className="mt-2 text-ink-muted">{t(project.summary, locale)}</p>
-            </Link>
-          </li>
+          <ProjectCard key={project.slug} project={project} locale={locale} density="index" />
         ))}
       </ul>
     </div>

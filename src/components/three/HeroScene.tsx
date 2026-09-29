@@ -1,30 +1,45 @@
 'use client'
 
-import { Canvas, useFrame } from '@react-three/fiber'
-import { useMemo, useRef } from 'react'
-import type { Group, LineSegments } from 'three'
-import * as THREE from 'three'
-import { useReducedMotion } from '@/lib/use-reduced-motion'
+import { useFrame } from '@react-three/fiber'
+import { useLayoutEffect, useMemo, useRef } from 'react'
+import {
+  BoxGeometry,
+  DoubleSide,
+  EdgesGeometry,
+  type Group,
+  type InstancedMesh,
+  type LineSegments,
+  Object3D,
+} from 'three'
+import { SceneCanvas } from '@/components/three/SceneCanvas'
 
 function ArchitectureLattice({ animate }: { animate: boolean }) {
   const group = useRef<Group>(null)
   const frame = useRef<LineSegments>(null)
+  const grid = useRef<InstancedMesh>(null)
 
-  const edges = useMemo(() => {
-    const geo = new THREE.BoxGeometry(2.4, 2.4, 2.4)
-    return new THREE.EdgesGeometry(geo)
-  }, [])
+  const edges = useMemo(() => new EdgesGeometry(new BoxGeometry(2.4, 2.4, 2.4)), [])
+  const cellGeo = useMemo(() => new BoxGeometry(0.06, 0.08, 0.06), [])
 
-  const grid = useMemo(() => {
-    const points: THREE.Vector3[] = []
+  const cellCount = 7 * 7
+
+  useLayoutEffect(() => {
+    const mesh = grid.current
+    if (!mesh) return
+    const dummy = new Object3D()
     const size = 3
     const step = 0.55
+    let i = 0
     for (let x = -size; x <= size; x++) {
       for (let z = -size; z <= size; z++) {
-        points.push(new THREE.Vector3(x * step * 0.35, 0, z * step * 0.35))
+        dummy.position.set(x * step * 0.35, Math.sin(i * 0.7) * 0.15, z * step * 0.35)
+        dummy.scale.set(1, 1 + (i % 5) * 0.5, 1)
+        dummy.updateMatrix()
+        mesh.setMatrixAt(i, dummy.matrix)
+        i++
       }
     }
-    return points
+    mesh.instanceMatrix.needsUpdate = true
   }, [])
 
   useFrame((state) => {
@@ -45,22 +60,19 @@ function ArchitectureLattice({ animate }: { animate: boolean }) {
       </lineSegments>
 
       <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, -1.35, 0]}>
-        <ringGeometry args={[1.1, 1.14, 64]} />
-        <meshBasicMaterial color="#12141a" transparent opacity={0.25} side={THREE.DoubleSide} />
+        <ringGeometry args={[1.1, 1.14, 48]} />
+        <meshBasicMaterial color="#12141a" transparent opacity={0.25} side={DoubleSide} />
       </mesh>
 
-      {grid.map((p, i) => (
-        <mesh key={i} position={[p.x, Math.sin(i * 0.7) * 0.15, p.z]}>
-          <boxGeometry args={[0.06, 0.06 + (i % 5) * 0.04, 0.06]} />
-          <meshStandardMaterial
-            color={i % 7 === 0 ? '#1a8f7a' : '#12141a'}
-            roughness={0.65}
-            metalness={0.15}
-            transparent
-            opacity={0.55}
-          />
-        </mesh>
-      ))}
+      <instancedMesh ref={grid} args={[cellGeo, undefined, cellCount]}>
+        <meshStandardMaterial
+          color="#12141a"
+          roughness={0.65}
+          metalness={0.15}
+          transparent
+          opacity={0.55}
+        />
+      </instancedMesh>
 
       <mesh position={[0.9, 0.6, 0.4]}>
         <boxGeometry args={[0.7, 0.7, 0.7]} />
@@ -71,21 +83,11 @@ function ArchitectureLattice({ animate }: { animate: boolean }) {
 }
 
 export function HeroScene() {
-  const reduced = useReducedMotion()
-
   return (
     <div className="absolute inset-0 -z-0" aria-hidden="true">
-      <Canvas
-        dpr={[1, 1.5]}
-        camera={{ position: [0, 0.4, 5.2], fov: 42 }}
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-        style={{ background: 'transparent' }}
-      >
-        <ambientLight intensity={0.7} />
-        <directionalLight position={[4, 6, 2]} intensity={1.1} color="#f0f1ed" />
-        <directionalLight position={[-3, -2, -4]} intensity={0.35} color="#1a8f7a" />
-        <ArchitectureLattice animate={!reduced} />
-      </Canvas>
+      <SceneCanvas camera={{ position: [0, 0.4, 5.2], fov: 42 }} className="h-full w-full">
+        {(animate) => <ArchitectureLattice animate={animate} />}
+      </SceneCanvas>
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-paper via-paper/80 to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-paper to-transparent" />
     </div>

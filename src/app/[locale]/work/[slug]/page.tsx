@@ -2,34 +2,38 @@ import { ArrowLeft } from '@phosphor-icons/react/dist/ssr'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { getProjectBySlug, projects } from '@/content/projects'
-import { type Locale, t } from '@/content/types'
+import { content } from '@/content/repository'
+import { t } from '@/content/types'
 import { Link } from '@/i18n/navigation'
+import { resolveLocale } from '@/i18n/params'
 import { routing } from '@/i18n/routing'
+import { pageMetadata } from '@/lib/seo/metadata'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
 export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
-    projects.map((project) => ({ locale, slug: project.slug })),
+    content.listProjects().map((project) => ({ locale, slug: project.slug })),
   )
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale, slug } = await params
-  const project = getProjectBySlug(slug)
+  const { slug } = await params
+  const locale = await resolveLocale(params)
+  const project = content.getProject(slug)
   if (!project) return {}
-  return {
-    title: t(project.title, locale as Locale),
-    description: t(project.summary, locale as Locale),
-  }
+  return pageMetadata({
+    locale,
+    path: `work/${project.slug}`,
+    title: `${t(project.title, locale)} — Case Study`,
+    description: t(project.summary, locale),
+  })
 }
 
 export default async function ProjectPage({ params }: Props) {
-  const { locale: localeParam, slug } = await params
-  const locale = localeParam as Locale
-
-  const project = getProjectBySlug(slug)
+  const { slug } = await params
+  const locale = await resolveLocale(params)
+  const project = content.getProject(slug)
   if (!project) notFound()
 
   return (
