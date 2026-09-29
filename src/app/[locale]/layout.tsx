@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
+import { ServiceWorkerRegister } from '@/components/layout/ServiceWorkerRegister'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { SiteHeader } from '@/components/layout/SiteHeader'
 import { PersonJsonLd } from '@/components/seo/PersonJsonLd'
@@ -63,6 +64,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             </main>
             <SiteFooter locale={locale} />
           </div>
+          <ServiceWorkerRegister />
         </NextIntlClientProvider>
       </body>
     </html>
