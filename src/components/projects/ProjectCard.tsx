@@ -29,9 +29,7 @@ const imageSizes: Record<Density, string> = {
 
 export function ProjectCard({ project, locale, density = 'teaser' }: ProjectCardProps) {
   const meta =
-    density === 'teaser'
-      ? t(project.role, locale)
-      : project.stack.slice(0, 3).join(' · ')
+    density === 'teaser' ? t(project.role, locale) : project.stack.slice(0, 3).join(' · ')
 
   return (
     <li>
@@ -41,7 +39,7 @@ export function ProjectCard({ project, locale, density = 'teaser' }: ProjectCard
             src={project.coverUrl}
             alt=""
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            className="motion-safe-transform object-cover transition-transform duration-500 group-hover:scale-[1.03]"
             sizes={imageSizes[density]}
           />
         </div>

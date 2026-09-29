@@ -11,5 +11,14 @@
   "Nav": {
     "work": "Arbeit",
     "about": "Über mich"
+  },
+  "Preferences": {
+    "theme": "Farbschema",
+    "themeLight": "Hell",
+    "themeDark": "Dunkel",
+    "themeSystem": "System",
+    "themeCycle": "Nächstes Schema wählen",
+    "motionOn": "Bewegung reduziert — tippen für volle Animation",
+    "motionOff": "Animation aktiv — tippen für reduzierte Bewegung"
   }
 }

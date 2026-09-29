@@ -11,5 +11,14 @@
   "Nav": {
     "work": "Work",
     "about": "About"
+  },
+  "Preferences": {
+    "theme": "Color scheme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeSystem": "System",
+    "themeCycle": "Choose next scheme",
+    "motionOn": "Motion reduced — tap for full animation",
+    "motionOff": "Animation on — tap for reduced motion"
   }
 }
