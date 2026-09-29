@@ -5,7 +5,6 @@ export type Project = {
   title: LocalizedString
   summary: LocalizedString
   role: LocalizedString
-  year: string
   stack: string[]
   featured: boolean
   coverUrl: string
@@ -29,7 +28,6 @@ export const projects: Project[] = [
       de: 'Frontend Architect',
       en: 'Frontend Architect',
     },
-    year: '2024',
     stack: ['Next.js', 'TypeScript', 'Payload CMS', 'Sanity', 'Shopify', 'Auth0', 'Vercel'],
     featured: true,
     coverUrl: '/images/studio/studio-1.webp',
@@ -67,7 +65,6 @@ export const projects: Project[] = [
       de: 'Frontend Architect · Content Modeling',
       en: 'Frontend Architect · Content Modeling',
     },
-    year: '2025',
     stack: ['Payload CMS', 'Sanity', 'Next.js', 'TypeScript', 'Zod'],
     featured: true,
     coverUrl: '/images/studio/studio-3.webp',
@@ -105,7 +102,6 @@ export const projects: Project[] = [
       de: 'Senior Frontend Developer · Platform',
       en: 'Senior Frontend Developer · Platform',
     },
-    year: '2023',
     stack: ['React', 'Vue.js', 'TypeScript', 'Storybook', 'CI/CD'],
     featured: true,
     coverUrl: '/images/studio/studio-5.webp',
@@ -143,7 +139,6 @@ export const projects: Project[] = [
       de: 'Frontend Architect',
       en: 'Frontend Architect',
     },
-    year: '2024',
     stack: ['Next.js', 'RSC', 'SEO', 'GEO', 'JSON-LD', 'Core Web Vitals'],
     featured: false,
     coverUrl: '/images/atmosphere/city.webp',

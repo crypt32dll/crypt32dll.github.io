@@ -13,7 +13,6 @@ export const projectSchema = z.object({
   title: localizedStringSchema,
   summary: localizedStringSchema,
   role: localizedStringSchema,
-  year: z.string().min(1),
   stack: z.array(z.string()).min(1),
   featured: z.boolean(),
   coverUrl: z.string().min(1),

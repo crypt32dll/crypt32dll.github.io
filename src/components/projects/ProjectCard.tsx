@@ -30,8 +30,8 @@ const imageSizes: Record<Density, string> = {
 export function ProjectCard({ project, locale, density = 'teaser' }: ProjectCardProps) {
   const meta =
     density === 'teaser'
-      ? `${project.year} · ${t(project.role, locale)}`
-      : `${project.year} · ${project.stack.slice(0, 3).join(' · ')}`
+      ? t(project.role, locale)
+      : project.stack.slice(0, 3).join(' · ')
 
   return (
     <li>
