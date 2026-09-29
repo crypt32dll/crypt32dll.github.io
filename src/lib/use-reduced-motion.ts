@@ -1,17 +1,24 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { PreferencesContext } from '@/components/layout/PreferencesProvider'
 
+/**
+ * Reduced-motion signal: OS preference and/or explicit site override.
+ * Falls back to matchMedia when used outside PreferencesProvider.
+ */
 export function useReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(false)
+  const preferences = useContext(PreferencesContext)
+  const [fallback, setFallback] = useState(false)
 
   useEffect(() => {
+    if (preferences) return
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const update = () => setReduced(mq.matches)
+    const update = () => setFallback(mq.matches)
     update()
     mq.addEventListener('change', update)
     return () => mq.removeEventListener('change', update)
-  }, [])
+  }, [preferences])
 
-  return reduced
+  return preferences?.reducedMotion ?? fallback
 }

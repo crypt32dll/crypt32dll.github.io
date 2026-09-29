@@ -102,7 +102,7 @@ Hosting uses the classic **branch deploy** model (unchanged from the previous Vu
 3. Live site: [https://crypt32dll.github.io](https://crypt32dll.github.io)
 
 > [!NOTE]
-> GitHub Pages applies a fixed `Cache-Control: max-age=600` to all assets. `next.config` `headers()` and Next Cache Components (`'use cache'`) do not apply to static export. For longer CDN TTLs, put Cloudflare (or similar) in front of a custom domain.
+> GitHub Pages applies a fixed `Cache-Control: max-age=600` to all assets. `next.config` `headers()` and Next Cache Components (`'use cache'`) do not apply to static export. A small service worker (`public/sw.js`) caches `/_next/static/` and `/images/` for **repeat visits**. That does **not** change the Lighthouse “efficient cache lifetimes” audit (it reads HTTP headers). For long CDN TTLs, put Cloudflare in front of a custom domain.
 
 ## Architecture notes
 

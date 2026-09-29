@@ -23,7 +23,7 @@ export function Hero({ locale }: Props) {
       <div className="absolute inset-0 -z-0 bg-paper" aria-hidden>
         <DeferredCanvas
           load={loadHeroScene}
-          delayMs={600}
+          mode="interaction"
           fallback={
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,color-mix(in_srgb,var(--color-accent)_12%,transparent),transparent_55%)]" />
           }

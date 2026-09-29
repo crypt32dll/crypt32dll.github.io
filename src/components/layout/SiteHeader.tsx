@@ -3,6 +3,7 @@
 import { List, X } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { LocaleSwitcher } from '@/components/layout/LocaleSwitcher'
+import { PreferenceControls } from '@/components/layout/PreferenceControls'
 import { Button } from '@/components/ui/Button'
 import { navItems, site } from '@/content/site'
 import { type Locale, t } from '@/content/types'
@@ -42,10 +43,12 @@ export function SiteHeader({ locale }: Props) {
               </Link>
             )
           })}
+          <PreferenceControls />
           <LocaleSwitcher locale={locale} />
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
+          <PreferenceControls />
           <LocaleSwitcher locale={locale} />
           <Button
             type="button"
@@ -57,9 +60,9 @@ export function SiteHeader({ locale }: Props) {
             onClick={() => setOpen((v) => !v)}
           >
             {open ? (
-              <X className="size-5" weight="bold" />
+              <X className="size-5" weight="bold" aria-hidden />
             ) : (
-              <List className="size-5" weight="bold" />
+              <List className="size-5" weight="bold" aria-hidden />
             )}
           </Button>
         </div>

@@ -8,7 +8,9 @@ type ImportResult<P> = { default: ComponentType<P> } | ComponentType<P>
 type DeferredCanvasProps<P extends object = Record<string, never>> = {
   load: () => Promise<ImportResult<P>>
   fallback?: ReactNode
+  mode?: 'idle' | 'interaction' | 'visible'
   delayMs?: number
+  root?: Element | null
   props?: P
 }
 
@@ -17,16 +19,18 @@ function resolveComponent<P>(mod: ImportResult<P>): ComponentType<P> {
 }
 
 /**
- * Lazily imports a Three.js scene only after idle time.
- * Avoids next/dynamic prefetch so the chunk stays off the critical path.
+ * Lazily imports a Three.js scene off the critical path.
+ * Prefer `interaction` on the homepage so Lighthouse/TBT stay clean.
  */
 export function DeferredCanvas<P extends object = Record<string, never>>({
   load,
   fallback = null,
+  mode = 'idle',
   delayMs = 500,
+  root = null,
   props,
 }: DeferredCanvasProps<P>) {
-  const shouldMount = useDeferredMount({ delayMs })
+  const shouldMount = useDeferredMount({ mode, delayMs, root })
   const [Scene, setScene] = useState<ComponentType<P> | null>(null)
 
   useEffect(() => {

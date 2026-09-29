@@ -49,7 +49,7 @@ export default async function ProjectPage({ params }: Props) {
 
         <header className="mt-8 max-w-3xl">
           <p className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-accent">
-            {project.year} · {t(project.role, locale)}
+            {t(project.role, locale)}
           </p>
           <h1 className="mt-3 font-display text-4xl font-semibold text-ink md:text-5xl">
             {t(project.title, locale)}
