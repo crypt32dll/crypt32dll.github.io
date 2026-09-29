@@ -2,11 +2,11 @@
 
 import { List, X } from '@phosphor-icons/react'
 import { useState } from 'react'
-import { Link, usePathname } from '@/i18n/navigation'
-import { Button } from '@/components/ui/Button'
 import { LocaleSwitcher } from '@/components/layout/LocaleSwitcher'
+import { Button } from '@/components/ui/Button'
 import { navItems, site } from '@/content/site'
-import { t, type Locale } from '@/content/types'
+import { type Locale, t } from '@/content/types'
+import { Link, usePathname } from '@/i18n/navigation'
 import { cn } from '@/lib/utils'
 
 type Props = { locale: Locale }
@@ -56,7 +56,11 @@ export function SiteHeader({ locale }: Props) {
             aria-label={open ? 'Close menu' : 'Open menu'}
             onClick={() => setOpen((v) => !v)}
           >
-            {open ? <X className="size-5" weight="bold" /> : <List className="size-5" weight="bold" />}
+            {open ? (
+              <X className="size-5" weight="bold" />
+            ) : (
+              <List className="size-5" weight="bold" />
+            )}
           </Button>
         </div>
       </div>

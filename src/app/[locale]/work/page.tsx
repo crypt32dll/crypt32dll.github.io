@@ -1,11 +1,10 @@
-import Image from 'next/image'
 import type { Metadata } from 'next'
-import { setRequestLocale } from 'next-intl/server'
+import Image from 'next/image'
+import { workPage } from '@/content/pages'
+import { projects } from '@/content/projects'
+import { type Locale, t } from '@/content/types'
 import { Link } from '@/i18n/navigation'
 import { routing } from '@/i18n/routing'
-import { projects } from '@/content/projects'
-import { workPage } from '@/content/pages'
-import { t, type Locale } from '@/content/types'
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -24,7 +23,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function WorkPage({ params }: Props) {
   const { locale: localeParam } = await params
   const locale = localeParam as Locale
-  setRequestLocale(locale)
 
   return (
     <div className="container-site pb-24 pt-28">

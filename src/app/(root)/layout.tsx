@@ -1,6 +1,6 @@
-import { Archivo, Space_Grotesk } from 'next/font/google'
 import type { Metadata } from 'next'
-import './globals.css'
+import { Archivo, Space_Grotesk } from 'next/font/google'
+import '../globals.css'
 
 const archivo = Archivo({
   subsets: ['latin'],
@@ -15,19 +15,14 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://crypt32dll.github.io'),
-  title: {
-    default: 'Fabian Schultz-Fademrecht — Frontend Architect',
-    template: '%s · Fabian Schultz',
-  },
-  description:
-    'Senior Frontend Developer & Frontend Architect. Composable architectures, structured content, Next.js.',
+  title: 'Fabian Schultz-Fademrecht',
   icons: { icon: '/favicon.png' },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootGroupLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
+      lang="de"
       className={`${archivo.variable} ${spaceGrotesk.variable}`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning

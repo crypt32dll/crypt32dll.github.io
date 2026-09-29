@@ -1,7 +1,7 @@
 'use client'
 
-import { usePathname, useRouter } from '@/i18n/navigation'
 import type { Locale } from '@/content/types'
+import { usePathname, useRouter } from '@/i18n/navigation'
 import { cn } from '@/lib/utils'
 
 const labels: Record<Locale, string> = { de: 'DE', en: 'EN' }

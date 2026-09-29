@@ -1,12 +1,11 @@
-import Image from 'next/image'
-import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
-import { setRequestLocale } from 'next-intl/server'
 import { ArrowLeft } from '@phosphor-icons/react/dist/ssr'
+import type { Metadata } from 'next'
+import Image from 'next/image'
+import { notFound } from 'next/navigation'
+import { getProjectBySlug, projects } from '@/content/projects'
+import { type Locale, t } from '@/content/types'
 import { Link } from '@/i18n/navigation'
 import { routing } from '@/i18n/routing'
-import { getProjectBySlug, projects } from '@/content/projects'
-import { t, type Locale } from '@/content/types'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
@@ -29,7 +28,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProjectPage({ params }: Props) {
   const { locale: localeParam, slug } = await params
   const locale = localeParam as Locale
-  setRequestLocale(locale)
 
   const project = getProjectBySlug(slug)
   if (!project) notFound()
