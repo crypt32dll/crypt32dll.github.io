@@ -1,18 +1,6 @@
 import type { Metadata } from 'next'
-import { Archivo, Space_Grotesk } from 'next/font/google'
+import { fontVariables } from '@/lib/fonts'
 import '../globals.css'
-
-const archivo = Archivo({
-  subsets: ['latin'],
-  variable: '--font-archivo',
-  display: 'swap',
-})
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-space-grotesk',
-  display: 'swap',
-})
 
 export const metadata: Metadata = {
   title: 'Fabian Schultz-Fademrecht',
@@ -23,7 +11,7 @@ export default function RootGroupLayout({ children }: { children: React.ReactNod
   return (
     <html
       lang="de"
-      className={`${archivo.variable} ${spaceGrotesk.variable}`}
+      className={fontVariables}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

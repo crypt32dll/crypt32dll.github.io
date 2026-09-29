@@ -8,7 +8,6 @@ export function PersonJsonLd() {
     jobTitle: 'Senior Frontend Developer | Frontend Architect',
     url: process.env.NEXT_PUBLIC_SITE_URL || 'https://crypt32dll.github.io',
     sameAs: [site.social.linkedin, site.social.github, site.social.xing],
-    email: `mailto:${site.email}`,
     knowsAbout: [
       'Frontend Architecture',
       'Composable Architecture',

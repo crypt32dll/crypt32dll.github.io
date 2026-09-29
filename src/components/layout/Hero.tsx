@@ -1,17 +1,15 @@
 'use client'
 
 import { ArrowRight, ArrowUpRight } from '@phosphor-icons/react'
-import dynamic from 'next/dynamic'
+import { DeferredCanvas } from '@/components/three/DeferredCanvas'
 import { Button } from '@/components/ui/Button'
 import { homepage } from '@/content/pages'
 import { site } from '@/content/site'
 import { type Locale, t } from '@/content/types'
 import { Link } from '@/i18n/navigation'
 
-const HeroScene = dynamic(() => import('@/components/three/HeroScene').then((m) => m.HeroScene), {
-  ssr: false,
-  loading: () => <div className="absolute inset-0 bg-paper" aria-hidden />,
-})
+const loadHeroScene = () =>
+  import('@/components/three/HeroScene').then((m) => ({ default: m.HeroScene }))
 
 type Props = {
   locale: Locale
@@ -22,7 +20,15 @@ export function Hero({ locale }: Props) {
 
   return (
     <section className="relative min-h-[100dvh] overflow-hidden">
-      <HeroScene />
+      <div className="absolute inset-0 -z-0 bg-paper" aria-hidden>
+        <DeferredCanvas
+          load={loadHeroScene}
+          delayMs={600}
+          fallback={
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,color-mix(in_srgb,var(--color-accent)_12%,transparent),transparent_55%)]" />
+          }
+        />
+      </div>
 
       <div className="container-site relative z-10 flex min-h-[100dvh] flex-col justify-center pb-20 pt-28">
         <p className="hero-enter font-display text-sm font-semibold uppercase tracking-[0.22em] text-accent">

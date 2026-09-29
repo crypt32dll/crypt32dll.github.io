@@ -1,22 +1,29 @@
 import type { Metadata } from 'next'
-import { legal } from '@/content/pages'
-import { type Locale, t } from '@/content/types'
-import { routing } from '@/i18n/routing'
+import { content } from '@/content/repository'
+import { t } from '@/content/types'
+import { localeStaticParams, resolveLocale } from '@/i18n/params'
+import { pageMetadata } from '@/lib/seo/metadata'
 
 type Props = { params: Promise<{ locale: string }> }
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }))
+  return localeStaticParams()
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await params
-  return { title: t(legal.datenschutz.title, locale as Locale) }
+  const locale = await resolveLocale(params)
+  const legal = content.getLegal()
+  return pageMetadata({
+    locale,
+    path: 'datenschutz',
+    title: t(legal.datenschutz.title, locale),
+    description: t(legal.datenschutz.title, locale),
+  })
 }
 
 export default async function DatenschutzPage({ params }: Props) {
-  const { locale: localeParam } = await params
-  const locale = localeParam as Locale
+  const locale = await resolveLocale(params)
+  const legal = content.getLegal()
 
   return (
     <div className="container-narrow pb-24 pt-28">

@@ -102,6 +102,10 @@ export const homepage = {
 
 export const aboutPage = {
   title: { de: 'Über mich', en: 'About' } satisfies LocalizedString,
+  metaTitle: {
+    de: 'Über mich — Frontend Architect',
+    en: 'About — Frontend Architect',
+  } satisfies LocalizedString,
   intro: {
     de: 'Ich entwickle skalierbare Web- und Datenanwendungen mit Fokus auf moderne Frontend-Architekturen, Structured Content und composable Systeme.',
     en: 'I build scalable web and data applications with a focus on modern frontend architectures, structured content, and composable systems.',
@@ -204,6 +208,10 @@ export const aboutPage = {
 
 export const workPage = {
   title: { de: 'Arbeit', en: 'Work' } satisfies LocalizedString,
+  metaTitle: {
+    de: 'Projekte & Case Studies',
+    en: 'Projects & Case Studies',
+  } satisfies LocalizedString,
   intro: {
     de: 'Ausgewählte Projekte aus Architektur, Content und Plattform.',
     en: 'Selected projects across architecture, content, and platform work.',
@@ -219,25 +227,21 @@ export const legal = {
 Fabian Schultz-Fademrecht
 Deutschland
 
-Kontakt
-E-Mail: hello@fabian-schultz.dev
+Kontakt über LinkedIn:
+https://www.linkedin.com/in/fabian-schultz-fademrecht-2223162a0/
 
 Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV
-Fabian Schultz-Fademrecht
-
-Hinweis: Private Portfolio-Website. Bitte Kontaktdaten in src/content/site.ts und Impressum bei Bedarf anpassen.`,
+Fabian Schultz-Fademrecht`,
       en: `Information according to German Telemedia Act (TMG)
 
 Fabian Schultz-Fademrecht
 Germany
 
-Contact
-Email: hello@fabian-schultz.dev
+Contact via LinkedIn:
+https://www.linkedin.com/in/fabian-schultz-fademrecht-2223162a0/
 
 Responsible for content
-Fabian Schultz-Fademrecht
-
-Note: Private portfolio site. Update contact details in src/content/site.ts if needed.`,
+Fabian Schultz-Fademrecht`,
     },
   },
   datenschutz: {
@@ -245,7 +249,7 @@ Note: Private portfolio site. Update contact details in src/content/site.ts if n
     body: {
       de: `Verantwortlicher
 Fabian Schultz-Fademrecht
-E-Mail: hello@fabian-schultz.dev
+Kontakt: LinkedIn (siehe Impressum)
 
 Allgemeines
 Diese Website ist ein persönliches Portfolio. Es werden nur die für Betrieb und Sicherheit technisch notwendigen Daten verarbeitet.
@@ -262,7 +266,7 @@ Du hast Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruc
 Stand: 2026`,
       en: `Controller
 Fabian Schultz-Fademrecht
-Email: hello@fabian-schultz.dev
+Contact: LinkedIn (see legal notice)
 
 General
 This site is a personal portfolio. Only data required for operation and security is processed.

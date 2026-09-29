@@ -1,6 +1,6 @@
 {
   "name": "fabian-schultz-portfolio",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "description": "Fabian Schultz — developer portfolio (Next.js 16)",
@@ -57,12 +57,19 @@
   "engines": {
     "node": "24.x"
   },
-  "browserslist": [
-    "chrome >= 111",
-    "edge >= 111",
-    "firefox >= 111",
-    "safari >= 16.4"
-  ],
+  "browserslist": {
+    "production": [
+      "chrome >= 111",
+      "edge >= 111",
+      "firefox >= 111",
+      "safari >= 16.4"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "lint-staged": {
     "*": "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
   },
