@@ -1,0 +1,15 @@
+{
+  "HomePage": {
+    "title": "Fabian Schultz-Fademrecht",
+    "description": "Frontend Architect — Composable Systems, Structured Content, Next.js."
+  },
+  "NotFound": {
+    "title": "Seite nicht gefunden",
+    "description": "Die angeforderte Seite existiert nicht.",
+    "back": "Zur Startseite"
+  },
+  "Nav": {
+    "work": "Arbeit",
+    "about": "Über mich"
+  }
+}
