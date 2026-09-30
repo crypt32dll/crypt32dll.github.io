@@ -6,13 +6,12 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { IntroLoader } from '@/components/experience/IntroLoader'
 import { Magnetic } from '@/components/experience/Magnetic'
 import { AboutPortrait } from '@/components/layout/AboutPortrait'
-import { ProjectCard } from '@/components/projects/ProjectCard'
+import { WorkCarousel } from '@/components/projects/WorkCarousel'
 import { Button } from '@/components/ui/Button'
 import type { aboutPage, homepage as homepageContent } from '@/content/pages'
 import type { Project } from '@/content/projects'
 import { site } from '@/content/site'
 import { type Locale, t } from '@/content/types'
-import { useDeferredMount } from '@/lib/use-deferred-mount'
 
 const ExperienceCanvas = dynamic(
   () =>
@@ -45,12 +44,6 @@ export function HomeExperience({ locale, homepage, about, projects }: Props) {
   const [unveiled, setUnveiled] = useState(false)
   const onLoaderDone = useCallback(() => setUnveiled(true), [])
   const { hero } = homepage
-  // Keep GSAP / Lenis / R3F off the Lighthouse quiet window
-  const motionReady = useDeferredMount({
-    mode: 'interaction',
-    delayMs: 0,
-    idleTimeoutMs: 12_000,
-  })
 
   useEffect(() => {
     if (!unveiled) return
@@ -61,13 +54,12 @@ export function HomeExperience({ locale, homepage, about, projects }: Props) {
     })
   }, [unveiled])
 
-  const showStage = unveiled && motionReady
-
   return (
     <div ref={root} className="relative">
+      {/* WebGL boots behind the intro so mobile does not wait for first scroll. */}
+      <ExperienceCanvas />
       <IntroLoader locale={locale} onComplete={onLoaderDone} />
-      {showStage ? <ExperienceCanvas /> : null}
-      {showStage ? <ScrollDirector root={root} enabled /> : null}
+      {unveiled ? <ScrollDirector root={root} enabled /> : null}
 
       <section
         id="hero"
@@ -164,8 +156,12 @@ export function HomeExperience({ locale, homepage, about, projects }: Props) {
         </div>
       </section>
 
-      <section id="work" data-chapter="work" className="relative z-10">
-        <div className="container-site copy-over-stage py-[var(--space-section)] pb-10 md:pb-14">
+      <section
+        id="work"
+        data-chapter="work"
+        className="section-cv relative z-10 py-[var(--space-section)]"
+      >
+        <div className="container-site copy-over-stage pb-10 md:pb-14">
           <div data-reveal className="max-w-xl">
             <p className="font-display text-xs font-semibold uppercase tracking-[0.24em] text-accent">
               {t(homepage.workTitle, locale)}
@@ -178,23 +174,8 @@ export function HomeExperience({ locale, homepage, about, projects }: Props) {
             </h2>
           </div>
         </div>
-        {/* Pin target — horizontal scrub happens while this stage sits mid-viewport */}
-        <div data-work-pin className="relative flex h-[100dvh] items-center overflow-hidden">
-          <ul
-            data-work-rail
-            className="work-rail flex w-max gap-6 px-[max(1.25rem,calc((100vw-72rem)/2+1.25rem))] md:gap-8"
-          >
-            {projects.map((project) => (
-              <ProjectCard
-                key={project.slug}
-                project={project}
-                locale={locale}
-                density="teaser"
-                reveal
-                className="w-[min(78vw,22rem)] shrink-0 md:w-[24rem]"
-              />
-            ))}
-          </ul>
+        <div data-reveal>
+          <WorkCarousel projects={projects} locale={locale} />
         </div>
       </section>
 

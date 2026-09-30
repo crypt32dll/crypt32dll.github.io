@@ -7,7 +7,6 @@ import {
   planChapterPins,
   readDocumentProgress,
   tokenizeHeadline,
-  workRailTravel,
 } from '@/lib/scroll/adapters'
 
 describe('resolveRenderBudget', () => {
@@ -55,11 +54,6 @@ describe('scroll adapters', () => {
     expect(pins.every((p) => p.end.startsWith('+='))).toBe(true)
     expect(pins.map((p) => p.id)).toEqual(CHAPTER_SCRIPT.filter((c) => c.pin).map((c) => c.id))
     expect(pinEndFromFraction(0.28)).toBe('+=28%')
-  })
-
-  it('computes work rail travel', () => {
-    expect(workRailTravel(2400, 1200)).toBe(1200)
-    expect(workRailTravel(800, 1200)).toBe(0)
   })
 
   it('tokenizes headlines without DOM', () => {

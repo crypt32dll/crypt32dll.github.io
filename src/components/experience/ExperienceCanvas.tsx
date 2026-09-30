@@ -9,8 +9,8 @@ const loadExperience = () =>
   import('@/components/experience/ExperienceScene').then((m) => ({ default: m.ExperienceScene }))
 
 /**
- * Fixed WebGL backdrop. Loads only after first input (or a long idle fallback)
- * so Lighthouse TBT / bootup-time stay free of Three.js on first paint.
+ * Fixed WebGL backdrop. Boots on idle during the intro (covered by IntroLoader)
+ * so the first painted frame already has the scene when the gate lifts.
  */
 export function ExperienceCanvas() {
   const reduced = useReducedMotion()
@@ -24,9 +24,9 @@ export function ExperienceCanvas() {
       <div className="experience-atmosphere absolute inset-0" />
       <DeferredCanvas
         load={loadExperience}
-        mode="interaction"
+        mode="idle"
         delayMs={0}
-        idleTimeoutMs={reduced ? 0 : 800}
+        idleTimeoutMs={reduced ? 0 : 120}
         allowWhenReduced
         fallback={<div className="experience-fallback absolute inset-0" />}
       />

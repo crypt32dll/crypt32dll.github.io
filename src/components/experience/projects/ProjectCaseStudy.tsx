@@ -3,12 +3,12 @@
 import { ArrowLeft } from '@phosphor-icons/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Image from 'next/image'
 import { useEffect, useRef, ViewTransition } from 'react'
 import {
   ProjectExperience,
   type ProjectSceneId,
 } from '@/components/experience/projects/ProjectExperience'
+import { ProjectCover } from '@/components/projects/ProjectCover'
 import { Button } from '@/components/ui/Button'
 import type { Project } from '@/content/projects'
 import { type Locale, t } from '@/content/types'
@@ -54,14 +54,7 @@ export function ProjectCaseStudy({ project, locale }: Props) {
       <section className="relative flex min-h-[100dvh] flex-col justify-end overflow-hidden pb-16 pt-20 md:pb-20 md:pt-24">
         <ViewTransition name={sharedName} share="project-morph" default="none">
           <div data-project-hero className="absolute inset-0">
-            <Image
-              src={project.coverUrl}
-              alt=""
-              fill
-              priority
-              className="object-cover"
-              sizes="100vw"
-            />
+            <ProjectCover slug={project.slug} />
           </div>
         </ViewTransition>
         <div className="absolute inset-0 bg-gradient-to-t from-paper via-paper/85 to-paper/45" />

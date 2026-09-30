@@ -562,12 +562,7 @@ html.lenis body {
   scroll-behavior: auto !important;
 }
 
-.work-rail {
-  will-change: transform;
-}
-
-/* Stronger frost so teaser copy stays readable over the WebGL stage */
-.work-rail-card.glass-panel {
+.work-carousel-card.glass-panel {
   background: color-mix(in srgb, var(--color-paper-elevated) 84%, transparent);
   backdrop-filter: blur(22px) saturate(1.2);
   -webkit-backdrop-filter: blur(22px) saturate(1.2);
@@ -576,7 +571,7 @@ html.lenis body {
     inset 0 1px 0 color-mix(in srgb, var(--color-ink) 8%, transparent);
 }
 
-html:not(.dark) .work-rail-card.glass-panel {
+html:not(.dark) .work-carousel-card.glass-panel {
   background: color-mix(in srgb, var(--color-paper-elevated) 94%, transparent);
   box-shadow:
     0 14px 40px color-mix(in srgb, var(--color-ink) 10%, transparent),
@@ -584,7 +579,7 @@ html:not(.dark) .work-rail-card.glass-panel {
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .work-rail-card.glass-panel {
+  .work-carousel-card.glass-panel {
     background: color-mix(in srgb, var(--color-paper-elevated) 96%, transparent);
   }
 }

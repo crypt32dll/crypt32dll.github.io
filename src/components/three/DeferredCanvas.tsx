@@ -22,8 +22,8 @@ function resolveComponent<P>(mod: ImportResult<P>): ComponentType<P> {
 }
 
 /**
- * Lazily imports a Three.js scene off the critical path.
- * Prefer `interaction` on the homepage so Lighthouse/TBT stay clean.
+ * Lazily imports a Three.js scene after idle / interaction / visibility.
+ * Homepage backdrop uses `idle` during the intro so WebGL is ready on unveil.
  */
 export function DeferredCanvas<P extends object = Record<string, never>>({
   load,

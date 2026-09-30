@@ -23,17 +23,13 @@ export function pinEndFromFraction(pin: number): string {
   return `+=${Math.round(pin * 100)}%`
 }
 
-export function workRailTravel(scrollWidth: number, viewportWidth: number): number {
-  return Math.max(0, scrollWidth - viewportWidth)
-}
-
 export type ChapterPinPlan = {
   id: ChapterDef['id']
   pin: true
   end: string
 }
 
-/** Chapters that own a vertical pin (work rail pins separately). */
+/** Chapters that own a vertical pin. */
 export function planChapterPins(script: readonly ChapterDef[]): ChapterPinPlan[] {
   return script
     .filter((c): c is ChapterDef & { pin: number } => typeof c.pin === 'number' && c.pin > 0)

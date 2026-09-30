@@ -47,8 +47,8 @@ export function useDeferredMount({
       for (const type of events) {
         window.addEventListener(type, onInteract, { once: true, passive: true })
       }
-      // Slow fallback for keyboard-only / passive readers (outside typical LH window)
-      timeoutId = setTimeout(mount, 12_000)
+      // Fallback for keyboard-only / passive readers (`idleTimeoutMs`, default 2s)
+      timeoutId = setTimeout(mount, idleTimeoutMs)
       return () => {
         cancelled = true
         if (timeoutId) clearTimeout(timeoutId)
