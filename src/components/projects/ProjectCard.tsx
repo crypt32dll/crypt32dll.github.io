@@ -28,8 +28,8 @@ const titleSize: Record<Density, string> = {
 }
 
 const imageSizes: Record<Density, string> = {
-  teaser: '(max-width: 768px) 100vw, 33vw',
-  index: '(max-width: 768px) 100vw, 50vw',
+  teaser: '(max-width: 768px) 78vw, 384px',
+  index: '(max-width: 768px) 100vw, 640px',
 }
 
 export function ProjectCard({

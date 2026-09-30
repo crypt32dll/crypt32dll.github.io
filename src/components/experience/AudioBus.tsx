@@ -63,7 +63,7 @@ export { startAmbient, stopAmbient }
 
 /**
  * Ambient bus — HTMLAudio mute is authoritative.
- * Default muted; unmute requires a UI click.
+ * Default muted; unmute requires a UI click (never autoplay on load).
  */
 export function AudioBus() {
   const { audioMuted } = usePreferences()
@@ -78,7 +78,8 @@ export function AudioBus() {
       void stopAmbient()
       return
     }
-    void unlockAudio()
+    // Only resume after an explicit unmute — browsers block autoplay anyway
+    void startAmbient()
   }, [audioMuted, reduced])
 
   useEffect(() => {

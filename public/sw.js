@@ -2,7 +2,7 @@
  * GitHub Pages only sends Cache-Control: max-age=600 — this keeps repeat visits fast.
  * Does not change Lighthouse "efficient cache lifetimes" (that audit reads HTTP headers).
  */
-const CACHE = 'fs-static-v1'
+const CACHE = 'fs-static-v2'
 
 self.addEventListener('install', (event) => {
   event.waitUntil(self.skipWaiting())

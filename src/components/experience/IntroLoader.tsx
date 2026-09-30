@@ -1,7 +1,6 @@
 'use client'
 
-import gsap from 'gsap'
-import { useEffect, useRef, useState } from 'react'
+import { type TransitionEvent, useEffect, useRef, useState } from 'react'
 import {
   completeIntroImmediately,
   experienceState,
@@ -17,15 +16,24 @@ type Props = {
 }
 
 /**
- * Gates unveil on experienceState.ready (set by R3F after first frames)
- * and blends in real loadProgress bumps from the canvas.
+ * Short brand gate — does not wait on WebGL (deferred to interaction).
+ * Exit uses CSS only so gsap stays out of the critical path.
  */
 export function IntroLoader({ locale, onComplete }: Props) {
   const root = useRef<HTMLDivElement>(null)
   const reduced = useReducedMotion()
   const [percent, setPercent] = useState(0)
+  const [leaving, setLeaving] = useState(false)
   const exiting = useRef(false)
-  const started = useRef(performance.now())
+  const done = useRef(false)
+  const started = useRef(0)
+
+  const finishExit = () => {
+    if (done.current) return
+    done.current = true
+    setUnveiled(true)
+    onComplete()
+  }
 
   useEffect(() => {
     if (reduced) {
@@ -34,53 +42,30 @@ export function IntroLoader({ locale, onComplete }: Props) {
       return
     }
 
+    started.current = performance.now()
     let raf = 0
+
+    const finish = () => {
+      if (exiting.current) return
+      exiting.current = true
+      setPercent(100)
+      setLoadProgress(1)
+      setIntroScale(1)
+      setLeaving(true)
+    }
+
     const tick = () => {
       if (exiting.current) return
 
       const elapsed = (performance.now() - started.current) / 1000
-      // Soft floor so the bar never feels stuck before WebGL reports
-      const softFloor = Math.min(0.72, elapsed * 0.22)
+      // Soft progress; unveil without R3F so Three.js can stay deferred
+      const soft = Math.min(1, elapsed / 0.4)
+      const next = Math.max(experienceState.loadProgress, soft)
+      setLoadProgress(next)
+      setPercent(Math.round(next * 100))
 
-      if (!experienceState.ready) {
-        setLoadProgress(Math.max(experienceState.loadProgress, softFloor))
-      } else {
-        setLoadProgress(
-          Math.max(
-            experienceState.loadProgress,
-            experienceState.loadProgress + (1 - experienceState.loadProgress) * 0.14,
-          ),
-        )
-      }
-
-      const p = Math.round(experienceState.loadProgress * 100)
-      setPercent(p)
-
-      const minHold = elapsed > 0.55
-      if (
-        experienceState.ready &&
-        experienceState.loadProgress > 0.992 &&
-        minHold &&
-        !exiting.current
-      ) {
-        exiting.current = true
-        setIntroScale(0)
-        const el = root.current
-        const tl = gsap.timeline({
-          onComplete: () => {
-            setUnveiled(true)
-            setIntroScale(1)
-            onComplete()
-          },
-        })
-        tl.to(experienceState, { introScale: 1, duration: 1.15, ease: 'power3.out' }, 0)
-        if (el) {
-          tl.to(
-            el,
-            { opacity: 0, duration: 0.75, ease: 'power2.inOut', pointerEvents: 'none' },
-            0.35,
-          )
-        }
+      if (elapsed > 0.45 || (experienceState.ready && next > 0.992 && elapsed > 0.25)) {
+        finish()
         return
       }
 
@@ -91,15 +76,29 @@ export function IntroLoader({ locale, onComplete }: Props) {
     return () => cancelAnimationFrame(raf)
   }, [reduced, onComplete])
 
+  useEffect(() => {
+    if (!leaving) return
+    const id = window.setTimeout(finishExit, 500)
+    return () => window.clearTimeout(id)
+  }, [leaving, onComplete])
+
+  const onExitEnd = (event: TransitionEvent<HTMLDivElement>) => {
+    if (!leaving) return
+    if (event.target !== root.current) return
+    if (event.propertyName !== 'opacity') return
+    finishExit()
+  }
+
   if (reduced) return null
 
   return (
     <div
       ref={root}
-      className="intro-loader"
+      className={`intro-loader${leaving ? ' intro-loader--leave' : ''}`}
       role="status"
       aria-busy={percent < 100}
       aria-live="polite"
+      onTransitionEnd={onExitEnd}
     >
       <p className="font-display text-xs font-semibold uppercase tracking-[0.28em] text-accent">
         Fabian Schultz-Fademrecht

@@ -1,25 +1,11 @@
 'use client'
 
 import gsap from 'gsap'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
+import { useFinePointer } from '@/lib/use-fine-pointer'
 import { useReducedMotion } from '@/lib/use-reduced-motion'
-import { cn } from '@/lib/utils'
 
 type CursorMode = 'default' | 'magnetic' | 'view' | 'drag'
-
-function useFinePointer(): boolean {
-  const [fine, setFine] = useState(false)
-
-  useEffect(() => {
-    const mq = window.matchMedia('(pointer: fine)')
-    const sync = () => setFine(mq.matches)
-    sync()
-    mq.addEventListener('change', sync)
-    return () => mq.removeEventListener('change', sync)
-  }, [])
-
-  return fine
-}
 
 export function CustomCursor() {
   const reduced = useReducedMotion()
@@ -82,7 +68,6 @@ export function CustomCursor() {
         })
       }
       if (ring.current) {
-        // Size comes from CSS per mode — avoid scaling the label out of the ring
         gsap.set(ring.current, { x: lagX, y: lagY })
       }
       raf = requestAnimationFrame(tick)
@@ -109,51 +94,5 @@ export function CustomCursor() {
   )
 }
 
-type MagneticProps = {
-  children: React.ReactNode
-  className?: string
-  strength?: number
-}
-
-export function Magnetic({ children, className, strength = 0.35 }: MagneticProps) {
-  const root = useRef<HTMLDivElement>(null)
-  const reduced = useReducedMotion()
-  const fine = useFinePointer()
-
-  useEffect(() => {
-    const el = root.current
-    if (!el || reduced || !fine) return
-
-    const onMove = (e: PointerEvent) => {
-      const rect = el.getBoundingClientRect()
-      const x = e.clientX - rect.left - rect.width / 2
-      const y = e.clientY - rect.top - rect.height / 2
-      gsap.to(el, {
-        x: x * strength,
-        y: y * strength,
-        duration: 0.45,
-        ease: 'power3.out',
-      })
-    }
-    const onLeave = () => {
-      gsap.to(el, { x: 0, y: 0, duration: 0.55, ease: 'power3.out' })
-    }
-
-    el.addEventListener('pointermove', onMove)
-    el.addEventListener('pointerleave', onLeave)
-    return () => {
-      el.removeEventListener('pointermove', onMove)
-      el.removeEventListener('pointerleave', onLeave)
-    }
-  }, [reduced, fine, strength])
-
-  return (
-    <div
-      ref={root}
-      className={cn('inline-flex will-change-transform', className)}
-      data-cursor="magnetic"
-    >
-      {children}
-    </div>
-  )
-}
+/** @deprecated Import from `@/components/experience/Magnetic` */
+export { Magnetic } from '@/components/experience/Magnetic'
