@@ -46,7 +46,6 @@ export const CHAPTER_SCRIPT: readonly ChapterDef[] = [
     end: 0.38,
     morph: 'explode',
     camera: { position: [1.35, 0.85, 4.8], lookAt: [0, 0.25, 0], fov: 38 },
-    pin: 0.32,
     bloom: 0.16,
     dof: 0,
     chromatic: 0.12,
