@@ -18,6 +18,8 @@ const nextConfig: NextConfig = {
     localPatterns: [
       { pathname: '/images/**' },
       { pathname: '/favicon.png' },
+      { pathname: '/logo.png' },
+      { pathname: '/apple-touch-icon.png' },
       { pathname: '/og.png' },
     ],
   },

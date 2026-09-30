@@ -127,7 +127,7 @@ export const experienceState: ExperienceState = {
   pointerY: 0,
   reduced: false,
   ink: '#f2f0eb',
-  accent: '#c9a27a',
+  accent: '#d4b08a',
   paper: '#08090c',
   dark: true,
   loadProgress: 0,
@@ -310,11 +310,8 @@ export function resolveQualityTier(opts: {
   mobile: boolean
   saveData: boolean
   reduced: boolean
-  preference?: QualityTier | 'auto'
 }): QualityTier {
   if (opts.reduced || opts.saveData) return 'lite'
-  if (opts.preference && opts.preference !== 'auto') return opts.preference
-  // Auto defaults to balanced — cinematic stays opt-in via the quality toggle
   if (opts.mobile) return 'lite'
   return 'balanced'
 }

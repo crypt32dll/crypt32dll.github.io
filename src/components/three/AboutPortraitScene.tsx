@@ -7,8 +7,8 @@ import type { Group, Mesh, Points, ShaderMaterial } from 'three'
 import * as THREE from 'three'
 import { PortfolioCanvas } from '@/components/three/SceneCanvas'
 
-const ACCENT = '#c9a27a'
-const ACCENT_SOFT = '#dbb892'
+const ACCENT = '#d4b08a'
+const ACCENT_SOFT = '#e0bc96'
 const INK = '#f2f0eb'
 const VOID = '#0c0b09'
 

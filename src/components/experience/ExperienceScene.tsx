@@ -7,7 +7,6 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Color, type MeshStandardMaterial, type PerspectiveCamera, type PointLight } from 'three'
 import { ArchitectureAssemblage } from '@/components/experience/ArchitectureAssemblage'
 import { ParticleMorphField } from '@/components/experience/ParticleMorphField'
-import { usePreferences } from '@/components/layout/PreferencesProvider'
 import { PortfolioCanvas } from '@/components/three/SceneCanvas'
 import {
   bumpLoadProgress,
@@ -72,7 +71,7 @@ function StudioLights({ animate }: { animate: boolean }) {
   const key = useRef<PointLight>(null)
   const rim = useRef<PointLight>(null)
   const fill = useRef<PointLight>(null)
-  const accent = useRef(new Color('#c9a27a'))
+  const accent = useRef(new Color('#d4b08a'))
   const t0 = useRef(0)
 
   useFrame(() => {
@@ -240,7 +239,6 @@ type ExperienceSceneProps = {
 
 export function ExperienceScene({ className }: ExperienceSceneProps) {
   const reduced = useReducedMotion()
-  const { qualityPreference } = usePreferences()
   const [tier, setTier] = useState<QualityTier>('balanced')
   const [pausedRender, setPausedRender] = useState(false)
 
@@ -252,24 +250,20 @@ export function ExperienceScene({ className }: ExperienceSceneProps) {
       Boolean(
         (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData,
       )
-    const next = resolveQualityTier({
-      mobile,
-      saveData,
-      reduced,
-      preference: qualityPreference,
-    })
+    const next = resolveQualityTier({ mobile, saveData, reduced })
     setTier(next)
     setQualityTier(next)
-  }, [reduced, qualityPreference])
+  }, [reduced])
 
   const budget = useMemo(() => resolveRenderBudget(tier), [tier])
 
   const onTierDecline = () => {
     setTier((current) => {
-      const next: QualityTier =
-        current === 'cinematic' ? 'balanced' : current === 'balanced' ? 'lite' : 'lite'
-      if (next !== current) setQualityTier(next)
-      return next
+      if (current === 'cinematic') {
+        setQualityTier('balanced')
+        return 'balanced'
+      }
+      return current
     })
   }
 

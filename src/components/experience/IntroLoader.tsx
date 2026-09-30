@@ -1,6 +1,7 @@
 'use client'
 
 import { type TransitionEvent, useEffect, useRef, useState } from 'react'
+import { SiteLogo } from '@/components/layout/SiteLogo'
 import {
   completeIntroImmediately,
   experienceState,
@@ -16,8 +17,7 @@ type Props = {
 }
 
 /**
- * Short brand gate — does not wait on WebGL (deferred to interaction).
- * Exit uses CSS only so gsap stays out of the critical path.
+ * Brand gate — centered monogram, CSS exit, no GSAP on the critical path.
  */
 export function IntroLoader({ locale, onComplete }: Props) {
   const root = useRef<HTMLDivElement>(null)
@@ -58,13 +58,12 @@ export function IntroLoader({ locale, onComplete }: Props) {
       if (exiting.current) return
 
       const elapsed = (performance.now() - started.current) / 1000
-      // Soft progress; unveil without R3F so Three.js can stay deferred
-      const soft = Math.min(1, elapsed / 0.4)
+      const soft = Math.min(1, elapsed / 0.55)
       const next = Math.max(experienceState.loadProgress, soft)
       setLoadProgress(next)
       setPercent(Math.round(next * 100))
 
-      if (elapsed > 0.45 || (experienceState.ready && next > 0.992 && elapsed > 0.25)) {
+      if (elapsed > 0.7 || (experienceState.ready && next > 0.992 && elapsed > 0.35)) {
         finish()
         return
       }
@@ -78,7 +77,7 @@ export function IntroLoader({ locale, onComplete }: Props) {
 
   useEffect(() => {
     if (!leaving) return
-    const id = window.setTimeout(finishExit, 500)
+    const id = window.setTimeout(finishExit, 560)
     return () => window.clearTimeout(id)
   }, [leaving, onComplete])
 
@@ -100,22 +99,28 @@ export function IntroLoader({ locale, onComplete }: Props) {
       aria-live="polite"
       onTransitionEnd={onExitEnd}
     >
-      <p className="font-display text-xs font-semibold uppercase tracking-[0.28em] text-accent">
-        Fabian Schultz-Fademrecht
-      </p>
-      <p className="font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl">
-        {locale === 'de' ? 'System wird geladen' : 'System loading'}
-      </p>
-      <div className="flex w-52 flex-col gap-2">
-        <div className="h-px w-full overflow-hidden bg-line">
-          <div
-            className="h-full bg-accent transition-[width] duration-100"
-            style={{ width: `${percent}%` }}
-          />
+      <div className="intro-loader__aura" aria-hidden />
+
+      <div className="intro-loader__mark-bg" aria-hidden>
+        <SiteLogo size={480} className="intro-loader__mark-bg-img" />
+      </div>
+
+      <div className="intro-loader__stage">
+        <div className="intro-loader__mark">
+          <SiteLogo size={200} className="intro-loader__mark-img" priority />
         </div>
-        <p className="font-display text-xs tabular-nums tracking-[0.18em] text-ink-faint">
-          {String(percent).padStart(3, '0')}
+
+        <p className="intro-loader__eyebrow">Fabian Schultz-Fademrecht</p>
+        <p className="intro-loader__title">
+          {locale === 'de' ? 'System wird geladen' : 'System loading'}
         </p>
+
+        <div className="intro-loader__meter" aria-hidden>
+          <div className="intro-loader__meter-track">
+            <div className="intro-loader__meter-fill" style={{ width: `${percent}%` }} />
+          </div>
+          <span className="intro-loader__meter-value">{String(percent).padStart(3, '0')}</span>
+        </div>
       </div>
     </div>
   )
