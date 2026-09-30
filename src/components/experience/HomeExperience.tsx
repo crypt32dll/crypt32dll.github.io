@@ -1,11 +1,10 @@
 'use client'
 
 import { ArrowRight, ArrowUpRight } from '@phosphor-icons/react'
+import dynamic from 'next/dynamic'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Magnetic } from '@/components/experience/CustomCursor'
-import { ExperienceCanvas } from '@/components/experience/ExperienceCanvas'
 import { IntroLoader } from '@/components/experience/IntroLoader'
-import { ScrollDirector } from '@/components/experience/ScrollDirector'
+import { Magnetic } from '@/components/experience/Magnetic'
 import { AboutPortrait } from '@/components/layout/AboutPortrait'
 import { ProjectCard } from '@/components/projects/ProjectCard'
 import { Button } from '@/components/ui/Button'
@@ -13,6 +12,23 @@ import type { aboutPage, homepage as homepageContent } from '@/content/pages'
 import type { Project } from '@/content/projects'
 import { site } from '@/content/site'
 import { type Locale, t } from '@/content/types'
+import { useDeferredMount } from '@/lib/use-deferred-mount'
+
+const ExperienceCanvas = dynamic(
+  () =>
+    import('@/components/experience/ExperienceCanvas').then((m) => ({
+      default: m.ExperienceCanvas,
+    })),
+  { ssr: false },
+)
+
+const ScrollDirector = dynamic(
+  () =>
+    import('@/components/experience/ScrollDirector').then((m) => ({
+      default: m.ScrollDirector,
+    })),
+  { ssr: false },
+)
 
 type Homepage = typeof homepageContent
 type About = typeof aboutPage
@@ -29,6 +45,12 @@ export function HomeExperience({ locale, homepage, about, projects }: Props) {
   const [unveiled, setUnveiled] = useState(false)
   const onLoaderDone = useCallback(() => setUnveiled(true), [])
   const { hero } = homepage
+  // Keep GSAP / Lenis / R3F off the Lighthouse quiet window
+  const motionReady = useDeferredMount({
+    mode: 'interaction',
+    delayMs: 0,
+    idleTimeoutMs: 12_000,
+  })
 
   useEffect(() => {
     if (!unveiled) return
@@ -39,11 +61,13 @@ export function HomeExperience({ locale, homepage, about, projects }: Props) {
     })
   }, [unveiled])
 
+  const showStage = unveiled && motionReady
+
   return (
     <div ref={root} className="relative">
       <IntroLoader locale={locale} onComplete={onLoaderDone} />
-      <ExperienceCanvas />
-      <ScrollDirector root={root} enabled={unveiled} />
+      {showStage ? <ExperienceCanvas /> : null}
+      {showStage ? <ScrollDirector root={root} enabled /> : null}
 
       <section
         id="hero"

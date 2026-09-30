@@ -22,7 +22,15 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
-    optimizePackageImports: ['@phosphor-icons/react', 'three'],
+    optimizePackageImports: [
+      '@phosphor-icons/react',
+      'three',
+      '@react-three/fiber',
+      '@react-three/drei',
+      '@react-three/postprocessing',
+      'gsap',
+      'lenis',
+    ],
   },
   turbopack: {
     root: path.resolve(dirname),

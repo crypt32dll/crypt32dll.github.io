@@ -2,8 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
-import { AudioBus } from '@/components/experience/AudioBus'
-import { CustomCursor } from '@/components/experience/CustomCursor'
+import { ClientChrome } from '@/components/experience/ClientChrome'
 import { PageTransition } from '@/components/experience/PageTransition'
 import { LocalePreferenceSync } from '@/components/layout/LocalePreferenceSync'
 import { PreferencesProvider } from '@/components/layout/PreferencesProvider'
@@ -66,8 +65,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             <LocalePreferenceSync locale={locale} />
             <PersonJsonLd />
             <PageTransition />
-            <CustomCursor />
-            <AudioBus />
+            <ClientChrome />
             <div className="flex min-h-dvh flex-col" data-app-shell>
               <a
                 href="#main"

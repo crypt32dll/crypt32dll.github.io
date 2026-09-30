@@ -37,4 +37,6 @@ package-lock.json
 yarn.lock
 
 CONTEXT.md
+CLAUDE.md
+AGENTS.md
 .agents/

@@ -393,6 +393,13 @@ html:not(.dark) .copy-over-stage p {
   gap: 1.5rem;
   background: var(--color-paper);
   color: var(--color-ink);
+  opacity: 1;
+  transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.intro-loader--leave {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .section-progress {
