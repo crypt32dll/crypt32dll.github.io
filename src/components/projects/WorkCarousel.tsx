@@ -159,7 +159,7 @@ export function WorkCarousel({ projects, locale }: Props) {
     state.lastT = performance.now()
     state.velocity = 0
     state.moved = false
-    event.currentTarget.setPointerCapture(event.pointerId)
+    // Do not capture yet — capture would steal the click from card Links.
   }
 
   const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -169,8 +169,12 @@ export function WorkCarousel({ projects, locale }: Props) {
     const dx = event.clientX - state.startX
     if (!state.moved && Math.abs(dx) < DRAG_THRESHOLD) return
 
-    state.moved = true
-    setDragging(true)
+    if (!state.moved) {
+      state.moved = true
+      setDragging(true)
+      // Capture only once we are actually dragging
+      event.currentTarget.setPointerCapture(event.pointerId)
+    }
 
     const now = performance.now()
     const dt = Math.max(1, now - state.lastT)
