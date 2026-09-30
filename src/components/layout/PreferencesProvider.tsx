@@ -10,14 +10,21 @@ import {
   useMemo,
   useState,
 } from 'react'
+import { setAmbientMutedFlag, startAmbient, stopAmbient } from '@/lib/ambient-audio'
+import { setAudioMuted, setReducedMotion, setThemeTokens } from '@/lib/experience-state'
 import {
+  AUDIO_STORAGE_KEY,
   applyDocumentPreferences,
   isMotionPreference,
+  isQualityPreference,
   isThemePreference,
   MOTION_STORAGE_KEY,
   type MotionPreference,
   nextMotionPreference,
+  nextQuality,
   nextTheme,
+  QUALITY_STORAGE_KEY,
+  type QualityPreference,
   resolveReducedMotion,
   resolveTheme,
   THEME_STORAGE_KEY,
@@ -29,10 +36,14 @@ type PreferencesContextValue = {
   resolvedTheme: 'light' | 'dark'
   motionPreference: MotionPreference
   reducedMotion: boolean
+  audioMuted: boolean
+  qualityPreference: QualityPreference
   setThemePreference: (value: ThemePreference) => void
   cycleTheme: () => void
   setMotionPreference: (value: MotionPreference) => void
   toggleReducedMotion: () => void
+  toggleAudioMuted: () => void
+  cycleQuality: () => void
 }
 
 export const PreferencesContext = createContext<PreferencesContextValue | null>(null)
@@ -49,9 +60,24 @@ function readStoredMotion(): MotionPreference {
   return isMotionPreference(stored) ? stored : 'system'
 }
 
+function readStoredAudioMuted(): boolean {
+  if (typeof window === 'undefined') return true
+  const stored = localStorage.getItem(AUDIO_STORAGE_KEY)
+  if (stored === null) return true
+  return stored === 'true'
+}
+
+function readStoredQuality(): QualityPreference {
+  if (typeof window === 'undefined') return 'auto'
+  const stored = localStorage.getItem(QUALITY_STORAGE_KEY)
+  return isQualityPreference(stored) ? stored : 'auto'
+}
+
 export function PreferencesProvider({ children }: { children: ReactNode }) {
-  const [themePreference, setThemePreferenceState] = useState<ThemePreference>('system')
+  const [themePreference, setThemePreferenceState] = useState<ThemePreference>('dark')
   const [motionPreference, setMotionPreferenceState] = useState<MotionPreference>('system')
+  const [audioMuted, setAudioMutedState] = useState(true)
+  const [qualityPreference, setQualityPreferenceState] = useState<QualityPreference>('auto')
   const [systemDark, setSystemDark] = useState(false)
   const [systemReduce, setSystemReduce] = useState(false)
   const [ready, setReady] = useState(false)
@@ -64,6 +90,8 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setThemePreferenceState(readStoredTheme())
     setMotionPreferenceState(readStoredMotion())
+    setAudioMutedState(readStoredAudioMuted())
+    setQualityPreferenceState(readStoredQuality())
     syncFromSystem()
     setReady(true)
 
@@ -83,11 +111,26 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
   const reducedMotion = resolveReducedMotion(motionPreference, systemReduce)
 
   useEffect(() => {
-    // Wait until stored prefs + system media queries are read so we don't
-    // overwrite the blocking bootstrap script with SSR defaults.
     if (!ready) return
-    applyDocumentPreferences(resolvedTheme, motionPreference, systemReduce)
-  }, [ready, resolvedTheme, motionPreference, systemReduce])
+    applyDocumentPreferences(resolvedTheme, motionPreference, systemReduce, qualityPreference)
+    setReducedMotion(reducedMotion)
+    setAudioMuted(audioMuted)
+    const styles = getComputedStyle(document.documentElement)
+    setThemeTokens({
+      ink: styles.getPropertyValue('--color-ink').trim() || '#f2f0eb',
+      accent: styles.getPropertyValue('--color-accent').trim() || '#c9a27a',
+      paper: styles.getPropertyValue('--color-paper').trim() || '#08090c',
+      dark: resolvedTheme === 'dark',
+    })
+  }, [
+    ready,
+    resolvedTheme,
+    motionPreference,
+    systemReduce,
+    reducedMotion,
+    audioMuted,
+    qualityPreference,
+  ])
 
   const setThemePreference = useCallback((value: ThemePreference) => {
     setThemePreferenceState(value)
@@ -118,26 +161,54 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     })
   }, [])
 
+  const toggleAudioMuted = useCallback(() => {
+    setAudioMutedState((current) => {
+      const next = !current
+      localStorage.setItem(AUDIO_STORAGE_KEY, String(next))
+      setAudioMuted(next)
+      setAmbientMutedFlag(next)
+      if (next) void stopAmbient()
+      else void startAmbient()
+      return next
+    })
+  }, [])
+
+  const cycleQuality = useCallback(() => {
+    setQualityPreferenceState((current) => {
+      const next = nextQuality(current)
+      localStorage.setItem(QUALITY_STORAGE_KEY, next)
+      return next
+    })
+  }, [])
+
   const value = useMemo(
     () => ({
       themePreference,
       resolvedTheme,
       motionPreference,
       reducedMotion,
+      audioMuted,
+      qualityPreference,
       setThemePreference,
       cycleTheme,
       setMotionPreference,
       toggleReducedMotion,
+      toggleAudioMuted,
+      cycleQuality,
     }),
     [
       themePreference,
       resolvedTheme,
       motionPreference,
       reducedMotion,
+      audioMuted,
+      qualityPreference,
       setThemePreference,
       cycleTheme,
       setMotionPreference,
       toggleReducedMotion,
+      toggleAudioMuted,
+      cycleQuality,
     ],
   )
 

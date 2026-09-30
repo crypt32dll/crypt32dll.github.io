@@ -25,8 +25,8 @@ export const homepage = {
     en: 'Know-how',
   } satisfies LocalizedString,
   skillsIntro: {
-    de: 'Über elf Jahre Produkt-Frontend: von Vue und React bis zu composable Architekturen auf Vercel.',
-    en: 'Over eleven years of product frontend work: from Vue and React to composable architectures on Vercel.',
+    de: 'Rund 15 Jahre Softwareentwicklung — von Web und Daten bis composable Systeme.',
+    en: 'About 15 years in software — from web and data to composable systems.',
   } satisfies LocalizedString,
   skills: [
     {

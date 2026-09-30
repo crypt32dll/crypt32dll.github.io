@@ -112,7 +112,9 @@ Hosting uses the classic **branch deploy** model (unchanged from the previous Vu
 | Content | TypeScript modules + Zod (not a headless CMS) |
 | i18n | Locale segments; no middleware (required for `output: 'export'`) |
 | Images | `next/image` with `unoptimized: true` (no image optimizer server) |
-| 3D | Deferred client import after idle; skipped when `prefers-reduced-motion` |
+| 3D | Deferred client import; ExperienceRuntime facade; scene stays mounted when motion is reduced |
+| Theme | Void (dark) vs day (stone light); prefs → runtime tokens |
+| Nav | One-pager section registry (`inHeader` / `inProgress`) |
 
 > [!TIP]
 > The earlier Payload / Neon / Vercel blueprint is intentionally not used here: GitHub Pages cannot host a Node CMS. Static typed content matches a “static first” strategy while keeping the door open to a CMS later if hosting changes.

@@ -1,6 +1,15 @@
 'use client'
 
-import { Desktop, Moon, Sun, WaveformSlash, WaveSine } from '@phosphor-icons/react'
+import {
+  Desktop,
+  Gauge,
+  Moon,
+  SpeakerHigh,
+  SpeakerSlash,
+  Sun,
+  WaveformSlash,
+  WaveSine,
+} from '@phosphor-icons/react'
 import { useTranslations } from 'next-intl'
 import { usePreferences } from '@/components/layout/PreferencesProvider'
 import { cn } from '@/lib/utils'
@@ -10,7 +19,16 @@ const controlClass =
 
 export function PreferenceControls() {
   const t = useTranslations('Preferences')
-  const { themePreference, cycleTheme, reducedMotion, toggleReducedMotion } = usePreferences()
+  const {
+    themePreference,
+    cycleTheme,
+    reducedMotion,
+    toggleReducedMotion,
+    audioMuted,
+    toggleAudioMuted,
+    qualityPreference,
+    cycleQuality,
+  } = usePreferences()
 
   const themeLabel =
     themePreference === 'light'
@@ -20,6 +38,15 @@ export function PreferenceControls() {
         : t('themeSystem')
 
   const ThemeIcon = themePreference === 'light' ? Sun : themePreference === 'dark' ? Moon : Desktop
+
+  const qualityLabel =
+    qualityPreference === 'cinematic'
+      ? t('qualityCinematic')
+      : qualityPreference === 'balanced'
+        ? t('qualityBalanced')
+        : qualityPreference === 'lite'
+          ? t('qualityLite')
+          : t('qualityAuto')
 
   return (
     <div className="flex items-center gap-2">
@@ -46,6 +73,31 @@ export function PreferenceControls() {
         ) : (
           <WaveSine className="size-4" weight="bold" aria-hidden />
         )}
+      </button>
+
+      <button
+        type="button"
+        className={cn(controlClass, !audioMuted && 'border-accent text-accent')}
+        aria-label={audioMuted ? t('audioOn') : t('audioOff')}
+        aria-pressed={!audioMuted}
+        title={audioMuted ? t('audioOn') : t('audioOff')}
+        onClick={toggleAudioMuted}
+      >
+        {audioMuted ? (
+          <SpeakerSlash className="size-4" weight="bold" aria-hidden />
+        ) : (
+          <SpeakerHigh className="size-4" weight="bold" aria-hidden />
+        )}
+      </button>
+
+      <button
+        type="button"
+        className={cn(controlClass, qualityPreference !== 'auto' && 'border-accent text-accent')}
+        aria-label={`${t('quality')}: ${qualityLabel}`}
+        title={qualityLabel}
+        onClick={cycleQuality}
+      >
+        <Gauge className="size-4" weight="bold" aria-hidden />
       </button>
     </div>
   )

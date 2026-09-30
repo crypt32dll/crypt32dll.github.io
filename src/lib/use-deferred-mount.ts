@@ -17,19 +17,20 @@ type Options = {
 
 /**
  * Mount heavy client work after paint — by idle, first input, or visibility.
- * Skips entirely when the user prefers reduced motion.
+ * When reduced motion: still allow mount if `allowWhenReduced` (static scene).
  */
 export function useDeferredMount({
   mode = 'idle',
   delayMs = 500,
   idleTimeoutMs = 2000,
   root = null,
-}: Options = {}): boolean {
+  allowWhenReduced = false,
+}: Options & { allowWhenReduced?: boolean } = {}): boolean {
   const reduced = useReducedMotion()
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
-    if (reduced || ready) return
+    if ((reduced && !allowWhenReduced) || ready) return
 
     let cancelled = false
     let idleId: number | undefined
@@ -93,7 +94,7 @@ export function useDeferredMount({
         window.cancelIdleCallback(idleId)
       }
     }
-  }, [reduced, ready, mode, delayMs, idleTimeoutMs, root])
+  }, [reduced, ready, mode, delayMs, idleTimeoutMs, root, allowWhenReduced])
 
   return ready
 }
