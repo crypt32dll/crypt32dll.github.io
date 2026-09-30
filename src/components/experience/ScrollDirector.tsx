@@ -20,7 +20,6 @@ import {
   planChapterPins,
   readDocumentProgress,
   splitHeadlineWords,
-  workRailTravel,
 } from '@/lib/scroll/adapters'
 import { useReducedMotion } from '@/lib/use-reduced-motion'
 
@@ -178,23 +177,6 @@ export function ScrollDirector({ root, enabled }: Props) {
           },
           onUpdate: (self) => {
             setActiveChapter(def.id, self.progress)
-          },
-        })
-      }
-
-      const workPin = el.querySelector<HTMLElement>('[data-work-pin]')
-      const workRail = el.querySelector<HTMLElement>('[data-work-rail]')
-      if (workPin && workRail) {
-        const getScroll = () => workRailTravel(workRail.scrollWidth, window.innerWidth)
-        ScrollTrigger.create({
-          trigger: workPin,
-          start: 'center center',
-          end: () => `+=${getScroll()}`,
-          pin: true,
-          scrub: 0.75,
-          anticipatePin: 1,
-          onUpdate: (self) => {
-            gsap.set(workRail, { x: -getScroll() * self.progress })
           },
         })
       }

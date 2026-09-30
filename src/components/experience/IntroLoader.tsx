@@ -16,8 +16,13 @@ type Props = {
   onComplete: () => void
 }
 
+/** Hold the brand gate until WebGL reports ready, without hanging forever. */
+const MIN_HOLD_S = 0.45
+const MAX_HOLD_S = 2.8
+
 /**
  * Brand gate — centered monogram, CSS exit, no GSAP on the critical path.
+ * Dismisses once the backdrop marks ready (or after MAX_HOLD_S).
  */
 export function IntroLoader({ locale, onComplete }: Props) {
   const root = useRef<HTMLDivElement>(null)
@@ -58,12 +63,14 @@ export function IntroLoader({ locale, onComplete }: Props) {
       if (exiting.current) return
 
       const elapsed = (performance.now() - started.current) / 1000
-      const soft = Math.min(1, elapsed / 0.55)
+      // Soft floor so the meter advances even before the scene reports progress.
+      const soft = Math.min(0.92, elapsed / MAX_HOLD_S)
       const next = Math.max(experienceState.loadProgress, soft)
       setLoadProgress(next)
-      setPercent(Math.round(next * 100))
+      setPercent(Math.min(99, Math.round(next * 100)))
 
-      if (elapsed > 0.7 || (experienceState.ready && next > 0.992 && elapsed > 0.35)) {
+      const ready = experienceState.ready
+      if ((ready && elapsed >= MIN_HOLD_S) || elapsed >= MAX_HOLD_S) {
         finish()
         return
       }

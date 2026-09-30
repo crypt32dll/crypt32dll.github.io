@@ -15,7 +15,6 @@ export const projectSchema = z.object({
   role: localizedStringSchema,
   stack: z.array(z.string()).min(1),
   featured: z.boolean(),
-  coverUrl: z.string().min(1),
   links: z.array(
     z.object({
       label: localizedStringSchema,

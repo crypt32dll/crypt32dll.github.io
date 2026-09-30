@@ -57,7 +57,6 @@ export const CHAPTER_SCRIPT: readonly ChapterDef[] = [
     end: 0.58,
     morph: 'constellations',
     camera: { position: [-1.1, 0.35, 4.2], lookAt: [0.2, 0.15, 0], fov: 36 },
-    // Horizontal rail owns the pin for this chapter
     bloom: 0.14,
     dof: 0,
     chromatic: 0.08,

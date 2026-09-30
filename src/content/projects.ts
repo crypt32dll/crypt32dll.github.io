@@ -7,7 +7,6 @@ export type Project = {
   role: LocalizedString
   stack: string[]
   featured: boolean
-  coverUrl: string
   links: { label: LocalizedString; url: string }[]
   body: LocalizedString
   highlights: LocalizedString[]
@@ -32,7 +31,6 @@ export const projects: Project[] = [
     },
     stack: ['Next.js', 'TypeScript', 'Payload CMS', 'Sanity', 'Shopify', 'Auth0', 'Vercel'],
     featured: true,
-    coverUrl: '/images/work/composable-commerce.webp',
     sceneId: 'commerce-pipeline',
     links: [],
     body: {
@@ -70,7 +68,6 @@ export const projects: Project[] = [
     },
     stack: ['Payload CMS', 'Sanity', 'Next.js', 'TypeScript', 'Zod'],
     featured: true,
-    coverUrl: '/images/work/structured-content.webp',
     sceneId: 'content-lake',
     links: [],
     body: {
@@ -108,7 +105,6 @@ export const projects: Project[] = [
     },
     stack: ['React', 'Vue.js', 'TypeScript', 'Storybook', 'CI/CD'],
     featured: true,
-    coverUrl: '/images/work/frontend-platform.webp',
     sceneId: 'platform-graph',
     links: [],
     body: {
@@ -146,7 +142,6 @@ export const projects: Project[] = [
     },
     stack: ['Next.js', 'RSC', 'SEO', 'GEO', 'JSON-LD', 'Core Web Vitals'],
     featured: false,
-    coverUrl: '/images/work/performance-architecture.webp',
     sceneId: 'performance-pulse',
     links: [],
     body: {

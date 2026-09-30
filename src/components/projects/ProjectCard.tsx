@@ -1,7 +1,7 @@
 'use client'
 
-import Image from 'next/image'
 import { ViewTransition } from 'react'
+import { ProjectCover } from '@/components/projects/ProjectCover'
 import type { Project } from '@/content/projects'
 import { type Locale, t } from '@/content/types'
 import { Link } from '@/i18n/navigation'
@@ -27,11 +27,6 @@ const titleSize: Record<Density, string> = {
   index: 'text-2xl',
 }
 
-const imageSizes: Record<Density, string> = {
-  teaser: '(max-width: 768px) 78vw, 384px',
-  index: '(max-width: 768px) 100vw, 640px',
-}
-
 export function ProjectCard({
   project,
   locale,
@@ -46,36 +41,38 @@ export function ProjectCard({
 
   return (
     <li
-      className={cn(className)}
+      className={cn(isTeaser && 'flex', className)}
       data-project-card={project.slug}
       {...(reveal ? { 'data-reveal': '' } : {})}
     >
       <Link
         href={`/work/${project.slug}`}
         transitionTypes={['nav-forward', 'project-open']}
-        className={cn('group block', isTeaser && 'work-rail-card glass-panel overflow-hidden p-3')}
+        className={cn(
+          'group block',
+          isTeaser &&
+            'work-carousel-card glass-panel flex h-full w-full flex-col overflow-hidden p-3',
+        )}
         data-cursor="view"
         data-cursor-label={locale === 'de' ? 'Mehr' : 'View'}
+        draggable={false}
       >
         <ViewTransition name={sharedName} share="project-morph" default="none">
           <div
             data-project-thumb
             className={cn(
-              'relative overflow-hidden bg-line/30',
+              'relative shrink-0 overflow-hidden bg-line/30',
               aspect[density],
               isTeaser && 'rounded-[0.2rem]',
             )}
           >
-            <Image
-              src={project.coverUrl}
-              alt=""
-              fill
-              className="motion-safe-transform object-cover transition-transform duration-700 group-hover:scale-[1.06]"
-              sizes={imageSizes[density]}
+            <ProjectCover
+              slug={project.slug}
+              className="motion-safe-transform transition-transform duration-700 group-hover:scale-[1.03]"
             />
           </div>
         </ViewTransition>
-        <div className={cn(isTeaser ? 'px-1 pb-1 pt-3.5' : '')}>
+        <div className={cn(isTeaser ? 'flex flex-1 flex-col px-1 pb-1 pt-3.5' : '')}>
           <p
             className={cn(
               'font-display text-xs font-semibold uppercase tracking-[0.16em]',
@@ -95,7 +92,7 @@ export function ProjectCard({
           <p
             className={cn(
               'mt-2 leading-relaxed',
-              isTeaser ? 'text-sm text-ink/88' : 'text-ink-muted',
+              isTeaser ? 'flex-1 text-sm text-ink/88' : 'text-ink-muted',
             )}
           >
             {t(project.summary, locale)}
