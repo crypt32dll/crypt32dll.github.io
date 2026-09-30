@@ -4,6 +4,7 @@ import { List, X } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { LocaleSwitcher } from '@/components/layout/LocaleSwitcher'
 import { PreferenceControls } from '@/components/layout/PreferenceControls'
+import { SiteLogo } from '@/components/layout/SiteLogo'
 import { Button } from '@/components/ui/Button'
 import { site } from '@/content/site'
 import { type Locale, t } from '@/content/types'
@@ -51,10 +52,11 @@ export function SiteHeader({ locale }: Props) {
       <div className="container-site flex h-16 items-center justify-between gap-4">
         <Link
           href="/"
-          className="font-display text-sm font-semibold tracking-tight text-ink transition-colors hover:text-accent"
+          className="inline-flex size-10 items-center justify-center rounded-[var(--radius)] transition-opacity hover:opacity-80"
+          aria-label={site.name}
           onClick={() => setOpen(false)}
         >
-          {site.shortName}
+          <SiteLogo size={36} className="size-8" priority />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">

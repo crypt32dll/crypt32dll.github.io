@@ -24,7 +24,10 @@ export const metadata: Metadata = {
   },
   description:
     'Senior Frontend Developer & Frontend Architect. Composable architectures, structured content, Next.js, Payload CMS.',
-  icons: { icon: '/favicon.png' },
+  icons: {
+    icon: [{ url: '/favicon.png', type: 'image/png', sizes: '64x64' }],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
 }
 
 type Props = {
