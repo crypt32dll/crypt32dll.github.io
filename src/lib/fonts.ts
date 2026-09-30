@@ -1,15 +1,35 @@
-import { Archivo, Space_Grotesk } from 'next/font/google'
+import localFont from 'next/font/local'
 
-export const archivo = Archivo({
-  subsets: ['latin'],
-  weight: ['500', '600'],
+export const archivo = localFont({
+  src: [
+    {
+      path: '../fonts/archivo-latin-500-normal.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/archivo-latin-600-normal.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+  ],
   variable: '--font-archivo',
   display: 'swap',
 })
 
-export const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  weight: ['400', '500'],
+export const spaceGrotesk = localFont({
+  src: [
+    {
+      path: '../fonts/space-grotesk-latin-400-normal.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/space-grotesk-latin-500-normal.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+  ],
   variable: '--font-space-grotesk',
   display: 'swap',
 })
