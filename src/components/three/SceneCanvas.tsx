@@ -1,6 +1,6 @@
 'use client'
 
-import { Canvas, type Props as CanvasProps } from '@react-three/fiber'
+import { Canvas, type CanvasProps, type RootState } from '@react-three/fiber'
 import type { CSSProperties, ReactNode } from 'react'
 import { useViewportPlay } from '@/components/experience/ViewportActivity'
 import { useReducedMotion } from '@/lib/use-reduced-motion'
@@ -12,7 +12,7 @@ export type PortfolioCanvasProps = {
   /** Extra lights beyond shared ambient/key/fill — Experience adds orbit lights itself */
   lights?: 'portrait' | 'none'
   style?: CSSProperties
-  onCreated?: CanvasProps['onCreated']
+  onCreated?: (state: RootState) => void
   /** Pixel ratio floor/ceiling — fixed (no AdaptiveDpr) to avoid scroll flicker */
   dpr?: number | [number, number]
   antialias?: boolean
