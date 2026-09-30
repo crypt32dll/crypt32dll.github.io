@@ -44,9 +44,7 @@ export function PreferenceControls() {
       ? t('qualityCinematic')
       : qualityPreference === 'balanced'
         ? t('qualityBalanced')
-        : qualityPreference === 'lite'
-          ? t('qualityLite')
-          : t('qualityAuto')
+        : t('qualityAuto')
 
   return (
     <div className="flex items-center gap-2">

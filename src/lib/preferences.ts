@@ -1,6 +1,6 @@
 export type ThemePreference = 'light' | 'dark' | 'system'
 export type MotionPreference = 'system' | 'reduce' | 'full'
-export type QualityPreference = 'auto' | 'cinematic' | 'balanced' | 'lite'
+export type QualityPreference = 'auto' | 'cinematic' | 'balanced'
 
 export const THEME_STORAGE_KEY = 'pref-theme'
 export const MOTION_STORAGE_KEY = 'pref-motion'
@@ -8,7 +8,7 @@ export const AUDIO_STORAGE_KEY = 'pref-audio-muted'
 export const QUALITY_STORAGE_KEY = 'pref-quality'
 
 export const THEME_ORDER: ThemePreference[] = ['system', 'light', 'dark']
-export const QUALITY_ORDER: QualityPreference[] = ['auto', 'cinematic', 'balanced', 'lite']
+export const QUALITY_ORDER: QualityPreference[] = ['auto', 'cinematic', 'balanced']
 
 export function isThemePreference(value: string | null): value is ThemePreference {
   return value === 'light' || value === 'dark' || value === 'system'
@@ -19,7 +19,7 @@ export function isMotionPreference(value: string | null): value is MotionPrefere
 }
 
 export function isQualityPreference(value: string | null): value is QualityPreference {
-  return value === 'auto' || value === 'cinematic' || value === 'balanced' || value === 'lite'
+  return value === 'auto' || value === 'cinematic' || value === 'balanced'
 }
 
 export function resolveTheme(preference: ThemePreference, systemDark: boolean): 'light' | 'dark' {
@@ -76,4 +76,4 @@ export function applyDocumentPreferences(
   }
 }
 
-export const preferencesBootstrapScript = `(function(){try{var t=localStorage.getItem('${THEME_STORAGE_KEY}')||'dark';var root=document.documentElement;var dark=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(t==='light')dark=false;if(t!=='light'&&t!=='dark'&&t!=='system')dark=true;root.classList.toggle('dark',dark);root.dataset.theme=dark?'void':'day';root.style.colorScheme=dark?'dark':'light';var m=localStorage.getItem('${MOTION_STORAGE_KEY}')||'system';var sysReduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(m==='full')root.dataset.reduceMotion='false';else if(m==='reduce'||(m==='system'&&sysReduce))root.dataset.reduceMotion='true';else delete root.dataset.reduceMotion;var q=localStorage.getItem('${QUALITY_STORAGE_KEY}')||'auto';root.dataset.quality=q;}catch(e){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}})();`
+export const preferencesBootstrapScript = `(function(){try{var t=localStorage.getItem('${THEME_STORAGE_KEY}')||'dark';var root=document.documentElement;var dark=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(t==='light')dark=false;if(t!=='light'&&t!=='dark'&&t!=='system')dark=true;root.classList.toggle('dark',dark);root.dataset.theme=dark?'void':'day';root.style.colorScheme=dark?'dark':'light';var m=localStorage.getItem('${MOTION_STORAGE_KEY}')||'system';var sysReduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(m==='full')root.dataset.reduceMotion='false';else if(m==='reduce'||(m==='system'&&sysReduce))root.dataset.reduceMotion='true';else delete root.dataset.reduceMotion;var q=localStorage.getItem('${QUALITY_STORAGE_KEY}')||'auto';if(q==='lite')q='auto';root.dataset.quality=q;}catch(e){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}})();`

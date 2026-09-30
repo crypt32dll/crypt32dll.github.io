@@ -25,7 +25,6 @@
     "quality": "Render quality",
     "qualityAuto": "Quality auto",
     "qualityCinematic": "Quality cinematic",
-    "qualityBalanced": "Quality balanced",
-    "qualityLite": "Quality lite"
+    "qualityBalanced": "Quality balanced"
   }
 }

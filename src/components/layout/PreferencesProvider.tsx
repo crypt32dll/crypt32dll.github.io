@@ -70,6 +70,10 @@ function readStoredAudioMuted(): boolean {
 function readStoredQuality(): QualityPreference {
   if (typeof window === 'undefined') return 'auto'
   const stored = localStorage.getItem(QUALITY_STORAGE_KEY)
+  if (stored === 'lite') {
+    localStorage.setItem(QUALITY_STORAGE_KEY, 'auto')
+    return 'auto'
+  }
   return isQualityPreference(stored) ? stored : 'auto'
 }
 

@@ -266,10 +266,11 @@ export function ExperienceScene({ className }: ExperienceSceneProps) {
 
   const onTierDecline = () => {
     setTier((current) => {
-      const next: QualityTier =
-        current === 'cinematic' ? 'balanced' : current === 'balanced' ? 'lite' : 'lite'
-      if (next !== current) setQualityTier(next)
-      return next
+      if (current === 'cinematic') {
+        setQualityTier('balanced')
+        return 'balanced'
+      }
+      return current
     })
   }
 
