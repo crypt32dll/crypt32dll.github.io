@@ -751,8 +751,21 @@ html.page-transition-active footer {
   ::view-transition-old(*),
   ::view-transition-new(*),
   ::view-transition-group(*) {
+    animation: none !important;
     animation-duration: 0s !important;
     animation-delay: 0s !important;
+  }
+}
+
+/* Touch / coarse pointers: never hide the system cursor or paint a custom one */
+@media (hover: none), (pointer: coarse) {
+  .has-custom-cursor,
+  .has-custom-cursor * {
+    cursor: auto !important;
+  }
+
+  .custom-cursor {
+    display: none !important;
   }
 }
 

@@ -1,14 +1,30 @@
 'use client'
 
 import gsap from 'gsap'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useReducedMotion } from '@/lib/use-reduced-motion'
 import { cn } from '@/lib/utils'
 
 type CursorMode = 'default' | 'magnetic' | 'view' | 'drag'
 
+function useFinePointer(): boolean {
+  const [fine, setFine] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(pointer: fine)')
+    const sync = () => setFine(mq.matches)
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
+
+  return fine
+}
+
 export function CustomCursor() {
   const reduced = useReducedMotion()
+  const fine = useFinePointer()
+  const enabled = fine && !reduced
   const dot = useRef<HTMLDivElement>(null)
   const ring = useRef<HTMLDivElement>(null)
   const label = useRef<HTMLSpanElement>(null)
@@ -17,9 +33,7 @@ export function CustomCursor() {
   const mode = useRef<CursorMode>('default')
 
   useEffect(() => {
-    if (reduced) return
-    const fine = window.matchMedia('(pointer: fine)').matches
-    if (!fine) return
+    if (!enabled) return
 
     document.documentElement.classList.add('has-custom-cursor')
 
@@ -81,9 +95,9 @@ export function CustomCursor() {
       document.removeEventListener('pointerover', onOver)
       document.documentElement.classList.remove('has-custom-cursor')
     }
-  }, [reduced])
+  }, [enabled])
 
-  if (reduced) return null
+  if (!enabled) return null
 
   return (
     <div className="custom-cursor" aria-hidden>
@@ -104,12 +118,11 @@ type MagneticProps = {
 export function Magnetic({ children, className, strength = 0.35 }: MagneticProps) {
   const root = useRef<HTMLDivElement>(null)
   const reduced = useReducedMotion()
+  const fine = useFinePointer()
 
   useEffect(() => {
     const el = root.current
-    if (!el || reduced) return
-    const fine = window.matchMedia('(pointer: fine)').matches
-    if (!fine) return
+    if (!el || reduced || !fine) return
 
     const onMove = (e: PointerEvent) => {
       const rect = el.getBoundingClientRect()
@@ -132,7 +145,7 @@ export function Magnetic({ children, className, strength = 0.35 }: MagneticProps
       el.removeEventListener('pointermove', onMove)
       el.removeEventListener('pointerleave', onLeave)
     }
-  }, [reduced, strength])
+  }, [reduced, fine, strength])
 
   return (
     <div

@@ -280,7 +280,7 @@ export function ExperienceScene({ className }: ExperienceSceneProps) {
       dpr={budget.dpr}
       antialias={budget.antialias}
       alpha={false}
-      preserveDrawingBuffer
+      preserveDrawingBuffer={tier !== 'lite'}
       frameloop={pausedRender ? 'never' : 'always'}
       camera={{ position: [0.15, 0.55, 5.6], fov: 40, near: 0.1, far: 50 }}
       onCreated={({ gl }) => {

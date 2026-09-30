@@ -96,26 +96,42 @@ export function ScrollDirector({ root, enabled }: Props) {
         }
       }
 
-      const lenis = new Lenis({
-        smoothWheel: true,
-        touchMultiplier: 1.25,
-        lerp: 0.1,
-      })
+      const coarse = window.matchMedia('(pointer: coarse)').matches
+      const narrow = window.matchMedia('(max-width: 768px)').matches
 
-      lenis.on('scroll', () => {
-        ScrollTrigger.update()
-        const v = (lenis as unknown as { velocity: number }).velocity ?? 0
-        setScrollVelocity(clampScrollVelocity(v))
-      })
+      let lenis: Lenis | null = null
+      let ticker: ((time: number) => void) | null = null
+      let removeNativeScroll: (() => void) | null = null
 
-      const ticker = (time: number) => {
-        lenis.raf(time * 1000)
+      if (!coarse) {
+        lenis = new Lenis({
+          smoothWheel: true,
+          touchMultiplier: 1.25,
+          lerp: 0.1,
+        })
+
+        lenis.on('scroll', () => {
+          ScrollTrigger.update()
+          const v = (lenis as unknown as { velocity: number }).velocity ?? 0
+          setScrollVelocity(clampScrollVelocity(v))
+        })
+
+        ticker = (time: number) => {
+          lenis?.raf(time * 1000)
+        }
+        gsap.ticker.add(ticker)
+        // Allow GSAP to skip catch-up when a frame hitches — feels smoother than lagSmoothing(0)
+        gsap.ticker.lagSmoothing(500, 33)
+        document.documentElement.classList.add('lenis', 'lenis-smooth')
+      } else {
+        // Native touch scrolling — Lenis fights rubber-band + browser chrome resize
+        const onScroll = () => {
+          ScrollTrigger.update()
+          setScrollVelocity(0)
+        }
+        window.addEventListener('scroll', onScroll, { passive: true })
+        removeNativeScroll = () => window.removeEventListener('scroll', onScroll)
       }
-      gsap.ticker.add(ticker)
-      // Allow GSAP to skip catch-up when a frame hitches — feels smoother than lagSmoothing(0)
-      gsap.ticker.lagSmoothing(500, 33)
-
-      document.documentElement.classList.add('lenis', 'lenis-smooth')
 
       ScrollTrigger.create({
         trigger: el,
@@ -127,18 +143,21 @@ export function ScrollDirector({ root, enabled }: Props) {
         },
       })
 
-      const pinPlan = planChapterPins(CHAPTER_SCRIPT)
-      for (const plan of pinPlan) {
-        const chapter = el.querySelector<HTMLElement>(`[data-chapter="${plan.id}"]`)
-        if (!chapter) continue
-        ScrollTrigger.create({
-          trigger: chapter,
-          start: 'top top',
-          end: plan.end,
-          pin: true,
-          scrub: 0.65,
-          anticipatePin: 1,
-        })
+      // Vertical chapter pins are costly on mobile (address-bar resize / overscroll)
+      if (!narrow) {
+        const pinPlan = planChapterPins(CHAPTER_SCRIPT)
+        for (const plan of pinPlan) {
+          const chapter = el.querySelector<HTMLElement>(`[data-chapter="${plan.id}"]`)
+          if (!chapter) continue
+          ScrollTrigger.create({
+            trigger: chapter,
+            start: 'top top',
+            end: plan.end,
+            pin: true,
+            scrub: 0.65,
+            anticipatePin: 1,
+          })
+        }
       }
 
       for (const def of CHAPTER_SCRIPT) {
@@ -254,9 +273,10 @@ export function ScrollDirector({ root, enabled }: Props) {
       requestAnimationFrame(() => ScrollTrigger.refresh())
 
       return () => {
-        gsap.ticker.remove(ticker)
+        if (ticker) gsap.ticker.remove(ticker)
         document.documentElement.classList.remove('lenis', 'lenis-smooth')
-        lenis.destroy()
+        lenis?.destroy()
+        removeNativeScroll?.()
         ScrollTrigger.getAll().forEach((trigger) => {
           trigger.kill()
         })
