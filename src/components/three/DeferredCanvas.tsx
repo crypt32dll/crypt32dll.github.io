@@ -10,7 +10,10 @@ type DeferredCanvasProps<P extends object = Record<string, never>> = {
   fallback?: ReactNode
   mode?: 'idle' | 'interaction' | 'visible'
   delayMs?: number
+  idleTimeoutMs?: number
   root?: Element | null
+  /** Keep static WebGL when reduced motion is on (default false). */
+  allowWhenReduced?: boolean
   props?: P
 }
 
@@ -27,10 +30,12 @@ export function DeferredCanvas<P extends object = Record<string, never>>({
   fallback = null,
   mode = 'idle',
   delayMs = 500,
+  idleTimeoutMs = 2000,
   root = null,
+  allowWhenReduced = false,
   props,
 }: DeferredCanvasProps<P>) {
-  const shouldMount = useDeferredMount({ mode, delayMs, root })
+  const shouldMount = useDeferredMount({ mode, delayMs, idleTimeoutMs, root, allowWhenReduced })
   const [Scene, setScene] = useState<ComponentType<P> | null>(null)
 
   useEffect(() => {

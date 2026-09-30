@@ -13,34 +13,45 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = await resolveLocale(params)
-  const work = content.getWorkPage()
   return pageMetadata({
     locale,
     path: 'work',
-    title: t(work.metaTitle, locale),
-    description: t(work.intro, locale),
+    title: locale === 'de' ? 'Arbeit' : 'Work',
+    description:
+      locale === 'de'
+        ? 'Ausgewählte Projekte — composable Systeme, Structured Content, Frontend Platforms.'
+        : 'Selected work — composable systems, structured content, frontend platforms.',
   })
 }
 
-export default async function WorkPage({ params }: Props) {
+export default async function WorkIndexPage({ params }: Props) {
   const locale = await resolveLocale(params)
-  const work = content.getWorkPage()
   const projects = content.listProjects()
+  const copy = content.getWorkPage()
 
   return (
-    <div className="container-site pb-24 pt-28">
-      <header className="max-w-2xl">
-        <h1 className="font-display text-4xl font-semibold text-ink md:text-5xl">
-          {t(work.title, locale)}
-        </h1>
-        <p className="mt-4 text-lg text-ink-muted">{t(work.intro, locale)}</p>
-      </header>
-
-      <ul className="mt-16 grid gap-14 md:grid-cols-2">
-        {projects.map((project) => (
-          <ProjectCard key={project.slug} project={project} locale={locale} density="index" />
-        ))}
-      </ul>
+    <div className="pb-24 pt-28">
+      <div className="container-site">
+        <header className="max-w-2xl">
+          <p className="font-display text-xs font-semibold uppercase tracking-[0.24em] text-accent">
+            {t(copy.title, locale)}
+          </p>
+          <h1 className="mt-4 font-display text-[clamp(2.4rem,6vw,4rem)] font-semibold text-ink">
+            {t(copy.intro, locale)}
+          </h1>
+        </header>
+        <ul className="mt-14 grid gap-8 md:grid-cols-2">
+          {projects.map((project) => (
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              locale={locale}
+              density="index"
+              className="border border-line/70 bg-paper-elevated/40 p-4"
+            />
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }

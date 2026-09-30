@@ -24,6 +24,9 @@ export const projectSchema = z.object({
   ),
   body: localizedStringSchema,
   highlights: z.array(localizedStringSchema),
+  sceneId: z
+    .enum(['commerce-pipeline', 'content-lake', 'platform-graph', 'performance-pulse'])
+    .optional(),
 })
 
 export type ProjectDto = z.infer<typeof projectSchema>

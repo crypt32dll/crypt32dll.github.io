@@ -2,6 +2,10 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
+import { AudioBus } from '@/components/experience/AudioBus'
+import { CustomCursor } from '@/components/experience/CustomCursor'
+import { PageTransition } from '@/components/experience/PageTransition'
+import { LocalePreferenceSync } from '@/components/layout/LocalePreferenceSync'
 import { PreferencesProvider } from '@/components/layout/PreferencesProvider'
 import { ServiceWorkerRegister } from '@/components/layout/ServiceWorkerRegister'
 import { SiteFooter } from '@/components/layout/SiteFooter'
@@ -59,8 +63,12 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body>
         <NextIntlClientProvider messages={messages}>
           <PreferencesProvider>
+            <LocalePreferenceSync locale={locale} />
             <PersonJsonLd />
-            <div className="flex min-h-dvh flex-col">
+            <PageTransition />
+            <CustomCursor />
+            <AudioBus />
+            <div className="flex min-h-dvh flex-col" data-app-shell>
               <a
                 href="#main"
                 className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-on"

@@ -1,4 +1,7 @@
+'use client'
+
 import Image from 'next/image'
+import { ViewTransition } from 'react'
 import type { Project } from '@/content/projects'
 import { type Locale, t } from '@/content/types'
 import { Link } from '@/i18n/navigation'
@@ -10,6 +13,8 @@ type ProjectCardProps = {
   project: Project
   locale: Locale
   density?: Density
+  className?: string
+  reveal?: boolean
 }
 
 const aspect: Record<Density, string> = {
@@ -27,36 +32,75 @@ const imageSizes: Record<Density, string> = {
   index: '(max-width: 768px) 100vw, 50vw',
 }
 
-export function ProjectCard({ project, locale, density = 'teaser' }: ProjectCardProps) {
+export function ProjectCard({
+  project,
+  locale,
+  density = 'teaser',
+  className,
+  reveal = false,
+}: ProjectCardProps) {
   const meta =
     density === 'teaser' ? t(project.role, locale) : project.stack.slice(0, 3).join(' · ')
+  const isTeaser = density === 'teaser'
+  const sharedName = `project-${project.slug}`
 
   return (
-    <li>
-      <Link href={`/work/${project.slug}`} className="group block">
-        <div className={cn('relative overflow-hidden bg-line/30', aspect[density])}>
-          <Image
-            src={project.coverUrl}
-            alt=""
-            fill
-            className="motion-safe-transform object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            sizes={imageSizes[density]}
-          />
+    <li
+      className={cn(className)}
+      data-project-card={project.slug}
+      {...(reveal ? { 'data-reveal': '' } : {})}
+    >
+      <Link
+        href={`/work/${project.slug}`}
+        transitionTypes={['nav-forward', 'project-open']}
+        className={cn('group block', isTeaser && 'work-rail-card glass-panel overflow-hidden p-3')}
+        data-cursor="view"
+        data-cursor-label={locale === 'de' ? 'Mehr' : 'View'}
+      >
+        <ViewTransition name={sharedName} share="project-morph" default="none">
+          <div
+            data-project-thumb
+            className={cn(
+              'relative overflow-hidden bg-line/30',
+              aspect[density],
+              isTeaser && 'rounded-[0.2rem]',
+            )}
+          >
+            <Image
+              src={project.coverUrl}
+              alt=""
+              fill
+              className="motion-safe-transform object-cover transition-transform duration-700 group-hover:scale-[1.06]"
+              sizes={imageSizes[density]}
+            />
+          </div>
+        </ViewTransition>
+        <div className={cn(isTeaser ? 'px-1 pb-1 pt-3.5' : '')}>
+          <p
+            className={cn(
+              'font-display text-xs font-semibold uppercase tracking-[0.16em]',
+              isTeaser ? 'text-ink-muted' : 'mt-4 text-ink-faint',
+            )}
+          >
+            {meta}
+          </p>
+          <h3
+            className={cn(
+              'mt-2 font-display font-semibold text-ink transition-colors group-hover:text-accent',
+              titleSize[density],
+            )}
+          >
+            {t(project.title, locale)}
+          </h3>
+          <p
+            className={cn(
+              'mt-2 leading-relaxed',
+              isTeaser ? 'text-sm text-ink/88' : 'text-ink-muted',
+            )}
+          >
+            {t(project.summary, locale)}
+          </p>
         </div>
-        <p className="mt-4 font-display text-xs font-semibold uppercase tracking-[0.16em] text-ink-faint">
-          {meta}
-        </p>
-        <h3
-          className={cn(
-            'mt-2 font-display font-semibold text-ink transition-colors group-hover:text-accent',
-            titleSize[density],
-          )}
-        >
-          {t(project.title, locale)}
-        </h3>
-        <p className={cn('mt-2 text-ink-muted', density === 'teaser' ? 'text-sm' : '')}>
-          {t(project.summary, locale)}
-        </p>
       </Link>
     </li>
   )

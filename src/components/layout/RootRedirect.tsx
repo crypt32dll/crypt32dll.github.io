@@ -2,15 +2,14 @@
 
 import Link from 'next/link'
 import { useEffect } from 'react'
+import { resolvePreferredLocale, writeStoredLocale } from '@/lib/locale-preference'
 
 /** Client redirect for GitHub Pages static root (no middleware). */
 export function RootRedirect() {
   useEffect(() => {
-    const preferred =
-      typeof navigator !== 'undefined' && navigator.language.toLowerCase().startsWith('en')
-        ? '/en/'
-        : '/de/'
-    window.location.replace(preferred)
+    const locale = resolvePreferredLocale()
+    writeStoredLocale(locale)
+    window.location.replace(`/${locale}/`)
   }, [])
 
   return (
@@ -21,12 +20,14 @@ export function RootRedirect() {
         <Link
           className="underline decoration-accent underline-offset-4 hover:text-accent"
           href="/de/"
+          onClick={() => writeStoredLocale('de')}
         >
           Deutsch
         </Link>
         <Link
           className="underline decoration-accent underline-offset-4 hover:text-accent"
           href="/en/"
+          onClick={() => writeStoredLocale('en')}
         >
           English
         </Link>
