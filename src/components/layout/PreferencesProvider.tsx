@@ -122,7 +122,7 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     const styles = getComputedStyle(document.documentElement)
     setThemeTokens({
       ink: styles.getPropertyValue('--color-ink').trim() || '#f2f0eb',
-      accent: styles.getPropertyValue('--color-accent').trim() || '#c9a27a',
+      accent: styles.getPropertyValue('--color-accent').trim() || '#d4b08a',
       paper: styles.getPropertyValue('--color-paper').trim() || '#08090c',
       dark: resolvedTheme === 'dark',
     })

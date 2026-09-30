@@ -72,7 +72,7 @@ function StudioLights({ animate }: { animate: boolean }) {
   const key = useRef<PointLight>(null)
   const rim = useRef<PointLight>(null)
   const fill = useRef<PointLight>(null)
-  const accent = useRef(new Color('#c9a27a'))
+  const accent = useRef(new Color('#d4b08a'))
   const t0 = useRef(0)
 
   useFrame(() => {

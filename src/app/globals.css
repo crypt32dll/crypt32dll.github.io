@@ -7,8 +7,9 @@
   --color-ink: #f2f0eb;
   --color-ink-muted: #a8a29a;
   --color-ink-faint: #8a847c;
-  --color-accent: #c9a27a;
-  --color-accent-soft: #dbb892;
+  /* Warm accent tuned for ≥4.5:1 on paper / elevated (small uppercase labels) */
+  --color-accent: #d4b08a;
+  --color-accent-soft: #e0bc96;
   --color-accent-on: #0c0b09;
   --color-line: #2a2d35;
   --color-line-strong: #3d424c;
@@ -26,8 +27,9 @@ html:not(.dark) {
   --color-ink: #0e0d0b;
   --color-ink-muted: #3a3630;
   --color-ink-faint: #564f46;
-  --color-accent: #8a6240;
-  --color-accent-soft: #a67d55;
+  /* Darker bronze — previous #8a6240 was ~4.3:1 on paper (AA fail for small text) */
+  --color-accent: #5c391c;
+  --color-accent-soft: #6b4423;
   --color-accent-on: #f7f5ef;
   --color-line: #c7c1b6;
   --color-line-strong: #9e9688;
@@ -39,8 +41,8 @@ html:not(.dark) {
   --color-ink: #f2f0eb;
   --color-ink-muted: #a8a29a;
   --color-ink-faint: #8a847c;
-  --color-accent: #c9a27a;
-  --color-accent-soft: #dbb892;
+  --color-accent: #d4b08a;
+  --color-accent-soft: #e0bc96;
   --color-accent-on: #0c0b09;
   --color-line: #2a2d35;
   --color-line-strong: #3d424c;

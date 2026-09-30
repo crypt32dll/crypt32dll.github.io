@@ -127,7 +127,7 @@ export const experienceState: ExperienceState = {
   pointerY: 0,
   reduced: false,
   ink: '#f2f0eb',
-  accent: '#c9a27a',
+  accent: '#d4b08a',
   paper: '#08090c',
   dark: true,
   loadProgress: 0,
