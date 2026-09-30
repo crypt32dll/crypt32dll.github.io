@@ -47,19 +47,8 @@ describe('resolveQualityTier', () => {
     expect(resolveQualityTier({ mobile: false, saveData: false, reduced: true })).toBe('lite')
   })
 
-  it('defaults auto to lite on mobile and balanced on desktop', () => {
+  it('defaults to lite on mobile and balanced on desktop', () => {
     expect(resolveQualityTier({ mobile: true, saveData: false, reduced: false })).toBe('lite')
     expect(resolveQualityTier({ mobile: false, saveData: false, reduced: false })).toBe('balanced')
-  })
-
-  it('honors explicit preference', () => {
-    expect(
-      resolveQualityTier({
-        mobile: true,
-        saveData: false,
-        reduced: false,
-        preference: 'cinematic',
-      }),
-    ).toBe('cinematic')
   })
 })

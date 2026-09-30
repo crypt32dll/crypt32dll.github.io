@@ -16,15 +16,11 @@ import {
   AUDIO_STORAGE_KEY,
   applyDocumentPreferences,
   isMotionPreference,
-  isQualityPreference,
   isThemePreference,
   MOTION_STORAGE_KEY,
   type MotionPreference,
   nextMotionPreference,
-  nextQuality,
   nextTheme,
-  QUALITY_STORAGE_KEY,
-  type QualityPreference,
   resolveReducedMotion,
   resolveTheme,
   THEME_STORAGE_KEY,
@@ -37,13 +33,11 @@ type PreferencesContextValue = {
   motionPreference: MotionPreference
   reducedMotion: boolean
   audioMuted: boolean
-  qualityPreference: QualityPreference
   setThemePreference: (value: ThemePreference) => void
   cycleTheme: () => void
   setMotionPreference: (value: MotionPreference) => void
   toggleReducedMotion: () => void
   toggleAudioMuted: () => void
-  cycleQuality: () => void
 }
 
 export const PreferencesContext = createContext<PreferencesContextValue | null>(null)
@@ -67,21 +61,10 @@ function readStoredAudioMuted(): boolean {
   return stored === 'true'
 }
 
-function readStoredQuality(): QualityPreference {
-  if (typeof window === 'undefined') return 'auto'
-  const stored = localStorage.getItem(QUALITY_STORAGE_KEY)
-  if (stored === 'lite') {
-    localStorage.setItem(QUALITY_STORAGE_KEY, 'auto')
-    return 'auto'
-  }
-  return isQualityPreference(stored) ? stored : 'auto'
-}
-
 export function PreferencesProvider({ children }: { children: ReactNode }) {
   const [themePreference, setThemePreferenceState] = useState<ThemePreference>('dark')
   const [motionPreference, setMotionPreferenceState] = useState<MotionPreference>('system')
   const [audioMuted, setAudioMutedState] = useState(true)
-  const [qualityPreference, setQualityPreferenceState] = useState<QualityPreference>('auto')
   const [systemDark, setSystemDark] = useState(false)
   const [systemReduce, setSystemReduce] = useState(false)
   const [ready, setReady] = useState(false)
@@ -95,7 +78,11 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     setThemePreferenceState(readStoredTheme())
     setMotionPreferenceState(readStoredMotion())
     setAudioMutedState(readStoredAudioMuted())
-    setQualityPreferenceState(readStoredQuality())
+    try {
+      localStorage.removeItem('pref-quality')
+    } catch {
+      // ignore
+    }
     syncFromSystem()
     setReady(true)
 
@@ -116,7 +103,7 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!ready) return
-    applyDocumentPreferences(resolvedTheme, motionPreference, systemReduce, qualityPreference)
+    applyDocumentPreferences(resolvedTheme, motionPreference, systemReduce)
     setReducedMotion(reducedMotion)
     setAudioMuted(audioMuted)
     const styles = getComputedStyle(document.documentElement)
@@ -126,15 +113,7 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
       paper: styles.getPropertyValue('--color-paper').trim() || '#08090c',
       dark: resolvedTheme === 'dark',
     })
-  }, [
-    ready,
-    resolvedTheme,
-    motionPreference,
-    systemReduce,
-    reducedMotion,
-    audioMuted,
-    qualityPreference,
-  ])
+  }, [ready, resolvedTheme, motionPreference, systemReduce, reducedMotion, audioMuted])
 
   const setThemePreference = useCallback((value: ThemePreference) => {
     setThemePreferenceState(value)
@@ -177,14 +156,6 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     })
   }, [])
 
-  const cycleQuality = useCallback(() => {
-    setQualityPreferenceState((current) => {
-      const next = nextQuality(current)
-      localStorage.setItem(QUALITY_STORAGE_KEY, next)
-      return next
-    })
-  }, [])
-
   const value = useMemo(
     () => ({
       themePreference,
@@ -192,13 +163,11 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
       motionPreference,
       reducedMotion,
       audioMuted,
-      qualityPreference,
       setThemePreference,
       cycleTheme,
       setMotionPreference,
       toggleReducedMotion,
       toggleAudioMuted,
-      cycleQuality,
     }),
     [
       themePreference,
@@ -206,13 +175,11 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
       motionPreference,
       reducedMotion,
       audioMuted,
-      qualityPreference,
       setThemePreference,
       cycleTheme,
       setMotionPreference,
       toggleReducedMotion,
       toggleAudioMuted,
-      cycleQuality,
     ],
   )
 

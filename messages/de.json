@@ -21,10 +21,6 @@
     "motionOn": "Bewegung reduziert — tippen für volle Animation",
     "motionOff": "Animation aktiv — tippen für reduzierte Bewegung",
     "audioOn": "Audio stumm — tippen für dezente Atmosphäre",
-    "audioOff": "Atmosphäre an — tippen zum Stummschalten",
-    "quality": "Render-Qualität",
-    "qualityAuto": "Qualität automatisch",
-    "qualityCinematic": "Qualität cinematic",
-    "qualityBalanced": "Qualität balanced"
+    "audioOff": "Atmosphäre an — tippen zum Stummschalten"
   }
 }

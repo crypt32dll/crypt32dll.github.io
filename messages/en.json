@@ -21,10 +21,6 @@
     "motionOn": "Motion reduced — tap for full animation",
     "motionOff": "Animation on — tap for reduced motion",
     "audioOn": "Audio muted — tap to enable soft ambience",
-    "audioOff": "Ambience on — tap to mute",
-    "quality": "Render quality",
-    "qualityAuto": "Quality auto",
-    "qualityCinematic": "Quality cinematic",
-    "qualityBalanced": "Quality balanced"
+    "audioOff": "Ambience on — tap to mute"
   }
 }

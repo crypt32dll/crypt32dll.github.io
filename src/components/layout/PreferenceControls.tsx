@@ -2,7 +2,6 @@
 
 import {
   Desktop,
-  Gauge,
   Moon,
   SpeakerHigh,
   SpeakerSlash,
@@ -26,8 +25,6 @@ export function PreferenceControls() {
     toggleReducedMotion,
     audioMuted,
     toggleAudioMuted,
-    qualityPreference,
-    cycleQuality,
   } = usePreferences()
 
   const themeLabel =
@@ -38,13 +35,6 @@ export function PreferenceControls() {
         : t('themeSystem')
 
   const ThemeIcon = themePreference === 'light' ? Sun : themePreference === 'dark' ? Moon : Desktop
-
-  const qualityLabel =
-    qualityPreference === 'cinematic'
-      ? t('qualityCinematic')
-      : qualityPreference === 'balanced'
-        ? t('qualityBalanced')
-        : t('qualityAuto')
 
   return (
     <div className="flex items-center gap-2">
@@ -86,16 +76,6 @@ export function PreferenceControls() {
         ) : (
           <SpeakerHigh className="size-4" weight="bold" aria-hidden />
         )}
-      </button>
-
-      <button
-        type="button"
-        className={cn(controlClass, qualityPreference !== 'auto' && 'border-accent text-accent')}
-        aria-label={`${t('quality')}: ${qualityLabel}`}
-        title={qualityLabel}
-        onClick={cycleQuality}
-      >
-        <Gauge className="size-4" weight="bold" aria-hidden />
       </button>
     </div>
   )

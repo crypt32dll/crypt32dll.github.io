@@ -7,7 +7,6 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Color, type MeshStandardMaterial, type PerspectiveCamera, type PointLight } from 'three'
 import { ArchitectureAssemblage } from '@/components/experience/ArchitectureAssemblage'
 import { ParticleMorphField } from '@/components/experience/ParticleMorphField'
-import { usePreferences } from '@/components/layout/PreferencesProvider'
 import { PortfolioCanvas } from '@/components/three/SceneCanvas'
 import {
   bumpLoadProgress,
@@ -240,7 +239,6 @@ type ExperienceSceneProps = {
 
 export function ExperienceScene({ className }: ExperienceSceneProps) {
   const reduced = useReducedMotion()
-  const { qualityPreference } = usePreferences()
   const [tier, setTier] = useState<QualityTier>('balanced')
   const [pausedRender, setPausedRender] = useState(false)
 
@@ -252,15 +250,10 @@ export function ExperienceScene({ className }: ExperienceSceneProps) {
       Boolean(
         (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData,
       )
-    const next = resolveQualityTier({
-      mobile,
-      saveData,
-      reduced,
-      preference: qualityPreference,
-    })
+    const next = resolveQualityTier({ mobile, saveData, reduced })
     setTier(next)
     setQualityTier(next)
-  }, [reduced, qualityPreference])
+  }, [reduced])
 
   const budget = useMemo(() => resolveRenderBudget(tier), [tier])
 
