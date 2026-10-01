@@ -73,11 +73,11 @@ export function HomeExperience({ locale, homepage, about, projects }: Props) {
           >
             {hero.brand}
           </p>
-          <div className="hero-clip mt-5 overflow-hidden md:mt-7">
+          <div className="hero-clip mt-5 md:mt-7">
             <h1
               data-reveal
               data-split-headline
-              className="max-w-[14ch] font-display text-[clamp(3.1rem,9vw,6.5rem)] font-semibold leading-[0.92] tracking-[-0.04em] text-ink"
+              className="max-w-[14ch] font-display text-[clamp(3.1rem,9vw,6.5rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-ink"
             >
               {t(hero.headline, locale)}
             </h1>
