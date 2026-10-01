@@ -75,6 +75,9 @@ export function splitHeadlineWords(el: HTMLElement): HTMLElement[] {
     wrap.style.display = 'inline-block'
     wrap.style.overflow = 'hidden'
     wrap.style.verticalAlign = 'bottom'
+    // Room for descenders (g, y, …) without growing the layout much
+    wrap.style.paddingBottom = '0.14em'
+    wrap.style.marginBottom = '-0.14em'
     const word = document.createElement('span')
     word.className = 'split-word'
     word.style.display = 'inline-block'

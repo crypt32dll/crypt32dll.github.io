@@ -20,6 +20,12 @@ type Props = {
 const MIN_HOLD_S = 0.45
 const MAX_HOLD_S = 2.8
 
+function shouldSkipIntro(reduced: boolean): boolean {
+  if (reduced) return true
+  if (typeof document === 'undefined') return false
+  return document.documentElement.dataset.reduceMotion === 'true'
+}
+
 /**
  * Brand gate — centered monogram, CSS exit, no GSAP on the critical path.
  * Dismisses once the backdrop marks ready (or after MAX_HOLD_S).
@@ -29,6 +35,7 @@ export function IntroLoader({ locale, onComplete }: Props) {
   const reduced = useReducedMotion()
   const [percent, setPercent] = useState(0)
   const [leaving, setLeaving] = useState(false)
+  const [dismissed, setDismissed] = useState(false)
   const exiting = useRef(false)
   const done = useRef(false)
   const started = useRef(0)
@@ -41,9 +48,11 @@ export function IntroLoader({ locale, onComplete }: Props) {
   }
 
   useEffect(() => {
-    if (reduced) {
+    // Skip after mount so SSR HTML matches the first client paint (no hydration gap).
+    if (shouldSkipIntro(reduced)) {
       completeIntroImmediately()
       onComplete()
+      setDismissed(true)
       return
     }
 
@@ -95,7 +104,7 @@ export function IntroLoader({ locale, onComplete }: Props) {
     finishExit()
   }
 
-  if (reduced) return null
+  if (dismissed) return null
 
   return (
     <div

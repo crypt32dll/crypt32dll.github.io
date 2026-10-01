@@ -11,6 +11,7 @@ import {
   useState,
 } from 'react'
 import { setAmbientMutedFlag, startAmbient, stopAmbient } from '@/lib/ambient-audio'
+import { isCoarsePointer, requestDeviceOrientationPermission } from '@/lib/device-orientation'
 import { setAudioMuted, setReducedMotion, setThemeTokens } from '@/lib/experience-state'
 import {
   AUDIO_STORAGE_KEY,
@@ -51,7 +52,9 @@ function readStoredTheme(): ThemePreference {
 function readStoredMotion(): MotionPreference {
   if (typeof window === 'undefined') return 'system'
   const stored = localStorage.getItem(MOTION_STORAGE_KEY)
-  return isMotionPreference(stored) ? stored : 'system'
+  if (isMotionPreference(stored)) return stored
+  // Touch devices start with reduced motion; user can opt into full animation.
+  return isCoarsePointer() ? 'reduce' : 'system'
 }
 
 function readStoredAudioMuted(): boolean {
@@ -67,11 +70,13 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
   const [audioMuted, setAudioMutedState] = useState(true)
   const [systemDark, setSystemDark] = useState(false)
   const [systemReduce, setSystemReduce] = useState(false)
+  const [coarsePointer, setCoarsePointer] = useState(false)
   const [ready, setReady] = useState(false)
 
   const syncFromSystem = useEffectEvent(() => {
     setSystemDark(window.matchMedia('(prefers-color-scheme: dark)').matches)
     setSystemReduce(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    setCoarsePointer(isCoarsePointer())
   })
 
   useEffect(() => {
@@ -88,22 +93,29 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
 
     const colorMq = window.matchMedia('(prefers-color-scheme: dark)')
     const motionMq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const coarseMq = window.matchMedia('(pointer: coarse)')
     const onColor = () => setSystemDark(colorMq.matches)
     const onMotion = () => setSystemReduce(motionMq.matches)
+    const onCoarse = () => setCoarsePointer(isCoarsePointer())
     colorMq.addEventListener('change', onColor)
     motionMq.addEventListener('change', onMotion)
+    coarseMq.addEventListener('change', onCoarse)
     return () => {
       colorMq.removeEventListener('change', onColor)
       motionMq.removeEventListener('change', onMotion)
+      coarseMq.removeEventListener('change', onCoarse)
     }
   }, [])
 
   const resolvedTheme = resolveTheme(themePreference, systemDark)
-  const reducedMotion = resolveReducedMotion(motionPreference, systemReduce)
+  // Keep SSR and the first client paint identical — apply coarse/mobile reduce only after mount.
+  const reducedMotion = ready
+    ? resolveReducedMotion(motionPreference, systemReduce, coarsePointer)
+    : false
 
   useEffect(() => {
     if (!ready) return
-    applyDocumentPreferences(resolvedTheme, motionPreference, systemReduce)
+    applyDocumentPreferences(resolvedTheme, motionPreference, systemReduce, coarsePointer)
     setReducedMotion(reducedMotion)
     setAudioMuted(audioMuted)
     const styles = getComputedStyle(document.documentElement)
@@ -113,7 +125,15 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
       paper: styles.getPropertyValue('--color-paper').trim() || '#08090c',
       dark: resolvedTheme === 'dark',
     })
-  }, [ready, resolvedTheme, motionPreference, systemReduce, reducedMotion, audioMuted])
+  }, [
+    ready,
+    resolvedTheme,
+    motionPreference,
+    systemReduce,
+    coarsePointer,
+    reducedMotion,
+    audioMuted,
+  ])
 
   const setThemePreference = useCallback((value: ThemePreference) => {
     setThemePreferenceState(value)
@@ -134,15 +154,32 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const toggleReducedMotion = useCallback(() => {
-    setMotionPreferenceState((current) => {
-      const next = nextMotionPreference(
-        current,
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-      )
-      localStorage.setItem(MOTION_STORAGE_KEY, next)
-      return next
-    })
-  }, [])
+    const coarse = isCoarsePointer()
+    const currentlyReduced = resolveReducedMotion(
+      motionPreference,
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      coarse,
+    )
+
+    const applyNext = () => {
+      setMotionPreferenceState((current) => {
+        const next = nextMotionPreference(
+          current,
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+          coarse,
+        )
+        localStorage.setItem(MOTION_STORAGE_KEY, next)
+        return next
+      })
+    }
+
+    // Enabling animation on mobile: request gyro access from this tap gesture (iOS).
+    if (currentlyReduced && coarse) {
+      void requestDeviceOrientationPermission().finally(applyNext)
+      return
+    }
+    applyNext()
+  }, [motionPreference])
 
   const toggleAudioMuted = useCallback(() => {
     setAudioMutedState((current) => {
