@@ -5,6 +5,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
 import { type RefObject, useEffect, useState } from 'react'
+import { isCoarsePointer, orientationToPointer } from '@/lib/device-orientation'
 import {
   CHAPTER_SCRIPT,
   type ChapterId,
@@ -38,6 +39,26 @@ export function ScrollDirector({ root, enabled }: Props) {
   const [active, setActive] = useState<SectionId>('hero')
 
   useEffect(() => {
+    if (reduced) {
+      setPointer(0, 0)
+      return
+    }
+
+    const coarse = isCoarsePointer()
+
+    if (coarse) {
+      const onOrient = (event: DeviceOrientationEvent) => {
+        const next = orientationToPointer(event.beta, event.gamma)
+        if (!next) return
+        setPointer(next.x, next.y)
+      }
+      window.addEventListener('deviceorientation', onOrient)
+      return () => {
+        window.removeEventListener('deviceorientation', onOrient)
+        setPointer(0, 0)
+      }
+    }
+
     const onPointer = (event: PointerEvent) => {
       setPointer(
         (event.clientX / window.innerWidth) * 2 - 1,
@@ -46,7 +67,7 @@ export function ScrollDirector({ root, enabled }: Props) {
     }
     window.addEventListener('pointermove', onPointer, { passive: true })
     return () => window.removeEventListener('pointermove', onPointer)
-  }, [])
+  }, [reduced])
 
   useGSAP(
     () => {

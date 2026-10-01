@@ -21,9 +21,18 @@ export function resolveTheme(preference: ThemePreference, systemDark: boolean): 
   return systemDark ? 'dark' : 'light'
 }
 
-export function resolveReducedMotion(preference: MotionPreference, systemReduce: boolean): boolean {
+/**
+ * @param coarsePointer — touch / coarse primary pointer (phones, many tablets).
+ *   On those devices `system` defaults to reduced motion unless the user picks `full`.
+ */
+export function resolveReducedMotion(
+  preference: MotionPreference,
+  systemReduce: boolean,
+  coarsePointer = false,
+): boolean {
   if (preference === 'reduce') return true
   if (preference === 'full') return false
+  if (coarsePointer) return true
   return systemReduce
 }
 
@@ -35,10 +44,12 @@ export function nextTheme(current: ThemePreference): ThemePreference {
 export function nextMotionPreference(
   current: MotionPreference,
   systemReduce: boolean,
+  coarsePointer = false,
 ): MotionPreference {
-  const reduced = resolveReducedMotion(current, systemReduce)
+  const reduced = resolveReducedMotion(current, systemReduce, coarsePointer)
   if (reduced) {
-    return systemReduce ? 'full' : 'system'
+    // Always explicit full so mobile `system` (treated as reduce) can escape to animation
+    return 'full'
   }
   return 'reduce'
 }
@@ -47,6 +58,7 @@ export function applyDocumentPreferences(
   resolvedTheme: 'light' | 'dark',
   motionPreference: MotionPreference,
   systemReduce: boolean,
+  coarsePointer = false,
 ): void {
   const root = document.documentElement
   root.classList.toggle('dark', resolvedTheme === 'dark')
@@ -56,11 +68,11 @@ export function applyDocumentPreferences(
 
   if (motionPreference === 'full') {
     root.dataset.reduceMotion = 'false'
-  } else if (resolveReducedMotion(motionPreference, systemReduce)) {
+  } else if (resolveReducedMotion(motionPreference, systemReduce, coarsePointer)) {
     root.dataset.reduceMotion = 'true'
   } else {
     delete root.dataset.reduceMotion
   }
 }
 
-export const preferencesBootstrapScript = `(function(){try{var t=localStorage.getItem('${THEME_STORAGE_KEY}')||'dark';var root=document.documentElement;var dark=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(t==='light')dark=false;if(t!=='light'&&t!=='dark'&&t!=='system')dark=true;root.classList.toggle('dark',dark);root.dataset.theme=dark?'void':'day';root.style.colorScheme=dark?'dark':'light';var m=localStorage.getItem('${MOTION_STORAGE_KEY}')||'system';var sysReduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(m==='full')root.dataset.reduceMotion='false';else if(m==='reduce'||(m==='system'&&sysReduce))root.dataset.reduceMotion='true';else delete root.dataset.reduceMotion;try{localStorage.removeItem('pref-quality')}catch(_e){};delete root.dataset.quality;}catch(e){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}})();`
+export const preferencesBootstrapScript = `(function(){try{var t=localStorage.getItem('${THEME_STORAGE_KEY}')||'dark';var root=document.documentElement;var dark=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(t==='light')dark=false;if(t!=='light'&&t!=='dark'&&t!=='system')dark=true;root.classList.toggle('dark',dark);root.dataset.theme=dark?'void':'day';root.style.colorScheme=dark?'dark':'light';var coarse=window.matchMedia('(pointer: coarse)').matches||(navigator.maxTouchPoints>1);var m=localStorage.getItem('${MOTION_STORAGE_KEY}');if(m!=='system'&&m!=='reduce'&&m!=='full')m=coarse?'reduce':'system';var sysReduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(m==='full')root.dataset.reduceMotion='false';else if(m==='reduce'||(m==='system'&&(sysReduce||coarse)))root.dataset.reduceMotion='true';else delete root.dataset.reduceMotion;try{localStorage.removeItem('pref-quality')}catch(_e){};delete root.dataset.quality;}catch(e){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}})();`

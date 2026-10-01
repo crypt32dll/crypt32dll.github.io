@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { orientationToPointer } from '@/lib/device-orientation'
 import {
   nextMotionPreference,
   nextTheme,
@@ -24,9 +25,15 @@ describe('resolveReducedMotion', () => {
     expect(resolveReducedMotion('full', true)).toBe(false)
   })
 
-  it('follows system when preference is system', () => {
+  it('follows system when preference is system on fine pointers', () => {
     expect(resolveReducedMotion('system', true)).toBe(true)
     expect(resolveReducedMotion('system', false)).toBe(false)
+  })
+
+  it('defaults to reduced on coarse pointers unless full is set', () => {
+    expect(resolveReducedMotion('system', false, true)).toBe(true)
+    expect(resolveReducedMotion('full', false, true)).toBe(false)
+    expect(resolveReducedMotion('reduce', false, true)).toBe(true)
   })
 })
 
@@ -44,12 +51,19 @@ describe('nextMotionPreference', () => {
     expect(nextMotionPreference('full', true)).toBe('reduce')
   })
 
-  it('returns to system when OS does not reduce', () => {
-    expect(nextMotionPreference('reduce', false)).toBe('system')
-  })
-
-  it('overrides OS reduce with full', () => {
+  it('returns to full when leaving reduced (including mobile system)', () => {
+    expect(nextMotionPreference('reduce', false)).toBe('full')
     expect(nextMotionPreference('system', true)).toBe('full')
-    expect(nextMotionPreference('reduce', true)).toBe('full')
+    expect(nextMotionPreference('system', false, true)).toBe('full')
+  })
+})
+
+describe('orientationToPointer', () => {
+  it('maps gamma / beta into a clamped pointer', () => {
+    const centered = orientationToPointer(55, 0)
+    expect(centered?.x).toBe(0)
+    expect(centered?.y).toBe(0)
+    expect(orientationToPointer(55, 32)?.x).toBe(1)
+    expect(orientationToPointer(null, 10)).toBeNull()
   })
 })
