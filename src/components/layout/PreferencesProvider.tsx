@@ -57,11 +57,6 @@ function readStoredMotion(): MotionPreference {
   return isCoarsePointer() ? 'reduce' : 'system'
 }
 
-function readDomReducedMotion(): boolean {
-  if (typeof document === 'undefined') return false
-  return document.documentElement.dataset.reduceMotion === 'true'
-}
-
 function readStoredAudioMuted(): boolean {
   if (typeof window === 'undefined') return true
   const stored = localStorage.getItem(AUDIO_STORAGE_KEY)
@@ -113,9 +108,10 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const resolvedTheme = resolveTheme(themePreference, systemDark)
+  // Keep SSR and the first client paint identical — apply coarse/mobile reduce only after mount.
   const reducedMotion = ready
     ? resolveReducedMotion(motionPreference, systemReduce, coarsePointer)
-    : readDomReducedMotion()
+    : false
 
   useEffect(() => {
     if (!ready) return

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import Script from 'next/script'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
 import { ClientChrome } from '@/components/experience/ClientChrome'
@@ -56,13 +57,13 @@ export default async function LocaleLayout({ children, params }: Props) {
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
-      <head>
-        <script
+      <body>
+        <Script
+          id="preferences-bootstrap"
+          strategy="beforeInteractive"
           // Prevent theme/motion flash before hydration.
           dangerouslySetInnerHTML={{ __html: preferencesBootstrapScript }}
         />
-      </head>
-      <body>
         <NextIntlClientProvider messages={messages}>
           <PreferencesProvider>
             <LocalePreferenceSync locale={locale} />
