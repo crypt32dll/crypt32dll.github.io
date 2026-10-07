@@ -29,6 +29,9 @@ export const metadata: Metadata = {
     icon: [{ url: '/favicon.png', type: 'image/png', sizes: '64x64' }],
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
+  verification: {
+    google: 'X8faXOtKHppt-hBYr2X_aCgG2y-lbpAR25fo2FI_Xy0',
+  },
 }
 
 type Props = {
