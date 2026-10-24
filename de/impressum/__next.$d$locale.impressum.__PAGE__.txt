@@ -1,20 +1,26 @@
-1:"$Sreact.fragment"
-2:I[43001,["/_next/static/chunks/3ei3asoj5j3r_.js"],"OutletBoundary"]
-3:"$Sreact.suspense"
-7:I[43001,["/_next/static/chunks/3ei3asoj5j3r_.js"],"ViewportBoundary"]
-8:I[43001,["/_next/static/chunks/3ei3asoj5j3r_.js"],"MetadataBoundary"]
-9:I[842,["/_next/static/chunks/3ei3asoj5j3r_.js"],"IconMark"]
-b:I[1304,["/_next/static/chunks/3ei3asoj5j3r_.js"],"default"]
-c:I[28773,["/_next/static/chunks/3ei3asoj5j3r_.js"],"default"]
-6:X
-e:X
-e:C
-0:{"buildId":"ImqN1v2uqtf9D0hrYoLbU","data":[{"rsc":["$","$1","c",{"children":[["$","div",null,{"className":"container-narrow pb-24 pt-28","children":[["$","h1",null,{"className":"font-display text-4xl font-semibold text-ink","children":"Impressum"}],["$","pre",null,{"className":"mt-8 whitespace-pre-wrap font-body text-base leading-relaxed text-ink-muted","children":"Angaben gemäß § 5 TMG\n\nFabian Schultz-Fademrecht\nDeutschland\n\nKontakt über LinkedIn:\nhttps://www.linkedin.com/in/fabian-schultz-fademrecht-2223162a0/\n\nVerantwortlich für den Inhalt nach § 18 Abs. 2 MStV\nFabian Schultz-Fademrecht"}]]}],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"isPartial":"$@5","staleTime":"$6","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$L7",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L8",null,{"children":["$","$3",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Impressum · Fabian Schultz-Fademrecht"}],["$","meta","1",{"name":"description","content":"Impressum"}],["$","link","2",{"rel":"canonical","href":"https://crypt32dll.github.io/de/impressum/"}],["$","link","3",{"rel":"alternate","hrefLang":"de","href":"https://crypt32dll.github.io/de/impressum/"}],["$","link","4",{"rel":"alternate","hrefLang":"en","href":"https://crypt32dll.github.io/en/impressum/"}],["$","link","5",{"rel":"alternate","hrefLang":"x-default","href":"https://crypt32dll.github.io/de/impressum/"}],["$","meta","6",{"name":"google-site-verification","content":"X8faXOtKHppt-hBYr2X_aCgG2y-lbpAR25fo2FI_Xy0"}],["$","meta","7",{"property":"og:title","content":"Impressum"}],["$","meta","8",{"property":"og:description","content":"Impressum"}],["$","meta","9",{"property":"og:url","content":"https://crypt32dll.github.io/de/impressum/"}],["$","meta","10",{"property":"og:locale","content":"de_DE"}],["$","meta","11",{"property":"og:type","content":"website"}],["$","meta","12",{"name":"twitter:card","content":"summary"}],["$","meta","13",{"name":"twitter:title","content":"Impressum"}],["$","meta","14",{"name":"twitter:description","content":"Impressum"}],["$","link","15",{"rel":"icon","href":"/favicon.png","type":"image/png","sizes":"64x64"}],["$","link","16",{"rel":"apple-touch-icon","href":"/apple-touch-icon.png","sizes":"180x180","type":"image/png"}],["$","$L9","17",{}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"isPartial":"$@a","staleTime":"$6","varyParams":null},{"rsc":["$","$1","c",{"children":[null,["$","$Lb",null,{"parallelRouterKey":"children","template":["$","$Lc",null,{}]}]]}],"isPartial":"$@d","staleTime":"$6","varyParams":"$e"}],"isUpgradeableISRFallback":false,"a":"$@f","rootVaryParams":null,"needsRuntimeRequest":"$@10"}
-4:null
-10:true
-6:300
-6:C
-f:0
-a:"$undefined"
-d:"$undefined"
-5:"$undefined"
+3:"$Sreact.fragment"
+4:"/_next/static/chunks/06ex_0znhvv8x.js"
+5:I[46489,["$4"],"default"]
+6:I[37913,["$4"],"default"]
+b:I[32900,["$4"],"OutletBoundary"]
+c:"$Sreact.suspense"
+f:"ViewportBoundary"
+10:I[32900,["$4"],"$f"]
+11:"MetadataBoundary"
+12:I[32900,["$4"],"$11"]
+13:I[10225,["$4"],"IconMark"]
+8:X
+8:C
+9:X
+a:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$3","c",{"children":[["$","div",null,{"className":"container-narrow pb-24 pt-28","children":[["$","h1",null,{"className":"font-display text-4xl font-semibold text-ink","children":"Impressum"}],["$","pre",null,{"className":"mt-8 whitespace-pre-wrap font-body text-base leading-relaxed text-ink-muted","children":"Angaben gemäß § 5 TMG\n\nFabian Schultz-Fademrecht\nDeutschland\n\nKontakt über LinkedIn:\nhttps://www.linkedin.com/in/fabian-schultz-fademrecht-2223162a0/\n\nVerantwortlich für den Inhalt nach § 18 Abs. 2 MStV\nFabian Schultz-Fademrecht"}]]}],null,["$","$Lb",null,{"children":["$","$c",null,{"name":"Next.MetadataOutlet","children":"$@d"}]}]]}],"p":"$@e","v":null,"s":"$9"}}]]
+2:[["children",{"s":"impressum","h":64,"d":{"r":["$","$3","c",{"children":[null,["$","$L5",null,{"parallelRouterKey":"children","template":["$","$L6",null,{}]}]]}],"p":"$@7","v":"$8","s":"$9"},"c":"$Qa"}]]
+1:[["children",{"s":{"n":"locale","t":"d","k":"de","s":[]},"h":48,"c":"$Q2"}]]
+0:{"t":{"t":{"s":"","h":80,"c":"$Q1"},"h":{"r":["$","$3","h",{"children":[null,["$","$L10",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L12",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$c",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Impressum · Fabian Schultz-Fademrecht"}],["$","meta","1",{"name":"description","content":"Impressum"}],["$","link","2",{"rel":"canonical","href":"https://crypt32dll.github.io/de/impressum/"}],["$","link","3",{"rel":"alternate","hrefLang":"de","href":"https://crypt32dll.github.io/de/impressum/"}],["$","link","4",{"rel":"alternate","hrefLang":"en","href":"https://crypt32dll.github.io/en/impressum/"}],["$","link","5",{"rel":"alternate","hrefLang":"x-default","href":"https://crypt32dll.github.io/de/impressum/"}],["$","meta","6",{"name":"google-site-verification","content":"X8faXOtKHppt-hBYr2X_aCgG2y-lbpAR25fo2FI_Xy0"}],["$","meta","7",{"property":"og:title","content":"Impressum"}],["$","meta","8",{"property":"og:description","content":"Impressum"}],["$","meta","9",{"property":"og:url","content":"https://crypt32dll.github.io/de/impressum/"}],["$","meta","10",{"property":"og:locale","content":"de_DE"}],["$","meta","11",{"property":"og:type","content":"website"}],["$","meta","12",{"name":"twitter:card","content":"summary"}],["$","meta","13",{"name":"twitter:title","content":"Impressum"}],["$","meta","14",{"name":"twitter:description","content":"Impressum"}],["$","link","15",{"rel":"icon","href":"/favicon.png","type":"image/png","sizes":"64x64"}],["$","link","16",{"rel":"apple-touch-icon","href":"/apple-touch-icon.png","sizes":"180x180","type":"image/png"}],["$","$L13","17",{}]]}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":"$@14","v":null,"s":"$9"}},"a":"$@15","u":"$@16","b":"jQD_if-yXNH4-A8S16TiM"}
+d:null
+16:true
+9:300
+9:C
+15:0
+7:"$undefined"
+14:"$undefined"
+e:"$undefined"
