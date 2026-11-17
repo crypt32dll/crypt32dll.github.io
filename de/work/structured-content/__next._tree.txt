@@ -7,4 +7,4 @@
 3:[["children",{"s":{"n":"slug","t":"d","k":"structured-content","s":[]},"h":96,"c":"$Q4"}]]
 2:[["children",{"s":"work","h":64,"c":"$Q3"}]]
 1:[["children",{"s":{"n":"locale","t":"d","k":"de","s":[]},"h":48,"c":"$Q2"}]]
-0:{"b":"jQD_if-yXNH4-A8S16TiM","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"shO7pcn4FIlqMsZoj2veT","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
